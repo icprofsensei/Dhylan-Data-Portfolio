@@ -7,7 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_URL = '/static/'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure--sx7i0-@!n220-uuv*gf-p^y=x8=$lh^!9!c%d++8=3e-p6tk_'
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # This is the shared staticfiles directory
+]
 
 # Application definition
 INSTALLED_APPS = [
