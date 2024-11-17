@@ -21,14 +21,14 @@ def add_prediction(request):
             petal_length = form.cleaned_data['petal_length']
             petal_width = form.cleaned_data['petal_width']
             prediction = predict(sepal_length, sepal_width, petal_length, petal_width)
-            return render(request, "Iris/output.html", {'result': {'sepal_length': sepal_length, 'sepal_width':sepal_width, 'petal_length': petal_length, 'petal_width':petal_width, 'prediction': prediction}}) 
+            return render(request, "iris/output.html", {'result': {'sepal_length': sepal_length, 'sepal_width':sepal_width, 'petal_length': petal_length, 'petal_width':petal_width, 'prediction': prediction}}) 
     else:
         form = IrisForm()  # Display an empty form if the request is GET
 
-    return render(request, 'Iris/dataentry.html', {'form': form})
+    return render(request, 'iris/dataentry.html', {'form': form})
 
 def Output(request):
-    return render(request, "Iris/output.html")
+    return render(request, "iris/output.html")
 
 
 
