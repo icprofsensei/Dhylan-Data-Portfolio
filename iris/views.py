@@ -65,7 +65,7 @@ def valconv (val):
 
 def predict(sl, sw, pl, pw):
     old_model = Model()
-    model_path = os.path.join(settings.BASE_DIR, 'main/iris/models/basic_iris_model.pt')
+    model_path = os.path.join(settings.BASE_DIR, 'iris/models/basic_iris_model.pt')
     old_model.load_state_dict(torch.load(model_path))
     new_iris = torch.tensor([sl, sw, pl, pw])
     with torch.no_grad():
