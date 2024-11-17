@@ -2,7 +2,7 @@ from .base import *
 
 
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.getenv('RENDER_EXTERNAL_HOSTNAME'), '']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.getenv('RENDER_EXTERNAL_HOSTNAME'), '0.0.0.0']
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -52,7 +52,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-
+CORS_ALLOWED_ORIGINS = [
+    "https://icprofsensei-github-io-h0ru.onrender.com",  # Add your domain
+    "http://localhost:8000",
+]
+CORS_ALLOW_ALL_ORIGINS = False  # Disable this for security in production
+CORS_ALLOW_CREDENTIALS = True  # Enable if using cookies or sessions
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
