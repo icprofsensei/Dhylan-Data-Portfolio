@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import generic
-from .forms import IrisForm
+from .forms import Startup1Form
 import os
 from django.conf import settings
 import torch
@@ -9,11 +9,11 @@ import torch.nn.functional as F
 
 # Create your views here.
 def lander(request):
-    return render(request, 'iris/index.html')
+    return render(request, 'startup1/index.html')
 
 def add_prediction(request):
     if request.method == 'POST':
-        form = IrisForm(request.POST)
+        form = Startup1Form(request.POST)
         if form.is_valid():
             # Do something with data
             sepal_length = form.cleaned_data['sepal_length']
@@ -23,7 +23,7 @@ def add_prediction(request):
             prediction = predict(sepal_length, sepal_width, petal_length, petal_width)
             return render(request, "iris/output.html", {'result': {'sepal_length': sepal_length, 'sepal_width':sepal_width, 'petal_length': petal_length, 'petal_width':petal_width, 'prediction': prediction}}) 
     else:
-        form = IrisForm()  # Display an empty form if the request is GET
+        form = Startup1Form()  # Display an empty form if the request is GET
 
     return render(request, 'iris/dataentry.html', {'form': form})
 
