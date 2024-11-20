@@ -16,19 +16,25 @@ def add_prediction(request):
         form = Startup1Form(request.POST)
         if form.is_valid():
             # Do something with data
-            sepal_length = form.cleaned_data['sepal_length']
-            sepal_width = form.cleaned_data['sepal_width']
-            petal_length = form.cleaned_data['petal_length']
-            petal_width = form.cleaned_data['petal_width']
-            prediction = predict(sepal_length, sepal_width, petal_length, petal_width)
-            return render(request, "iris/output.html", {'result': {'sepal_length': sepal_length, 'sepal_width':sepal_width, 'petal_length': petal_length, 'petal_width':petal_width, 'prediction': prediction}}) 
+            funding_total_final = form.cleaned_data['funding_total_final']
+            seed = form.cleaned_data['seed']
+            roundA = form.cleaned_data['roundA']
+            roundB = form.cleaned_data['roundB']
+            roundC = form.cleaned_data['roundC']
+            roundD = form.cleaned_data['roundD']
+            roundE = form.cleaned_data['roundE']
+            roundF = form.cleaned_data['roundF']
+            roundG = form.cleaned_data['roundG']
+            roundH = form.cleaned_data['roundH']
+            category_list = form.cleaned_data['category_list']
+            return render(request, "startup1/output.html", {'result': {'funding_total_final': funding_total_final, 'seed':seed, 'roundA': roundA, 'roundB':roundB, 'roundC': roundC, 'roundD':roundD, 'roundE':roundE, 'roundF':roundF, 'roundG':roundG, 'roundH':roundH, 'category_list':category_list}}) 
     else:
         form = Startup1Form()  # Display an empty form if the request is GET
 
-    return render(request, 'iris/dataentry.html', {'form': form})
+    return render(request, 'startup1/dataentry.html', {'form': form})
 
 def Output(request):
-    return render(request, "iris/output.html")
+    return render(request, "startup1/output.html")
 
 
 
