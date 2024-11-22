@@ -5,12 +5,20 @@
 {% block title %}Confirmation{% endblock %}
 {% block content %}
 <h1>Output from the ML model</h1>
-<p> Sepal Width: {{ result.sepal_width }}</p>
-<p>Sepal Length {{ result.sepal_length }}</p>
-<p> Sepal Width: {{ result.petal_width }}</p>
-<p>Sepal Length {{ result.petal_length }}</p>
-<p>The Iris type is {{ result.prediction }}</p>
-<a href="{% url 'iris:landingpage' %}">Back to Home</a>
+<p> Total Funding: {{ result.funding_total_final }}</p>
+<p>Seed: {{ result.seed }}</p>
+<p>Round A: {{ result.roundA }}</p>
+<p>Round B: {{ result.roundB }}</p>
+<p>Round C: {{ result.roundC }}</p>
+<p>Round D: {{ result.roundD }}</p>
+<p>Round E: {{ result.roundE }}</p>
+<p>Round F: {{ result.roundF }}</p>
+<p>Round G: {{ result.roundG }}</p>
+<p>Round H: {{ result.roundH }}</p>
+
+<p> Category List: {{ result.category_list }}</p>
+<p>The start up status after 2022 will be: {{ result.prediction }}</p>
+<a href="{% url 'startup1:landingpage' %}">Back to Home</a>
 </head>
 <body style="background-color: white; color: blue;">
 </body>
