@@ -37,6 +37,6 @@ class Startup1Form(forms.Form):
     category_list = forms.MultipleChoiceField(
         label="Pick the appropriate categories:",
         choices=CATEGORY_CHOICES,
-        widget=forms.CheckboxSelectMultiple(attrs={'class': 'checkbox-group'})
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'inline-checkboxes'})
     )
     
