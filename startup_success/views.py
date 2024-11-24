@@ -90,7 +90,7 @@ def predict(ft, s, A, B, C, D, E, F, G, H, yf, yff, ylf, cl):
     ylf = int(ylf)
     ff = yff - yf
     fd = ylf - yff
-    stocks= pd.read_csv(os.path.join(settings.BASE_DIR,"startup1/data/annualstockprices.csv"))
+    stocks= pd.read_csv(os.path.join(settings.BASE_DIR,"startup1/data/annualstockprices. J0csv"))
     stock_dict = stocks.set_index('Year').to_dict(orient='index')
     cn = len(cl)
 

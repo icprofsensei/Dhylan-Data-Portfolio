@@ -5,14 +5,109 @@
 <head>
 {% load static %}
 <link href="{% static 'iris/style.css' %}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 </head>
 <body>
-    <h1>Iris</h1>
+    <section>
+      <div class="container reveal">
+        <div class="text-container">
+          <div class = "bodytextinfo" id = "frontimg">
+        <h1>Iris</h1>
+      </div>
+      </div></div>
+    
+</section>
+<section>
+  <div class="container reveal">
+    <div class="text-container">
     <p>93.33% Accuracy </p>
+  </div>
+</div>
+</section>
+<section>
+  <div class="container reveal">
+    <div class="text-container">
+    Table:
+  <table id="demoTable" border="1">
+
+    <tbody>
+        <!-- Populated dynamically -->
+    </tbody>
+  </div>
+  </div>
+</section>
+<section>
+  <div class="container reveal">
     <h2>Add a New Prediction</h2>
   
     <a href="{% url 'iris:newpred' %}">
         <button type="button">Create</button>
     </a>
+  </div>
+    </section>
+<script>
+const table = document.getElementById("demoTable").querySelector("tbody");
+
+// Load the CSV file
+fetch("{% static 'iris/iris.csv' %}")
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.text();
+    })
+    .then(csvData => {
+        // Parse CSV using PapaParse
+        Papa.parse(csvData, {
+            header: false, // Set to true if the CSV has headers
+            skipEmptyLines: true, // Ignore empty lines
+            complete: function(results) {
+                // Loop through parsed data
+                results.data.forEach(row => {
+                    let tr = document.createElement("tr");
+                    row.forEach(col => {
+                        let td = document.createElement("td");
+                        td.textContent = col;
+                        tr.appendChild(td);
+                    });
+                    table.appendChild(tr);
+                });
+            }
+        });
+    })
+    .catch(error => {
+        console.error("Error loading the CSV file:", error);
+    });
+    function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+                } else {
+                reveals[i].classList.remove("active");
+                }
+            }
+            }
+        window.addEventListener("scroll", reveal, {passive: true});
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const slideElements = document.querySelectorAll(".slide-in");
+
+            const observer = new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("slide-in-visible");
+                            observer.unobserve(entry.target); // Stop observing once visible
+                        }
+                    });
+                },
+                { threshold: 0.01 } // Trigger when 1% of element is visible
+            );
+
+            slideElements.forEach(el => observer.observe(el));
+        });
+</script>
 </body>
 {% endblock %}
