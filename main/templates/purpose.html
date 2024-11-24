@@ -1,15 +1,147 @@
-<!-- templates/purpose.html -->
 {% extends 'base.html' %}
-{% block title %}Why am I displaying this?{% endblock %}
+{% block title %}Purpose{% endblock %}
 {% block content %}
 <head>
     {% load static %}
     <link href="{% static 'purpose/purpose.css' %}" rel="stylesheet">
-    </head>
-<body>
-    <h1>Mission</h1>
-    <p>This is a 2 part program</p>
-    <p>1. Provide public access to various pre-trained Machines.</p>
-    <p>2. Demonstrate analytics and exploratory data analysis.</p>
+
+</head>
+<body style=height:1500px>
+            
+            <section >
+                <div class = "bodytextinfo" id = "frontimg">
+                    <h1 class="slide-in">Mission</h1>
+                    <p class="slide-in">This is a 2 part program</p>
+                    <p class="slide-in">1. Provide public access to various pre-trained Machines.</p>
+                    <p class="slide-in">2. Demonstrate analytics and exploratory data analysis.</p>
+                </div>
+            </section>
+            <section>
+                <h1>Welcome to my data science portfolio</h1>
+              </section>
+              <section>
+                <div class="container reveal">
+                  <h2>Long term Python Projects</h2>
+                  <div class="text-container">
+                    <div class="text-box">
+                      <h3>HDI </h3>
+                      <h4> Health Data Insight Internship </h4>
+                      <p>
+                        Summer 2022 - FHIR Messaging, AWS API calls, Data modelling
+                      </p>
+                    </div>
+                    <div class="text-box">
+                      <h3>NLP </h3>
+                      <h4> Microbiome NER Project</h4>
+                      <p>
+                        Extract named entities from scientific literature, training a deep learning BERT model, programmatically draw phylogenetic trees. 
+                      </p>
+                    </div>
+                    <div class="text-box">
+                      <h3>Degree </h3>
+                      <h4>Final Year Project</h4>
+                      <p>
+                        API calls to extract microbe information, influence of fundamental ecological niche on the realised niche, K-means clustering, tSNE analysis
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              
+              <section>
+                <div class="container reveal">
+                  <h2>Caption</h2>
+                  <div class="text-container">
+                    <div class="text-box">
+                      <h3>Section Text</h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+                        eius molestiae perferendis eos provident vitae iste.
+                      </p>
+                    </div>
+                    <div class="text-box">
+                      <h3>Section Text</h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+                        eius molestiae perferendis eos provident vitae iste.
+                      </p>
+                    </div>
+                    <div class="text-box">
+                      <h3>Section Text</h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+                        eius molestiae perferendis eos provident vitae iste.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              
+              <section>
+                <div class="container reveal">
+                  <h2>Caption</h2>
+                  <div class="text-container">
+                    <div class="text-box">
+                      <h3>Section Text</h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+                        eius molestiae perferendis eos provident vitae iste.
+                      </p>
+                    </div>
+                    <div class="text-box">
+                      <h3>Section Text</h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+                        eius molestiae perferendis eos provident vitae iste.
+                      </p>
+                    </div>
+                    <div class="text-box">
+                      <h3>Section Text</h3>
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+                        eius molestiae perferendis eos provident vitae iste.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+    <script>
+        
+
+
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+                } else {
+                reveals[i].classList.remove("active");
+                }
+            }
+            }
+        window.addEventListener("scroll", reveal, {passive: true});
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const slideElements = document.querySelectorAll(".slide-in");
+
+            const observer = new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("slide-in-visible");
+                            observer.unobserve(entry.target); // Stop observing once visible
+                        }
+                    });
+                },
+                { threshold: 0.01 } // Trigger when 1% of element is visible
+            );
+
+            slideElements.forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 {% endblock %}

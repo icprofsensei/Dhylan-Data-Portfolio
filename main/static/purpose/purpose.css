@@ -1,26 +1,106 @@
-body {
-    background-image: url("mission.jpg");
-    background-size: cover;
-    background-attachment: fixed; /* Keeps the background fixed during scrolling */
-    background-repeat: no-repeat;
-    background-position: center;
+/* Background styling */
+#frontimg {
+  background-image: url("mission.jpg");
+  width: 1300px;
+  height:890px;
+}
+h4 {
+  text-align: center
+}
+.bodytextinfo{
+  position: relative;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 35px;
+  color: #000000;
+}
+
+/* Slide-in animation for text */
+.slide-in {
+  opacity: 0;
+  transform: translateY(20px); /* Slight downward offset */
+  transition: all 3s ease-out; /* Smooth transition for opacity and position */
+}
+
+.slide-in-visible {
+  opacity: 1;
+  transform: translateY(0); /* Reset position */
+}
+
+.reveal{
+  position: relative;
+  transform: translateY(150px);
+  opacity: 0;
+  transition: 2s all ease;
+}
+.reveal.active{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Asap&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Asap", sans-serif;
+}
+body{
+  background: #42455a;
+}
+section{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+section:nth-child(1){
+  color: #e0ffff;
   }
-  /* Create three equal columns that float next to each other */
-.column {
-  float: left;
-  width: 33.33%;
+section:nth-child(2){
+  color: #42455a;
+  background: #e0ffff;
+} 
+section:nth-child(3){
+  color: #e0ffff;
+}
+section:nth-child(4){
+  color: #42455a;
+  background: #e0ffff;
+}
+section .container{
+  margin: 100px;
+}
+section h1{
+  font-size: 3rem;
+  margin: 20px;
+}
+section h2{
+  font-size: 40px;
+  text-align: center;
+  text-transform: uppercase;
+}
+section .text-container{
+   display: flex;
+}
+section .text-container .text-box{
+  margin: 20px;
+  padding: 20px;
+  background: #00c2cb;
+}
+section .text-container .text-box h3{
+  font-size: 30px;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 10px;
 }
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other on smaller screens (600px wide or less) */
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
+@media (max-width: 900px){
+  section h1{
+    font-size: 2rem;
+    text-align: center;
+  }
+  section .text-container{
+    flex-direction: column;
   }
 }

@@ -8,6 +8,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
 # Create your views here.
 def lander(request):
@@ -82,6 +83,7 @@ def valconv (val):
             return x
 
 def predict(ft, s, A, B, C, D, E, F, G, H, yf, yff, ylf, cl):
+    
     old_model = Model()
     yf = int(yf)
     yff = int(yff)
@@ -100,9 +102,14 @@ def predict(ft, s, A, B, C, D, E, F, G, H, yf, yff, ylf, cl):
     
     model_path = os.path.join(settings.BASE_DIR, 'startup1/models/full_26_startup_success_model.pt')
     old_model.load_state_dict(torch.load(model_path))
-    new_iris = torch.tensor([ft, s, A, B, C, D, E, F, G, H, ff, max(hitlist), cn, yf, yff, ylf, fd,  
+    X = [ft, s, A, B, C, D, E, F, G, H, ff, max(hitlist), cn, yf, yff, ylf, fd,  
                              stock_dict[yf]['S&P500'],stock_dict[yf]['USComposite'], stock_dict[yf]['DOW'],
                              stock_dict[yff]['S&P500'],stock_dict[yff]['USComposite'], stock_dict[yff]['DOW'],
-                             stock_dict[ylf]['S&P500'],stock_dict[ylf]['USComposite'], stock_dict[ylf]['DOW'], ])
+                             stock_dict[ylf]['S&P500'],stock_dict[ylf]['USComposite'], stock_dict[ylf]['DOW'], ]
+    X = [X]
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
+     
+    new_startup = torch.tensor(X, dtype=torch.float32)
     with torch.no_grad():
-        return valconv(old_model(new_iris).argmax().item())
+        return valconv(old_model(new_startup).argmax().item())
