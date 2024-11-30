@@ -8,43 +8,45 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 </head>
 <body>
-    <section>
-      <div class="container reveal">
-        <div class="text-container">
-          <div class = "bodytextinfo" id = "frontimg">
-        <h1>Iris</h1>
+  <section>
+    <div class="container reveal">
+        <img src="{% static 'iris/iris1.jpg' %}" alt = "iris" width = 1200px height = 800px>
+        <div class="centered">
+          <h1>Iris</h1>
+        </div>
       </div>
-      </div></div>
-    
-</section>
+  </section>
 <section>
   <div class="container reveal">
     <div class="text-container">
-    <p>93.33% Accuracy </p>
+    <h1>93.33% Accuracy </h1>
   </div>
 </div>
 </section>
 <section>
   <div class="container reveal">
     <div class="text-container">
-    Table:
-  <table id="demoTable" border="1">
-
-    <tbody>
-        <!-- Populated dynamically -->
-    </tbody>
-  </div>
+      <h1>Table:</h1>
+      <div class="table-container">
+        <table id="demoTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </section>
 <section>
   <div class="container reveal">
-    <h2>Add a New Prediction</h2>
-  
-    <a href="{% url 'iris:newpred' %}">
+    <div class="text-container">
+      <h2>Add a New Prediction: <br> </h2>
+      <a href="{% url 'iris:newpred' %}">
         <button type="button">Create</button>
-    </a>
+      </a>
+    </div>
   </div>
-    </section>
+</section>
 <script>
 const table = document.getElementById("demoTable").querySelector("tbody");
 
@@ -81,7 +83,7 @@ fetch("{% static 'iris/iris.csv' %}")
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
+                var elementVisible = 50;
                 if (elementTop < windowHeight - elementVisible) {
                 reveals[i].classList.add("active");
                 } else {

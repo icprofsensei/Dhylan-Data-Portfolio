@@ -3,16 +3,159 @@
 {% block title %}Home Page{% endblock %}
 {% block content %}
 <head>
-    {% load static %}
-    <link href="{% static 'startup1/style.css' %}" rel="stylesheet">
+{% load static %}
+<link href="{% static 'startup1/style.css' %}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 </head>
 <body>
-    <h1>Start Up Success Dataset</h1>
-    <p>86.5% Accuracy </p>
-    <h2>Add a New Prediction</h2>
-  
-    <a href="{% url 'startup1:newpred' %}">
+  <section>
+    <div class="container reveal">
+        <img src="{% static 'startup1/rocket1.jpg' %}" alt = "rocket" width = 1200px height = 800px>
+        <div class="centered">
+          <h1>Start-up Success</h1>
+        </div>
+      </div>
+  </section>
+<section>
+  <div class="container reveal">
+    <div class="text-container">
+    <h1>86.5% Accuracy </h1>
+  </div>
+</div>
+</section>
+<section>
+  <div class="container reveal">
+    <div class="text-container">
+      <h1>Table:</h1>
+      <div class="table-container">
+        <table id="stockTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container reveal">
+    <div class="text-container">
+    <h1>Stock Prices </h1>
+  </div>
+</div>
+</section>
+<section>
+  <div class="container reveal">
+    <div class="text-container">
+      <h1>Table:</h1>
+      <div class="table-container">
+        <table id="marketpopTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container reveal">
+    <div class="text-container">
+      <h2>Add a New Prediction: <br> </h2>
+      <a href="{% url 'startup1:newpred' %}">
         <button type="button">Create</button>
-    </a>
+      </a>
+    </div>
+  </div>
+</section>
+<script>
+
+function tablepop(table, fileloc) {
+    // Construct the static URL dynamically if needed for Django
+    const staticFilePath = `/static/${fileloc}`;
+
+    // Fetch the CSV file
+    fetch(staticFilePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(csvData => {
+            // Parse the CSV data using PapaParse
+            Papa.parse(csvData, {
+                header: false, // Set to true if the CSV has headers
+                skipEmptyLines: true, // Ignore empty lines
+                complete: function(results) {
+                    populateTable(table, results.data);
+                }
+            });
+        })
+        .catch(error => {
+            console.error(`Error loading the CSV file from ${fileloc}:`, error);
+        });
+}
+
+// Helper function to populate the table
+function populateTable(table, data) {
+    // Clear the existing rows, if any
+    table.innerHTML = '';
+
+    // Populate the table with rows and columns
+    data.forEach(row => {
+        let tr = document.createElement("tr");
+        row.forEach(col => {
+            let td = document.createElement("td");
+            td.textContent = col;
+            tr.appendChild(td);
+        });
+        table.appendChild(tr);
+    });
+}
+
+// Get references to the table bodies
+const stockTableBody = document.getElementById("stockTable").querySelector("tbody");
+const marketPopTableBody = document.getElementById("marketpopTable").querySelector("tbody");
+
+// Call the tablepop function with appropriate file locations
+tablepop(stockTableBody, 'startup1/data/annualstockprices.csv');
+tablepop(marketPopTableBody, 'startup1/data/marketpopularity2024.csv');
+
+// Load the CSV file
+
+    function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 50;
+                if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+                } else {
+                reveals[i].classList.remove("active");
+                }
+            }
+            }
+        window.addEventListener("scroll", reveal, {passive: true});
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const slideElements = document.querySelectorAll(".slide-in");
+
+            const observer = new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("slide-in-visible");
+                            observer.unobserve(entry.target); // Stop observing once visible
+                        }
+                    });
+                },
+                { threshold: 0.01 } // Trigger when 1% of element is visible
+            );
+
+            slideElements.forEach(el => observer.observe(el));
+        });
+</script>
 </body>
 {% endblock %}

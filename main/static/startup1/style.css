@@ -1,7 +1,144 @@
-body {
-    background-image: url("rocket1.jpg");
-    background-size: cover;
-    background-attachment: fixed; /* Keeps the background fixed during scrolling */
-    background-repeat: no-repeat;
-    background-position: center;
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40;
+}
+
+/* Scrollable table */
+.table-container {
+  max-height: 300px; /* Approximate height for 10 rows */
+  overflow-y: auto; /* Enables vertical scrolling */
+  border: 1px solid #ccc;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th, .table-container td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table-container tr:nth-child(even) {
+  background-color: #929db3;
+}
+  h4 {
+    text-align: center
+  }
+  .bodytextinfo{
+    position: relative;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 35px;
+    color: #000000;
+  }
+  
+  /* Slide-in animation for text */
+  .slide-in {
+    opacity: 0;
+    transform: translateY(20px); /* Slight downward offset */
+    transition: all 3s ease-out; /* Smooth transition for opacity and position */
+  }
+  
+  .slide-in-visible {
+    opacity: 1;
+    transform: translateY(0); /* Reset position */
+  }
+  
+  .reveal{
+    position: relative;
+    transform: translateY(150px);
+    opacity: 0;
+    transition: 2s all ease;
+  }
+  .reveal.active{
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Asap&display=swap');
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Asap", sans-serif;
+  }
+
+  section{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  section:nth-child(1){
+    color: #e0ffff;
+    }
+
+  /* First section */
+  section:nth-child(3){
+    color: #e0ffff;
+    background-color:#42455a; 
+  }
+  section:nth-child(4){
+    color: #42455a;
+    background-color: #e0ffff;
+  }
+  section:nth-child(5){
+    color: #e0ffff;
+    background-color:#42455a; 
+  } 
+  section:nth-child(6){
+    color: #42455a;
+    background-color: #e0ffff;
+  }
+  section:nth-child(7){
+    color: #e0ffff;
+    background-color:#42455a; 
+  } 
+  section:nth-child(8){
+    color: #42455a;
+    background-color: #e0ffff;
+  }
+  
+  section .container{
+    margin: 100px;
+  }
+  section h1{
+    font-size: 3rem;
+    margin: 20px;
+  }
+  section h2{
+    font-size: 40px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  section .text-container{
+     display: flex;
+  }
+  section .text-container .text-box{
+    margin: 20px;
+    padding: 20px;
+    background: #00c2cb;
+  }
+  section .text-container .text-box h3{
+    font-size: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 900px){
+    section h1{
+      font-size: 2rem;
+      text-align: center;
+    }
+    section .text-container{
+      flex-direction: column;
+    }
   }
