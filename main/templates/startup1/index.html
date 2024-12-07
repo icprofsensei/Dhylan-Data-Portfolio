@@ -6,6 +6,10 @@
 {% load static %}
 <link href="{% static 'startup1/style.css' %}" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-python.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/prism.min.js"></script>
 </head>
 <body>
   <section>
@@ -16,17 +20,119 @@
         </div>
       </div>
   </section>
-<section>
-  <div class="container reveal">
-    <div class="text-container">
-    <h1>86.5% Accuracy </h1>
-  </div>
-</div>
-</section>
-<section>
-  <div class="container reveal">
-    <div class="text-container">
-      <h1>Table:</h1>
+  <section>
+    <div class="container reveal">
+      <div class="text-container">
+        <h1>Outcomes: </h1>
+        <ul>
+          <li>Expanded, quantified and cleaned the original dataset</li>
+          <li>Model trained to 86.5% Accuracy </li>
+          <li>Created prediction program on this website to predict start-up success</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class="text-container">
+        <div>
+        <h1>Original Data:</h1>
+        <h2>Sample of first 12 lines</h2>
+          <form action="https://www.kaggle.com/datasets/sujithsherigar/startup-success-rate-analysis/data">
+          <button type="submit">Click here to access the full dataset on Kaggle</button>
+          </form>
+      
+        </div>
+      </div>
+      <div class="table-container">
+        <table id="ogTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class="text-container">
+      <h1>Original Dataset Information: </h1>
+      <ul>
+        <li>Sourced from Kaggle</li>
+        <li>Data range originally from Crunchbase</li>
+        <li>Prior published uses include exploratory data analysis - but not Machine Learning. </li>
+      </ul>
+      </div>
+      <button class="openbtn" onclick="openNav()">&#9776; Additional Information</button>
+    </div>
+    <div id="mySidepanel" class="sidepanel">
+
+      <h3>Data Dictionary (for the above dataset)</h3>
+      <ul>
+        <li>
+          Status: Can be acquired, operating or closed in this dataset. This is the response variable.  
+        </li>
+        <li>
+          Category list and market: Market is the main category within the list.  
+        </li>
+        <li>
+          Location: Country code, State code, Region, City. These are not included to not bias the model against certain geographies. 
+        </li>
+        <li>
+          Total Funding, Seed, Funding Rounds, Seed, Venture, Equity crowdfunding, Undisclosed, Convertible note, Debt financing, angel , grant, private equity, post ipo debt, rounds. 
+        </li>
+        <li>
+          Founding (quarter, month, date), first funding, last funding
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+        <div class = "midaligned_section">
+          <h3> Founding date, first funding and last funding dates may be important due to wider economic factors </h3>
+          <p> I therefore observed the market value of various stock indexes which spanned the time frame of interest (1975-2022). Due to the timescales in which the businesses were being compared, within year fluctuations were assumed to be less important that overall annual value. For a more thorough future analysis, these factors could be accounted for. I selected indexes which were widely used to this day whilst also historically remaining significant. The code below demonstrates how I achieved this:</p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+                import yfinance as yf
+                import pandas as pd
+                stockls = []
+                def get_yearly_average_price(symbol: str, year: int):
+                    # Define start and end dates for the year
+                    start_date = f"{year}-01-01"
+                    end_date = f"{year}-12-31"
+                    
+                    # Historical data for the index 
+                    data = yf.download(symbol, start=start_date, end=end_date)
+                    
+                    # Calculate the average of the closing prices for the entire year
+                    if not data.empty:
+                        yearly_average = data['Close'].mean()
+                        return yearly_average
+                    else:
+                        return "N/A"
+
+                # Make dataframe of stocks
+                for i in range(1975, 2023):
+                    year = i
+                    sp500_average = float(get_yearly_average_price("^GSPC", year).iloc[0])
+                    nasdaq_average = float(get_yearly_average_price("^IXIC", year).iloc[0])
+                    dow_average = float(get_yearly_average_price("^IXIC", year).iloc[0])
+                    stockdict = {'Year': year, 'S&P500': sp500_average, 'USComposite': nasdaq_average, 'DOW': dow_average}
+                    stockls.append(stockdict)
+                stockdf = pd.DataFrame(stockls)
+              </code>
+            </pre>
+      
+          </div>
+        </div>
+    </div>
+  
+  </section>
+  <section>
+    <div class="container reveal">
+      <h5> Stock Indicides Annual average 1975 - 2022 Table</h5>
       <div class="table-container">
         <table id="stockTable" border="1">
           <tbody>
@@ -35,19 +141,91 @@
         </table>
       </div>
     </div>
-  </div>
-</section>
-<section>
-  <div class="container reveal">
-    <div class="text-container">
-    <h1>Stock Prices </h1>
-  </div>
-</div>
-</section>
-<section>
-  <div class="container reveal">
-    <div class="text-container">
-      <h1>Table:</h1>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div id="containerstocks" style="width: 100%; height: 500px;">
+      </div>
+      <p> I then used these index prices to query each year in the dataset. This allowed me to ascertain the economic conditions for the year when a significant event occurred for a company eg: being founded or first funded. </p>
+    </div>
+    <script>
+
+      function drawlinechart (file){
+        anychart.onDocumentReady(async function () {
+                try {
+                    const data = await arraymaker(file);
+                    if (!data || data.length === 0) {
+                        console.error("No data loaded from CSV.");
+                        return;
+                    }
+                    const dataSet = anychart.data.set(data);
+                    const USCData = dataSet.mapAs({ x: 1, value: 3 });
+                    const SP500Data = dataSet.mapAs({ x: 1, value: 2 });
+                    const chart = anychart.line();
+                    const usc = chart.line(USCData);
+                    usc.name("US Composite/DOW");
+                    const sp500 = chart.line(SP500Data);
+                    sp500.name("S&P 500");
+                    chart.legend().enabled(true);
+                    chart.title("Market index prices between 1975 - 2022");
+                    chart.container("containerstocks");
+                    chart.draw();
+                } catch (error) {
+                    console.error("Error initializing the chart:", error);
+                }
+            });
+        }
+      drawlinechart('startup1/data/annualstockprices.csv')
+    </script>
+  </section>
+  <section>
+    <div class="container reveal">
+        <div class = "midaligned_section">
+          <h3> The categorical variable of market type needed to be quantified numerically for model training  </h3>
+          <p> I could quantify the number of categories in the category list as a count parameter to indicate how broad or narrow an organisation's niche was. </p>
+          <p> Following this, I needed to quantify the actual market itself. Since we were comparing current operating statuses of the organisations, the market size currently would be a good indicator variable for startup success. In order to determine this objectively, I devised a comoparison mechanism utilising the google search popularity for each market in 2024. This would serve as an indicator for audience size currently and therefore project future success of organisations. I achieved this using the following code:</p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python prism-highlight-keywords" data-prismjs-copy="Copy the code!">
+                import requests
+                url = "https://www.googleapis.com/customsearch/v1"
+                API_KEYS = [ # Insert your own API keys here ]
+                count = 0
+                resultls = []
+                # I utilised multiple API keys to avoid exceeding the google specified request limits. 
+                for index, u in enumerate(unique):
+                    p = index
+                    if index > 7:
+                        p -= 8 * count
+                    
+                    params = {
+                        'key': API_KEYS[p],
+                        'cx': '', # Replace with your cx
+                        'q': u
+                    }
+                    
+                    response = requests.get(url, params = params)
+                    if response.status_code == 200:
+                        data = response.json()
+                        total_results = data.get('searchInformation', {}).get('totalResults', '0')
+                        result = {'Name': u, 'Total_Google_Results_for_query_Nov_2024': total_results}
+                    else:
+                        result = {'Name': u, 'Total_Google_Results_for_query_Nov_2024': 0}
+                    if (index+1)%8 == 0 and index!=0:
+                        count +=1
+                    print(result)
+                    resultls.append(result)
+                HITPOPULARITY = pd.DataFrame(resultls)
+              </code>
+            </pre>
+      
+          </div>
+        </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h5> Category Quantification based on 2024 popularity</h5>
       <div class="table-container">
         <table id="marketpopTable" border="1">
           <tbody>
@@ -56,106 +234,244 @@
         </table>
       </div>
     </div>
-  </div>
-</section>
-<section>
-  <div class="container reveal">
-    <div class="text-container">
-      <h2>Add a New Prediction: <br> </h2>
-      <a href="{% url 'startup1:newpred' %}">
-        <button type="button">Create</button>
-      </a>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> Exploratory Data Analysis</h1>
+      <p> I needed to understand the distribution of my datapoints too, in order to design a neural network which avoided as much bias as possible. I therefore, observed the distribution of various x parameters in my dataset.</p>
     </div>
-  </div>
-</section>
-<script>
+  </section>
+  <section>
+    <div id="containerfunding" style="width: 100%; height: 500px;">
+    </div>
+    <script>
+      function frequencies(values, binEdges) {
+          return values.reduce(function (freqs, val) {
+              for (let i = 0; i < binEdges.length - 1; i++) {
+                  if (val >= binEdges[i] && val < binEdges[i + 1]) {
+                      const binLabel = `${binEdges[i]} - ${binEdges[i + 1]}`;
+                      freqs[binLabel] = freqs[binLabel] ? freqs[binLabel] + 1 : 1;
+                      break;
+                  }
+              }
+              return freqs;
+          }, {});
+      }
+      
+      function drawchart(file, binEdges) {
+          anychart.onDocumentReady(async function () {
+              try {
+                  const data = await arraymaker(file);
+                  if (!data || data.length === 0) {
+                      console.error("No data loaded from CSV.");
+                      return;
+                  }
+      
+                  const values = data.map(row => parseFloat(row[1])); // Ensure numerical values
+                  const freqData = frequencies(values, binEdges);
+      
+                  // Prepare histogram data and ensure it is sorted
+                  const histogramData = Object.entries(freqData)
+                      .map(([bin, freq]) => {
+                          const [start] = bin.split(' - ').map(Number); // Extract start value for sorting
+                          return { x: start, label: bin, value: freq };
+                      })
+                      .sort((a, b) => a.x - b.x) // Sort bins by numeric start value
+                      .map(({ label, value }) => ({ x: label, value })); // Map back to label and value
+      
+                  const chart = anychart.column();
+                  const histogram = chart.column(histogramData);
+      
+                  histogram.name("Frequency");
+      
+                  // Customize chart
+                  chart.title("Histogram of Funding Totals");
+                  chart.xAxis().title("Funding Amount (Binned)");
+                  chart.yAxis().title("Frequency");
+      
+                  chart.container("containerfunding");
+                  chart.draw();
+              } catch (error) {
+                  console.error("Error initializing the chart:", error);
+              }
+          });
+      }
+      
+      // Example usage with custom bin edges
+      drawchart('startup1/data/cleaned.csv', [0, 2000000, 4000000, 6000000, 8000000, 10000000]);
+      
+      
+      
+      
+       </script>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class="text-container">
+        <h2>Add a New Prediction: <br></h2>
 
-function tablepop(table, fileloc) {
-    // Construct the static URL dynamically if needed for Django
-    const staticFilePath = `/static/${fileloc}`;
+        <a href="{% url 'startup1:newpred' %}">
+          <button type="button">Create</button>
+        </a>
+      </div>
+    </div>
+  </section>
+  <script>
 
-    // Fetch the CSV file
-    fetch(staticFilePath)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.text();
-        })
-        .then(csvData => {
-            // Parse the CSV data using PapaParse
-            Papa.parse(csvData, {
-                header: false, // Set to true if the CSV has headers
-                skipEmptyLines: true, // Ignore empty lines
-                complete: function(results) {
-                    populateTable(table, results.data);
-                }
+    function arraymaker(fileloc) {
+            return new Promise((resolve, reject) => {
+                // Construct the static URL dynamically if needed for Django
+                const staticFilePath = `/static/${fileloc}`;
+
+                // Fetch the CSV file
+                fetch(staticFilePath)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(csvData => {
+                        // Parse the CSV data using PapaParse
+                        Papa.parse(csvData, {
+                            header: false, // Set to true if the CSV has headers
+                            skipEmptyLines: true, // Ignore empty lines
+                            complete: function(results) {
+                                resolve(results.data);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(`Error loading the CSV file from ${fileloc}:`, error);
+                        reject(error);
+                    });
             });
-        })
-        .catch(error => {
-            console.error(`Error loading the CSV file from ${fileloc}:`, error);
-        });
-}
+        }
+    function tablepop(table, fileloc) {
+        // Construct the static URL dynamically if needed for Django
+        const staticFilePath = `/static/${fileloc}`;
+
+        // Fetch the CSV file
+        fetch(staticFilePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(csvData => {
+                // Parse the CSV data using PapaParse
+                Papa.parse(csvData, {
+                    header: false, // Set to true if the CSV has headers
+                    skipEmptyLines: true, // Ignore empty lines
+                    complete: function(results) {
+                        populateTable(table, results.data);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error(`Error loading the CSV file from ${fileloc}:`, error);
+            });
+    }
 
 // Helper function to populate the table
-function populateTable(table, data) {
-    // Clear the existing rows, if any
-    table.innerHTML = '';
+    function populateTable(table, data) {
+        // Clear the existing rows, if any
+        table.innerHTML = '';
 
-    // Populate the table with rows and columns
-    data.forEach(row => {
-        let tr = document.createElement("tr");
-        row.forEach(col => {
-            let td = document.createElement("td");
-            td.textContent = col;
-            tr.appendChild(td);
+        // Populate the table with rows and columns
+        data.forEach(row => {
+            let tr = document.createElement("tr");
+            row.forEach(col => {
+                let td = document.createElement("td");
+                td.textContent = col;
+                tr.appendChild(td);
+            });
+            table.appendChild(tr);
         });
-        table.appendChild(tr);
-    });
-}
-
-// Get references to the table bodies
-const stockTableBody = document.getElementById("stockTable").querySelector("tbody");
-const marketPopTableBody = document.getElementById("marketpopTable").querySelector("tbody");
-
-// Call the tablepop function with appropriate file locations
-tablepop(stockTableBody, 'startup1/data/annualstockprices.csv');
-tablepop(marketPopTableBody, 'startup1/data/marketpopularity2024.csv');
-
-// Load the CSV file
-
+    }
     function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 50;
-                if (elementTop < windowHeight - elementVisible) {
-                reveals[i].classList.add("active");
-                } else {
-                reveals[i].classList.remove("active");
+                var reveals = document.querySelectorAll(".reveal");
+                for (var i = 0; i < reveals.length; i++) {
+                    var windowHeight = window.innerHeight;
+                    var elementTop = reveals[i].getBoundingClientRect().top;
+                    var elementVisible = 50;
+                    if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                    } else {
+                    reveals[i].classList.remove("active");
+                    }
                 }
-            }
-            }
-        window.addEventListener("scroll", reveal, {passive: true});
-        
-        document.addEventListener("DOMContentLoaded", function () {
-            const slideElements = document.querySelectorAll(".slide-in");
+                }
+// Get references to the table bodies
 
-            const observer = new IntersectionObserver(
-                (entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add("slide-in-visible");
-                            observer.unobserve(entry.target); // Stop observing once visible
-                        }
-                    });
-                },
-                { threshold: 0.01 } // Trigger when 1% of element is visible
-            );
+    const ogTableBody = document.getElementById("ogTable").querySelector("tbody");
+    const stockTableBody = document.getElementById("stockTable").querySelector("tbody");
+    const marketPopTableBody = document.getElementById("marketpopTable").querySelector("tbody");
+    // Call the tablepop function with appropriate file locations
+    tablepop(ogTableBody, 'startup1/data/investments_VC_USA.csv');
+    tablepop(stockTableBody, 'startup1/data/annualstockprices.csv');
+    tablepop(marketPopTableBody, 'startup1/data/marketpopularity2024.csv');
 
-            slideElements.forEach(el => observer.observe(el));
-        });
+// Reveal elements
+
+
+    window.addEventListener("scroll", reveal, {passive: true});
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const slideElements = document.querySelectorAll(".slide-in");
+
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("slide-in-visible");
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            },
+            { threshold: 0.01 } // Trigger when 1% of element is visible
+        );
+
+        slideElements.forEach(el => observer.observe(el));
+    });
+
+        // Side panel
+    document.getElementById("mySidepanel").style.display = "none";
+    function openNav() {
+      var sidepanel = document.getElementById("mySidepanel");
+      if (sidepanel.style.display === "none" || sidepanel.style.display === "") {
+        sidepanel.style.display = "block"; // Show the sidepanel
+      } else {
+        sidepanel.style.display = "none"; // Hide the sidepanel
+      }
+    }
+    anychart.onDocumentReady(async function () {
+              try {
+                  // Load the data from the CSV file
+                  const data = await arraymaker('startup1/data/annualstockprices.csv');
+                  if (!data || data.length === 0) {
+                      console.error("No data loaded from CSV.");
+                      return;
+                  }
+                  const dataSet = anychart.data.set(data);
+                  const USCData = dataSet.mapAs({ x: 0, value: 1 });
+                  const SP500Data = dataSet.mapAs({ x: 0, value: 2 });
+                  const chart = anychart.line();
+                  const usc = chart.line(USCData);
+                  usc.name("US Composite");
+
+                  const sp500 = chart.line(SP500Data);
+                  sp500.name("S&P 500");
+                  chart.legend().enabled(true);
+                  chart.title("Market index prices between 1975 - 2022");
+                  chart.container("container");
+                  chart.draw();
+              } catch (error) {
+                  console.error("Error initializing the chart:", error);
+              }
+          });
+
 </script>
 </body>
 {% endblock %}

@@ -1,10 +1,10 @@
 
 .centered {
   position: absolute;
-  top: 50%;
+  top: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 40;
+  font-size: 50;
 }
 
 /* Scrollable table */
@@ -71,40 +71,12 @@
   }
 
   section{
-    min-height: 100vh;
+    min-height: 60vh;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  section:nth-child(1){
-    color: #e0ffff;
-    }
 
-  /* First section */
-  section:nth-child(3){
-    color: #e0ffff;
-    background-color:#42455a; 
-  }
-  section:nth-child(4){
-    color: #42455a;
-    background-color: #e0ffff;
-  }
-  section:nth-child(5){
-    color: #e0ffff;
-    background-color:#42455a; 
-  } 
-  section:nth-child(6){
-    color: #42455a;
-    background-color: #e0ffff;
-  }
-  section:nth-child(7){
-    color: #e0ffff;
-    background-color:#42455a; 
-  } 
-  section:nth-child(8){
-    color: #42455a;
-    background-color: #e0ffff;
-  }
   
   section .container{
     margin: 100px;
@@ -142,3 +114,31 @@
       flex-direction: column;
     }
   }
+
+
+  #mySidepanel {
+    width: 100%;
+    text-align: left;
+    color: rgb(0, 0, 0);
+    display: none;
+  }
+  
+  /* Style the button that is used to open the sidepanel */
+  .openbtn {
+    position: relative;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+  }
+  
+  .openbtn:hover {
+    background-color: #2ad159;
+  }
+
+.midaligned_section {
+  width: 100%;
+  overflow: hidden;
+}
