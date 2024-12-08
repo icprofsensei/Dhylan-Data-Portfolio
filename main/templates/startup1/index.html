@@ -16,7 +16,7 @@
     <div class="container reveal">
         <img src="{% static 'startup1/rocket1.jpg' %}" alt = "rocket" width = 1200px height = 800px>
         <div class="centered">
-          <h1>Start-up Success</h1>
+          <p class = "main_header">Start-up Success</p>
         </div>
       </div>
   </section>
@@ -29,27 +29,6 @@
           <li>Model trained to 86.5% Accuracy </li>
           <li>Created prediction program on this website to predict start-up success</li>
         </ul>
-      </div>
-    </div>
-  </section>
-  <section>
-    <div class="container reveal">
-      <div class="text-container">
-        <div>
-        <h1>Original Data:</h1>
-        <h2>Sample of first 12 lines</h2>
-          <form action="https://www.kaggle.com/datasets/sujithsherigar/startup-success-rate-analysis/data">
-          <button type="submit">Click here to access the full dataset on Kaggle</button>
-          </form>
-      
-        </div>
-      </div>
-      <div class="table-container">
-        <table id="ogTable" border="1">
-          <tbody>
-            <!-- Populated dynamically -->
-          </tbody>
-        </table>
       </div>
     </div>
   </section>
@@ -89,9 +68,31 @@
   </section>
   <section>
     <div class="container reveal">
+      <div class="text-container">
+        <div>
+        <h2>Sample of first 12 lines</h2>
+          <form action="https://www.kaggle.com/datasets/sujithsherigar/startup-success-rate-analysis/data">
+          <button type="submit">Click here to access the full dataset on Kaggle</button>
+          </form>
+      
+        </div>
+      </div>
+      <div class="table-container">
+        <table id="ogTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container reveal">
         <div class = "midaligned_section">
+          <h1> Transforming the dataset</h1>
           <h3> Founding date, first funding and last funding dates may be important due to wider economic factors </h3>
-          <p> I therefore observed the market value of various stock indexes which spanned the time frame of interest (1975-2022). Due to the timescales in which the businesses were being compared, within year fluctuations were assumed to be less important that overall annual value. For a more thorough future analysis, these factors could be accounted for. I selected indexes which were widely used to this day whilst also historically remaining significant. The code below demonstrates how I achieved this:</p>
+          <p> I therefore observed the market value of various stock indexes which spanned the time frame of interest (1975-2022). Due to the timescales in which the businesses were being compared, within year fluctuations were assumed to be less important that overall annual change. For a more thorough future analysis, these factors within the year (such as month/financial quarter) could be accounted for. I selected indexes which were widely used to this day whilst also historically remaining significant. The code below demonstrates how I achieved this via the yahoo finance API:</p>
           <div class = "box">
             <pre>
               <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
@@ -117,7 +118,6 @@
                 for i in range(1975, 2023):
                     year = i
                     sp500_average = float(get_yearly_average_price("^GSPC", year).iloc[0])
-                    nasdaq_average = float(get_yearly_average_price("^IXIC", year).iloc[0])
                     dow_average = float(get_yearly_average_price("^IXIC", year).iloc[0])
                     stockdict = {'Year': year, 'S&P500': sp500_average, 'USComposite': nasdaq_average, 'DOW': dow_average}
                     stockls.append(stockdict)
@@ -132,6 +132,7 @@
   </section>
   <section>
     <div class="container reveal">
+      <p> Via the script above I was able to generate the dataset shown below which took the average price of each stock index (US Composite and S&P 500) across the year. </p>
       <h5> Stock Indicides Annual average 1975 - 2022 Table</h5>
       <div class="table-container">
         <table id="stockTable" border="1">
@@ -163,7 +164,7 @@
                     const SP500Data = dataSet.mapAs({ x: 1, value: 2 });
                     const chart = anychart.line();
                     const usc = chart.line(USCData);
-                    usc.name("US Composite/DOW");
+                    usc.name("US Composite");
                     const sp500 = chart.line(SP500Data);
                     sp500.name("S&P 500");
                     chart.legend().enabled(true);
@@ -183,7 +184,7 @@
         <div class = "midaligned_section">
           <h3> The categorical variable of market type needed to be quantified numerically for model training  </h3>
           <p> I could quantify the number of categories in the category list as a count parameter to indicate how broad or narrow an organisation's niche was. </p>
-          <p> Following this, I needed to quantify the actual market itself. Since we were comparing current operating statuses of the organisations, the market size currently would be a good indicator variable for startup success. In order to determine this objectively, I devised a comoparison mechanism utilising the google search popularity for each market in 2024. This would serve as an indicator for audience size currently and therefore project future success of organisations. I achieved this using the following code:</p>
+          <p> Following this, I needed to quantify the actual market itself. Since I was comparing current operating statuses of the organisations, the current market size would be a good indicator variable for present-day startup success. In order to determine this objectively, I devised a comoparison mechanism utilising the google search popularity for each market in 2024. This would serve as an indicator for audience size currently and therefore project future success of organisations. I achieved this using the following code:</p>
           <div class = "box">
             <pre>
               <code class = "language-python prism-highlight-keywords" data-prismjs-copy="Copy the code!">
@@ -225,6 +226,7 @@
   </section>
   <section>
     <div class="container reveal">
+      <p> By using the code above and cycling through API keys, I was able to call the google search engine API without exceeding the search rate limits. By finding the total number of searches for each query word, I now had a suitable proxy for market popularity.</p>
       <h5> Category Quantification based on 2024 popularity</h5>
       <div class="table-container">
         <table id="marketpopTable" border="1">
@@ -238,28 +240,72 @@
   <section>
     <div class="container reveal">
       <h1> Exploratory Data Analysis</h1>
-      <p> I needed to understand the distribution of my datapoints too, in order to design a neural network which avoided as much bias as possible. I therefore, observed the distribution of various x parameters in my dataset.</p>
+      <p> I needed to understand the distribution of my datapoints too, in order to design a neural network which avoided as much bias as possible. I therefore, observed the distribution of various parameters in my dataset.</p>
+      <ul>
+        <li> Funding Total (x parameter)
+        </li>
+        <li>
+          Date Founded (x parameter)
+        </li>
+        <li>
+          Business status currently (y response variable)
+        </li>
+      </ul>
     </div>
   </section>
   <section>
-    <div id="containerfunding" style="width: 100%; height: 500px;">
+    <div class="container reveal">
+      <h3> Funding Total</h3>
+    <h5> Funding total is strongly right skewed, therefore I created histograms which observed various magnifications along the x axis.</h5>
+    <p> I have displayed the distribution for the full dataset as well as a closer look at the distribution between $0 and $1,000,000. Whilst there were examples in the dataset of start-ups receiving a large amount of total money, the majority of start-ups observed fell within this range.</p>
+    <div id="containerfundinghisto1" style="width: 100%; height: 500px;">
     </div>
+    <div id="containerfundinghisto2" style="width: 100%; height: 500px;">
+    </div>
+  </div>
     <script>
-      function frequencies(values, binEdges) {
-          return values.reduce(function (freqs, val) {
-              for (let i = 0; i < binEdges.length - 1; i++) {
-                  if (val >= binEdges[i] && val < binEdges[i + 1]) {
-                      const binLabel = `${binEdges[i]} - ${binEdges[i + 1]}`;
-                      freqs[binLabel] = freqs[binLabel] ? freqs[binLabel] + 1 : 1;
-                      break;
-                  }
-              }
-              return freqs;
-          }, {});
-      }
+
+
+    function drawhistochartbasic(file, element) {
+    anychart.onDocumentReady(async function () {
+        try {
+            const data = await arraymaker(file);
+            if (!data || data.length === 0) {
+                console.error("No data loaded from CSV.");
+                return;
+            }
+
+            const values = data.map(row => parseFloat(row[1])); // Ensure numerical values
+            const binsize = 1000000; // Example bin size, adjust as needed
+            const freqData = frequencies_default(values, binsize);
+
+            const histogramData = Object.entries(freqData).map(([bin, freq]) => ({ x: bin, value: freq }));
+
+            const chart = anychart.column();
+            const histogram = chart.column(histogramData);
+
+            histogram.name("Frequency");
+            histogram.fill("#5eda54");
+            histogram.stroke("#2d5f29"); 
+            // Customize chart
+            chart.title("Histogram of Funding Totals, bin size = $1,000,000, range = full dataset");
+            chart.xAxis().title("Funding Amount (Binned)");
+            chart.yAxis().title("Frequency");
+
+            chart.container(element);
+            chart.draw();
+        } catch (error) {
+            console.error("Error initializing the chart:", error);
+        }
+    });
+}
+
+drawhistochartbasic('startup1/data/cleaned.csv', "containerfundinghisto1");
       
-      function drawchart(file, binEdges) {
-          anychart.onDocumentReady(async function () {
+
+      
+      function drawhistochartflex(file, binEdges, element) {
+        anychart.onDocumentReady(async function () {
               try {
                   const data = await arraymaker(file);
                   if (!data || data.length === 0) {
@@ -268,7 +314,7 @@
                   }
       
                   const values = data.map(row => parseFloat(row[1])); // Ensure numerical values
-                  const freqData = frequencies(values, binEdges);
+                  const freqData = frequencies_adjustable(values, binEdges);
       
                   // Prepare histogram data and ensure it is sorted
                   const histogramData = Object.entries(freqData)
@@ -283,27 +329,147 @@
                   const histogram = chart.column(histogramData);
       
                   histogram.name("Frequency");
-      
+                  histogram.fill("#ade95b");
+                  histogram.stroke("#668739"); 
                   // Customize chart
-                  chart.title("Histogram of Funding Totals");
+                  chart.title("Histogram of Funding Totals, bin size = $100,000, range = $0 - $1,000,000");
                   chart.xAxis().title("Funding Amount (Binned)");
                   chart.yAxis().title("Frequency");
-      
-                  chart.container("containerfunding");
+                  chart.barGroupsPadding(0);
+                  chart.container(element);
                   chart.draw();
               } catch (error) {
                   console.error("Error initializing the chart:", error);
               }
           });
       }
-      
-      // Example usage with custom bin edges
-      drawchart('startup1/data/cleaned.csv', [0, 2000000, 4000000, 6000000, 8000000, 10000000]);
-      
-      
+      // Zoomed In Histogram
+      drawhistochartflex('startup1/data/cleaned.csv', [0, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000], "containerfundinghisto2");
       
       
        </script>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h3>Date Founded</h3>
+    <h5> Date founded is strongly left skewed with most start-ups being founded in 2010-11.</h5>
+    <div id="containerdatehisto" style="width: 100%; height: 500px;">
+    </div>
+  </div>
+  <script>
+        function drawhisto_date_chartbasic(file, element) {
+    anychart.onDocumentReady(async function () {
+        try {
+          const data = await arraymaker(file);
+            if (!data || data.length === 0) {
+                console.error("No data loaded from CSV.");
+                return;
+            }
+
+            const values = data.map(row => parseFloat(row[3])).filter(value => !isNaN(value));
+            const binsize = 1; // Example bin size, adjust as needed
+            const freqData = frequencies_default(values, binsize);
+
+            // Prepare histogram data with interval labels
+            const histogramData = Object.entries(freqData).map(([binStart, freq]) => {
+                const binEnd = parseInt(binStart) + binsize; // Compute the end of the bin
+                return {
+                    x: `${binStart} - ${binEnd}`, // Full interval label
+                    value: freq
+                };
+            });
+
+
+            const chart = anychart.column();
+            const histogram = chart.column(histogramData);
+
+            histogram.name("Frequency");
+            histogram.fill("#a339d4");
+            histogram.stroke("#511d69"); 
+            // Customize chart
+            chart.title("Histogram of date founded");
+            chart.xAxis().title("Date Founded (Binned)");
+            chart.yAxis().title("Frequency");
+            chart.barGroupsPadding(0);
+            chart.container(element);
+            chart.draw();
+        } catch (error) {
+            console.error("Error initializing the chart:", error);
+        }
+    });
+}
+
+drawhisto_date_chartbasic('startup1/data/cleaned.csv', "containerdatehisto");
+  </script>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h3>Status</h3>
+    <h5> Current status of startups in the dataset.</h5>
+    <p>Evidently, the dataset has a far higher proportion of organisations which are still currently operating - in comparison to organisations which are now closed or acquiured. This must be accounted for when producing the training dataset for the neural network. </p>
+    <div id="containerstatuspie" style="width: 100%; height: 500px;">
+    </div>
+  </div>
+  <script>
+        function drawpie_status_chartbasic(file, element) {
+    anychart.onDocumentReady(async function () {
+        try {
+          const data = await arraymaker(file);
+            if (!data || data.length === 0) {
+                console.error("No data loaded from CSV.");
+                return;
+            }
+            const piedata = []
+            for (let i = 1; i < data.length; i++) {
+                  piedata.push(data[i][2]);
+                }
+            console.log(piedata)
+            let res = new Map(); 
+            piedata.forEach(e => {
+                res.set(e, (res.get(e) || 0) + 1);  
+            });
+            const output = Object.entries(Object.fromEntries(res)).map(([key, value]) => ({
+                                                                          x: key,
+                                                                          value: value
+                                                                        }));
+            console.log(output)
+            chart = anychart.pie(output);
+            chart.container("containerstatuspie");
+            chart.draw();
+
+        } catch (error) {
+            console.error("Error initializing the chart:", error);
+        }
+    });
+}
+
+drawpie_status_chartbasic('startup1/data/cleaned.csv', "containerstatuspie");
+  </script>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> Final Transformed Dataset </h1>
+      <p> This is a sample of the final dataset used for training the neural network.Note the presence of the new calculated values:</p>
+      <ul>
+        <li>Funded - Founded is the time span between organisations being funded and founded.</li>
+      </ul>
+      <ul>
+        <li>Funding duration is the time span between organisations being first and last funded. </li>
+      </ul>
+      <ul>
+        <li>Google hits indicates the market popularity for the category as a search query in google</li>
+      </ul>
+      <ul>
+        <li>The final 6 columns all represent the market index values for the year of startups being founded, first funded and last funded.</li>
+      </ul>
+      <div class="table-container">
+        <table id="cleanTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
   <section>
     <div class="container reveal">
@@ -317,6 +483,56 @@
     </div>
   </section>
   <script>
+          function frequencies_adjustable(values, binEdges) {
+              return values.reduce(function (freqs, val) {
+                  let binFound = false;
+                  for (let i = 0; i < binEdges.length - 1; i++) {
+                      if (val >= binEdges[i] && val < binEdges[i + 1]) {
+                          const binLabel = `${binEdges[i]} - ${binEdges[i + 1]}`;
+                          freqs[binLabel] = freqs[binLabel] ? freqs[binLabel] + 1 : 1;
+                          binFound = true;
+                          break;
+                      }
+                  }
+
+                  return freqs;
+              }, {});
+          }
+      function frequencies_adjustable_max_bin(values, binEdges) {
+              return values.reduce(function (freqs, val) {
+                  let binFound = false;
+                  for (let i = 0; i < binEdges.length - 1; i++) {
+                      if (val >= binEdges[i] && val < binEdges[i + 1]) {
+                          const binLabel = `${binEdges[i]} - ${binEdges[i + 1]}`;
+                          freqs[binLabel] = freqs[binLabel] ? freqs[binLabel] + 1 : 1;
+                          binFound = true;
+                          break;
+                      }
+                  }
+
+                  // If value exceeds the last edge, put it in the final bin
+                  if (!binFound && val >= binEdges[binEdges.length - 1]) {
+                      const lastEdge = binEdges[binEdges.length - 1];
+                      const binLabel = `${lastEdge}+`;
+                      freqs[binLabel] = freqs[binLabel] ? freqs[binLabel] + 1 : 1;
+                  }
+
+                  return freqs;
+              }, {});
+          }
+
+    
+    function frequencies_default(values, binsize) {
+        var mapped = values.map(function(val) { 
+          return Math.ceil(val / binsize) -1; 
+        });
+        return mapped.reduce(function (freqs, val, i) {
+          var bin = (binsize * val);
+          freqs[bin] = freqs[bin] ? freqs[bin] + 1 : 1;
+          return freqs;
+        }, {});
+    }
+    
 
     function arraymaker(fileloc) {
             return new Promise((resolve, reject) => {
@@ -408,10 +624,12 @@
     const ogTableBody = document.getElementById("ogTable").querySelector("tbody");
     const stockTableBody = document.getElementById("stockTable").querySelector("tbody");
     const marketPopTableBody = document.getElementById("marketpopTable").querySelector("tbody");
+    const cleanTableBody = document.getElementById("cleanTable").querySelector("tbody");
     // Call the tablepop function with appropriate file locations
     tablepop(ogTableBody, 'startup1/data/investments_VC_USA.csv');
     tablepop(stockTableBody, 'startup1/data/annualstockprices.csv');
     tablepop(marketPopTableBody, 'startup1/data/marketpopularity2024.csv');
+    tablepop(cleanTableBody,'startup1/data/modelset.csv' )
 
 // Reveal elements
 
