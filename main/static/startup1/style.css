@@ -5,7 +5,12 @@
   left: 50%;
   transform: translate(-50%, -280%);
 }
-
+.responsive-image {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
 /* Scrollable table */
 .table-container {
   max-height: 300px; /* Approximate height for 10 rows */

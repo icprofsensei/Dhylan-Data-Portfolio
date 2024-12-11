@@ -12,13 +12,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/prism.min.js"></script>
 </head>
 <body>
+  <p class = "main_header">Start-up Success</p>
+  <p> Scroll to reveal the data journey...</p>
   <section>
     <div class="container reveal">
-        <img src="{% static 'startup1/rocket1.jpg' %}" alt = "rocket" width = 1200px height = 800px>
-        <div class="centered">
-          <p class = "main_header">Start-up Success</p>
-        </div>
-      </div>
+      <img src="{% static 'startup1/rocket1.jpg' %}" alt="rocket" class="responsive-image">
+    </div>
   </section>
   <section>
     <div class="container reveal">
@@ -448,8 +447,26 @@ drawpie_status_chartbasic('startup1/data/cleaned.csv', "containerstatuspie");
   </section>
   <section>
     <div class="container reveal">
+      <h1> Designing a neural network dataset</h1>
+      <p> Following my exploratory data analysis, I now needed to decide which parameters to include in a neural network.</p>
+      <ul>
+          <li>There is evidently sampling bias in my dataset as seen in the above pie chart of my response variable. Since more startups have the current status of 'operating', I had to oversample startups with the status of 'closed' and 'acquired' during training.</li>
+        <li>
+          Feature engineering was then performed based on correlation analysis. Market popularity and stock index values per year were added to the dataset as indicators for startup success. 
+        </li>
+        <li>
+          I removed redundant features such as location (since I did not want to add geographical bias to my model) and minor funding sources which were mostly comprised of 0 values. This creates dimensional reduction to avoid overfitting. 
+        </li>
+        <li>
+          Features were all scaled via scikit learn's standard scaler to normalise the data to a standard range.
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
       <h1> Final Transformed Dataset </h1>
-      <p> This is a sample of the final dataset used for training the neural network.Note the presence of the new calculated values:</p>
+      <p> This is a sample of the final dataset used for training the neural network.Note the presence of the new calculated values (from feature engineering):</p>
       <ul>
         <li>Funded - Founded is the time span between organisations being funded and founded.</li>
       </ul>
@@ -470,6 +487,57 @@ drawpie_status_chartbasic('startup1/data/cleaned.csv', "containerstatuspie");
         </table>
       </div>
     </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> Designing a neural network dataset</h1>
+      <p> Following my exploratory data analysis, I now needed to decide which parameters to include in a neural network.</p>
+      <ul>
+          <li>There is evidently sampling bias in my dataset as seen in the above pie chart of my response variable. Since more startups have the current status of 'operating', I had to oversample startups with the status of 'closed' and 'acquired' during training.</li>
+        <li>
+          Feature engineering was then performed based on correlation analysis. Market popularity and stock index values per year were added to the dataset as indicators for startup success. 
+        </li>
+        <li>
+          I removed redundant features such as location (since I did not want to add geographical bias to my model) and minor funding sources which were mostly comprised of 0 values. This creates dimensional reduction to avoid overfitting. 
+        </li>
+        <li>
+          Features were all scaled via scikit learn's standard scaler to normalise the data to a standard range.
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div id="containermodel" style="width: 100%; height: 500px;">
+      </div>
+      <p> The graph below shows the model's losses incurred whilst training on the training dataset epochs. Once trained, it was tested on the remaining 20% of the dataset and achieved 86.5% accuracy. </p>
+    </div>
+    <script>
+
+      function drawlinechart (file){
+        anychart.onDocumentReady(async function () {
+                try {
+                    const data = await arraymaker(file);
+                    if (!data || data.length === 0) {
+                        console.error("No data loaded from CSV.");
+                        return;
+                    }
+                    const dataSet = anychart.data.set(data);
+                    const modelData = dataSet.mapAs({ x: 1, value: 2 });
+                    const chart = anychart.line();
+                    const model = chart.line(modelData);
+                    model.name("Model Losses");
+                    chart.legend().enabled(true);
+                    chart.title("Model losses during training across epochs");
+                    chart.container("containermodel");
+                    chart.draw();
+                } catch (error) {
+                    console.error("Error initializing the chart:", error);
+                }
+            });
+        }
+      drawlinechart('startup1/data/epochloss.csv')
+    </script>
   </section>
   <section>
     <div class="container reveal">
