@@ -80,6 +80,9 @@ section h2{
   text-align: center;
   text-transform: uppercase;
 }
+section h3{
+  text-align: center;
+}
 section .text-container{
    display: flex;
 }

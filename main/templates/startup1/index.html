@@ -69,7 +69,7 @@
     <div class="container reveal">
       <div class="text-container">
         <div>
-        <h2>Sample of first 12 lines</h2>
+        <h3>Sample of first 12 lines</h3>
           <form action="https://www.kaggle.com/datasets/sujithsherigar/startup-success-rate-analysis/data">
           <button type="submit">Click here to access the full dataset on Kaggle</button>
           </form>
@@ -189,7 +189,7 @@
               <code class = "language-python prism-highlight-keywords" data-prismjs-copy="Copy the code!">
                 import requests
                 url = "https://www.googleapis.com/customsearch/v1"
-                API_KEYS = [ # Insert your own API keys here ]
+                API_KEYS = [] # Your API keys
                 count = 0
                 resultls = []
                 # I utilised multiple API keys to avoid exceeding the google specified request limits. 
@@ -200,7 +200,7 @@
                     
                     params = {
                         'key': API_KEYS[p],
-                        'cx': '', # Replace with your cx
+                        'cx': # Google cx value
                         'q': u
                     }
                     
@@ -343,7 +343,7 @@ drawhistochartbasic('startup1/data/cleaned.csv', "containerfundinghisto1");
           });
       }
       // Zoomed In Histogram
-      drawhistochartflex('startup1/data/cleaned.csv', [0, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000], "containerfundinghisto2");
+      drawhistochartflex('startup1/data/cleaned.csv', [0, 50000, 100000, 150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000, 550000, 600000, 650000, 700000, 750000, 800000, 850000, 900000, 950000, 1000000], "containerfundinghisto2");
       
       
        </script>
@@ -490,20 +490,8 @@ drawpie_status_chartbasic('startup1/data/cleaned.csv', "containerstatuspie");
   </section>
   <section>
     <div class="container reveal">
-      <h1> Designing a neural network dataset</h1>
-      <p> Following my exploratory data analysis, I now needed to decide which parameters to include in a neural network.</p>
-      <ul>
-          <li>There is evidently sampling bias in my dataset as seen in the above pie chart of my response variable. Since more startups have the current status of 'operating', I had to oversample startups with the status of 'closed' and 'acquired' during training.</li>
-        <li>
-          Feature engineering was then performed based on correlation analysis. Market popularity and stock index values per year were added to the dataset as indicators for startup success. 
-        </li>
-        <li>
-          I removed redundant features such as location (since I did not want to add geographical bias to my model) and minor funding sources which were mostly comprised of 0 values. This creates dimensional reduction to avoid overfitting. 
-        </li>
-        <li>
-          Features were all scaled via scikit learn's standard scaler to normalise the data to a standard range.
-        </li>
-      </ul>
+      <h1> Designing a neural network</h1>
+      <p> Having produced a training and testing dataset (split 80:20), I could begin building and training my neural network.My model architecture had 26 features in the input layer, 2 hidden layers with 100 neurons each and an output layer leading to the 3 startup statuses: 'acquired', 'operating' and 'closed'. </p>
     </div>
   </section>
   <section>
@@ -542,8 +530,7 @@ drawpie_status_chartbasic('startup1/data/cleaned.csv', "containerstatuspie");
   <section>
     <div class="container reveal">
       <div class="text-container">
-        <h2>Add a New Prediction: <br></h2>
-
+        <h1>Add a New Prediction: <br></h1>
         <a href="{% url 'startup1:newpred' %}">
           <button type="button">Create</button>
         </a>
