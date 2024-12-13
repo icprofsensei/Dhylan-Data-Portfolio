@@ -287,7 +287,7 @@
             histogram.fill("#5eda54");
             histogram.stroke("#2d5f29"); 
             // Customize chart
-            chart.title("Histogram of Funding Totals, bin size = $1,000,000, range = full dataset");
+            chart.title("Histogram of Total Funding, bin size = $1,000,000, range = full startup dataset");
             chart.xAxis().title("Funding Amount (Binned)");
             chart.yAxis().title("Frequency");
 
@@ -331,7 +331,7 @@ drawhistochartbasic('startup1/data/cleaned.csv', "containerfundinghisto1");
                   histogram.fill("#ade95b");
                   histogram.stroke("#668739"); 
                   // Customize chart
-                  chart.title("Histogram of Funding Totals, bin size = $100,000, range = $0 - $1,000,000");
+                  chart.title("Histogram of Total Funding, bin size = $100,000, range = $0 - $1,000,000");
                   chart.xAxis().title("Funding Amount (Binned)");
                   chart.yAxis().title("Frequency");
                   chart.barGroupsPadding(0);
@@ -386,7 +386,7 @@ drawhistochartbasic('startup1/data/cleaned.csv', "containerfundinghisto1");
             histogram.fill("#a339d4");
             histogram.stroke("#511d69"); 
             // Customize chart
-            chart.title("Histogram of date founded");
+            chart.title("Histogram of date founded for startups on Crunchbase");
             chart.xAxis().title("Date Founded (Binned)");
             chart.yAxis().title("Frequency");
             chart.barGroupsPadding(0);
