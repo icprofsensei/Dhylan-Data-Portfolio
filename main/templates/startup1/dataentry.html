@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
 {% block title %}Input data{% endblock %}
-{% block style %}
-<style>
-  form div {
-      margin-bottom: 20px; /* Adds space below each div */
-  }
-</style>
-{% endblock %}
+
 {% block content %}
+<head>
+    {% load static %}
+    <link href="{% static 'startup1/dataentry.css' %}" rel="stylesheet">
+</head>
+<body>
 {% if messages %}
   <ul class="messages">
       {% for message in messages %}
@@ -17,108 +16,116 @@
   </ul>
 {% endif %}
 <h1>Create a New Model Prediction</h1>
-<form method="post">
+<form method="post" class="form-container">
     {% csrf_token %}
-    <div>
-      <label for="{{ form.funding_total_final.id_for_label }}">
-          {{ form.funding_total_final.label }}
-      </label>
-      {{ form.funding_total_final }}
-  </div>
+    <fieldset class="form-group">
+        <div class="form-field">
+        <label for="{{ form.funding_total_final.id_for_label }}">{{ form.funding_total_final.label }}</label>
+        {{ form.funding_total_final }}
+        </div>
 
-  <div>
-      <label for="{{ form.seed.id_for_label }}">
-          {{ form.seed.label }}
-      </label>
-      {{ form.seed }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.seed.id_for_label }}">
+                {{ form.seed.label }}
+            </label>
+            {{ form.seed }}
+        </div>
 
-  <div>
-      <label for="{{ form.roundA.id_for_label }}">
-          {{ form.roundA.label }}
-      </label>
-      {{ form.roundA }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.roundA.id_for_label }}">
+                {{ form.roundA.label }}
+            </label>
+            {{ form.roundA }}
+        </div>
 
-  <div>
-      <label for="{{ form.roundB.id_for_label }}">
-          {{ form.roundB.label }}
-      </label>
-      {{ form.roundB }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.roundB.id_for_label }}">
+                {{ form.roundB.label }}
+            </label>
+            {{ form.roundB }}
+        </div>
 
-  <div>
-      <label for="{{ form.roundC.id_for_label }}">
-          {{ form.roundC.label }}
-      </label>
-      {{ form.roundC }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.roundC.id_for_label }}">
+                {{ form.roundC.label }}
+            </label>
+            {{ form.roundC }}
+        </div>
 
-  <div>
-      <label for="{{ form.roundD.id_for_label }}">
-          {{ form.roundD.label }}
-      </label>
-      {{ form.roundD }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.roundD.id_for_label }}">
+                {{ form.roundD.label }}
+            </label>
+            {{ form.roundD }}
+        </div>
 
-  <div>
-      <label for="{{ form.roundE.id_for_label }}">
-          {{ form.roundE.label }}
-      </label>
-      {{ form.roundE }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.roundE.id_for_label }}">
+                {{ form.roundE.label }}
+            </label>
+            {{ form.roundE }}
+        </div>
 
-  <div>
-      <label for="{{ form.roundF.id_for_label }}">
-          {{ form.roundF.label }}
-      </label>
-      {{ form.roundF }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.roundF.id_for_label }}">
+                {{ form.roundF.label }}
+            </label>
+            {{ form.roundF }}
+        </div>
 
-  <div>
-      <label for="{{ form.roundG.id_for_label }}">
-          {{ form.roundG.label }}
-      </label>
-      {{ form.roundG }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.roundG.id_for_label }}">
+                {{ form.roundG.label }}
+            </label>
+            {{ form.roundG }}
+        </div>
 
-  <div>
-      <label for="{{ form.roundH.id_for_label }}">
-          {{ form.roundH.label }}
-      </label>
-      {{ form.roundH }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.roundH.id_for_label }}">
+                {{ form.roundH.label }}
+            </label>
+            {{ form.roundH }}
+        </div>
 
-  <div>
-      <label for="{{ form.yearfounded.id_for_label }}">
-          {{ form.yearfounded.label }}
-      </label>
-      {{ form.yearfounded }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.yearfounded.id_for_label }}">
+                {{ form.yearfounded.label }}
+            </label>
+            {{ form.yearfounded }}
+        </div>
 
-  <div>
-      <label for="{{ form.yearffunded.id_for_label }}">
-          {{ form.yearffunded.label }}
-      </label>
-      {{ form.yearffunded }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.yearffunded.id_for_label }}">
+                {{ form.yearffunded.label }}
+            </label>
+            {{ form.yearffunded }}
+        </div>
 
-  <div>
-      <label for="{{ form.yearlfunded.id_for_label }}">
-          {{ form.yearlfunded.label }}
-      </label>
-      {{ form.yearlfunded }}
-  </div>
+        <div class="form-field">
+            <label for="{{ form.yearlfunded.id_for_label }}">
+                {{ form.yearlfunded.label }}
+            </label>
+            {{ form.yearlfunded }}
+        </div>
 
-    <div class="inline-checkboxes">
-      <label for="{{ form.category_list_for_label }}">
-        {{ form.category_list.label }}
-      </label>
-        {% for checkbox in form.category_list %}
-            {{ checkbox }}
-        {% endfor %}
-    </div>
-
-    <button type="submit">Submit</button>
+       
+    </fieldset>
+    <fieldset class="form-group">
+        <legend>Categories</legend>
+        <div class="inline-checkboxes">
+            <label for="{{ form.category_list_for_label }}">
+                {{ form.category_list.label }}
+            </label>
+            <div class="checkbox-group">
+                {% for checkbox in form.category_list %}
+                    <div class="checkbox-item">
+                        {{ checkbox }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </fieldset>
+    <button class="btn-submit" type="submit">Submit</button>
 </form>
+</body>
 {% endblock %}
