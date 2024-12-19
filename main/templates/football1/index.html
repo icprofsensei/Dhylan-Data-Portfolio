@@ -1,0 +1,846 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<head>
+{% load static %}
+<link href="{% static 'football1/style.css' %}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-heatmap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-python.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/prism.min.js"></script>
+</head>
+<body>
+  <p class = "main_header">Could you do it on a cold night in Stoke...?</p>
+  <section>
+    <div class="container reveal">
+      <img src="{% static 'football1/stoke.jpg' %}" alt="stoke" class="responsive-image">
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1>The Myth </h1>
+      <div class="text-container">
+        
+        <img src="{% static 'football1/stklogo.jpg' %}" alt="stokelogo" class="mini-logo">
+        <ul>
+          <li>For decades, the immortal phrase - 'Could he do it on a cold night in Stoke' has chided from commentators, pundits and fans across football. It has echoed through radios and reverberated across the metaverse.</li>
+          <li>Have you - like me- ever found yourself wondering - what makes this mythical land so special? </li>
+          <li>Why not a grey day in Brentford or drab night at Arsenal? There are countless teams who play a similar style to Stoke, yet they are never annoited with the hallmark phrase - reserved for only one.</li>
+          <li> Stoke City were relegated from the premier league in 2018. However, their legacy still remains. </li>
+          <li>Scroll to uncover the truth behind the legend of cold nights in Stoke... </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container reveal">
+      <h1>Result Analysis</h1>
+    <h3> Results-wise, Stoke City are indistinguishable from London clubs between 2010-15</h3>
+    <p> The smaller sample size of Stoke fixtures must be considered however: only 95 stoke games compared to 456 London games. Interestingly, Stoke average a 3.7% better record of avoiding defeat at home compared to London clubs. These distributions are not overall statistically different, X<sup>2</sup>(2, N= 551)=1.43, p>0.05 </p>
+
+    <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+      <div>
+        <h3>London Clubs</h3>
+        <div id="containerlondonpie" style="width: 500px; height: 500px;"></div>
+      </div>
+      <div>
+        <h3>Stoke City FC</h3>
+        <div id="containerstokepie" style="width: 500px; height: 500px;"></div>
+      </div>
+    </div>
+    
+    <script>
+      data = [
+        { x: 'London-side Win', value: 220 }, 
+        { x: 'London-side Draw', value: 109 }, 
+        { x: 'London-side Loss', value: 127 }
+      ];
+      data2 = [
+        { x: 'Stoke Win', value: 44 }, 
+        { x: 'Stoke Draw', value: 28 }, 
+        { x: 'Stoke Loss', value: 23 }
+      ];
+      
+      // Create pie chart for London Clubs
+      chart = anychart.pie(data);
+      chart.title("London Club Home Results (2010-15)");
+      chart.title().fontColor("black");
+      chart.legend().fontColor("black");
+      chart.legend().fontSize(13);
+      chart.container("containerlondonpie");
+      chart.palette(anychart.palettes.coffee);
+      chart.background().fill("#A9DBFF"); 
+      chart.draw();
+      
+      // Create pie chart for Stoke City FC
+      chart2 = anychart.pie(data2);
+      chart2.title("Stoke City Home Results (2010-15)");
+      chart2.title().fontColor("black");
+      chart2.legend().fontColor("black");
+      chart2.legend().fontSize(17);
+      chart2.container("containerstokepie");
+      chart2.palette(anychart.palettes.coffee);
+      chart2.background().fill("#FFC7D0"); 
+      chart2.draw();
+    </script>
+    
+  </section>
+  <section>
+    <div class="container reveal">
+      <p> We have to look beyond just results at home to understand where the legend originates. Stoke are infamous for their cold nights - making them tougher to play against. I therefore looked at monthly points per game averaged over 2010-15, to determine whether the shifting seasons would make it more difficult for opposing teams. </p>
+
+      <div id="container_temp_stk_ldn" style="width: 100%; height: 500px;">
+      </div>
+      <p> This line chart starts to reveal the differences in performance levels across the season between London clubs and Stoke. Importantly, there appears to be a clear improvement in points per game for Stoke throughout Autumn months, whilst London clubs appear to be struggling - highlighted by the clear differences in November. 
+      </p>
+      <h3> Limitations to averaged monthly trends</h3>
+      <ul>
+          <li> The above method does not account for opponent difficulty - this is generally a more decisive factor in fixture outcomes than the weather</li>
+          <li> Weather patterns are averaged across the years but this disregards within year fluctuations. </li>
+          <li> Weather conditions may not be consistent across each month in the dataset.</li>
+      </ul>
+    </div>
+    <script>
+
+      function drawlinechart (file){
+        anychart.onDocumentReady(async function () {
+                try {
+                    const data = await arraymaker(file);
+                    if (!data || data.length === 0) {
+                        console.error("No data loaded from CSV.");
+                        return;
+                    }
+                    const dataSet = anychart.data.set(data);
+                    const LDNData = dataSet.mapAs({ x: 3, value: 1 });
+                    const STKData = dataSet.mapAs({ x: 3, value: 2 });
+                    const chart = anychart.line();
+                    const LDN = chart.line(LDNData);
+                    LDN.name("London Club Points per game");
+                    LDN.stroke("#A9DBFF");
+                    const STK = chart.line(STKData);
+                    STK.name("Stoke City FC Points per game");
+                    STK.stroke("#FFC7D0");
+                    chart.legend().enabled(true);
+                    chart.title("Seasonal change in points per game averaged across months");
+                    chart.title().fontSize(25); 
+                    chart.container("container_temp_stk_ldn");
+                    chart.background().fill("#000000"); // Black background
+                    chart.palette(anychart.palettes.pastel);
+                    chart.dataArea().background().fill("#000000"); // Black background for data area
+
+                    // Configure grid lines
+                    chart.xGrid().enabled(true).stroke("#FFFFFF"); // White vertical grid lines
+                    chart.yGrid().enabled(true).stroke("#FFFFFF"); // White horizontal grid lines
+                    chart.draw();
+                } catch (error) {
+                    console.error("Error initializing the chart:", error);
+                }
+            });
+        }
+      drawlinechart('football1/data/temporal_stk_ldn.csv')
+    </script>
+  </section>
+
+
+  <section>
+    <div class="container reveal">
+      <h1> Correlation Analysis</h1>
+      <p> To better account for the effect of weather conditions, I produced correlation heatmaps linking individual matches to the weather conditions for that year and month. This would better handle within year fluctuations and hint at potential associations between the weather and match events. </p>
+    <h3> London</h3>
+    <div id="container_heatmapldn" style="width: 100%; height: 500px;">
+    </div>
+    <h3> Stoke</h3>
+    <div id="container_heatmapstk" style="width: 100%; height: 500px;">
+    </div>
+    <h3> Stoke play out entertaining matches in adverse weather conditions  </h3>
+    <p> Through heat map analysis, there are a few clear differences between Stoke City and London Clubs</p>
+    <ul>
+      <li> As temperatures drop, Stoke City feature in far more high scoring games compared to London clubs.</li>
+      <li> For both London clubs and Stoke, increased rainfall also increases the number of goals per game - potentially due to more defensive errors/slips. </li>
+      <li> As daily sunlight decreases, Stoke City feature in more high scoring games compared to London clubs.</li>
+      <li> Stoke City take more points in low temperatures with higher air-frost.</li>
+    </ul>
+    <h3> Essentially, as temperature drops, air frost increases and daylight wanes, Stoke City are associated with more high scoring, entertaining football matches - which they are more likely to get a positive result from.</h3>
+   </div>
+    <script>
+
+          function drawheatmap(file, element, title) { 
+              anychart.onDocumentReady(async function () {
+                  try {
+                      const rawData = await arraymaker(file);
+
+                      if (!rawData || rawData.length === 0) {
+                          console.error("No data loaded from CSV.");
+                          return;
+                      }
+                      const headers = rawData[0].slice(1); // Skip the first empty element in the first row
+                      const rows = rawData.slice(1); // Skip the header row
+                      var customColorScale = anychart.scales.ordinalColor();
+                      customColorScale.ranges([
+                        {less: -0.75},
+                        {from: -0.75, to: -0.50},
+                        {from: -0.50, to: -0.25},
+                        {from: -0.25, to: 0},
+                        {from: 0, to: 0.25},
+                        {from: 0.25, to: 0.50},
+                        {from: 0.50, to: 0.75},
+                        {greater: 0.75}
+                      ]);
+                      customColorScale.colors(["#004ce3", "#2566e9", "#5082e7", "#9aa0c1", "#c19a9c", "#c35569", "#c52643", "#c20024"]);
+                      // Transform raw data into the format required by AnyChart heatMap
+                      const data = [];
+                      for (let i = 0; i < rows.length; i++) {
+                          const rowLabel = rows[i][0]; // First element in each row is the label
+                          for (let j = 1; j < rows[i].length; j++) { // Skip the row label
+                              data.push({
+                                  x: headers[j - 1], // Column label
+                                  y: rowLabel, // Row label
+                                  heat: parseFloat(rows[i][j]) || 0 // Ensure values are numeric
+                              });
+                          }
+                      }
+
+                      // Create the heatmap chart
+                      const chart = anychart.heatMap(data);
+                      chart.xAxis().title("Columns");
+                      chart.yAxis().title("Rows");
+                      // Set heatmap title and color scale (optional)
+                      chart.title(title);
+                      chart.colorScale(customColorScale);
+                      // Set the container id
+                      chart.container(element);
+                      chart.title().fontSize(25);
+                      // Draw the chart
+                      chart.draw();
+                  } catch (error) {
+                      console.error("Error initializing the chart:", error);
+                  }
+              });
+          }
+          // Example usage:
+          drawheatmap('football1/data/LDN_CORR_MAT.csv', "container_heatmapldn", "Heatmap Visualization of variables for London" );
+          drawheatmap('football1/data/STK_CORR_MAT.csv', "container_heatmapstk", "Heatmap Visualization of variables for Stoke" );
+       </script>
+  </section>
+
+
+
+  <section>
+    <div class="container reveal">
+        <div class = "midaligned_section">
+          <h1>Quantifying Entertainment</h1>
+    <p> I sought to quantify these high scoring matches which characterise cold nights in Stoke. Therefore, I created a new calculated metric of entertainment via the code below. </p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python prism-highlight-keywords" data-prismjs-copy="Copy the code!">
+                #Fan entertainment Score Metric
+                import numpy as np
+                import math 
+                entertainment_ldn = []
+                for index, row in simple_ldn.iterrows():
+                    
+                    margin = abs(row['GF'] - row['GA'])
+                    if row['Points'] == 3:
+                        score = 3 + (row['Goals per game'] * margin)
+                    elif row['Points'] == 0:
+                        score = 0 - margin - (1 /row['Goals per game'])
+                    else:
+                        score = (1 * row['Goals per game'])
+                    row['Entertainment'] = (np.arctan(score/5))
+                    row['Raw'] = score
+                    entertainment_ldn.append(row)
+                final_ldn = pd.DataFrame(entertainment_ldn)
+                final_ldn
+              </code>
+            </pre>
+      
+          </div>
+        <p> To represent entertainment, my new metric would increase with wins and decrease with losses. However, the number of goals per game and margin of victory/defeat was also used to factor in the match entertainment value. </p>
+        <p> I used arctan() to reduce the effect of extreme results on the assocations. </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    
+    <div class="container reveal">
+      
+      <h1> Stoke Entertainment </h1>
+      <p> The below displays the distribution of entertainment across matches in 2010-15. Similar bimodal distributions are produced because a truly neutral score of 0 can only be obtained infrequently by a 0-0 draw.</p>
+
+      <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+        <div>
+          <h3>London Clubs Entertainment Distribution</h3>
+          <div id="containerldnenjhisto" style="width: 500px; height: 500px;"></div>
+        </div>
+        <div>
+          <h3>Stoke City FC Entertainment Distribution</h3>
+          <div id="containerstkenjhisto" style="width: 500px; height: 500px;"></div>
+        </div>
+      </div>
+  </div>
+  <script>
+function drawhisto_enj_chartbasic(file, element, col, title) {
+  anychart.onDocumentReady(async function () {
+        try {
+            const data = await arraymaker(file);
+            if (!data || data.length === 0) {
+                console.error("No data loaded from CSV.");
+                return;
+            }
+
+            const values = data.map(row => parseFloat(row[7])).filter(value => !isNaN(value));
+            const binsize = 0.25; // Example bin size, adjust as needed
+            
+            // Find min and max of data
+            const minValue = Math.floor(Math.min(...values) / binsize) * binsize; // Round down to nearest bin
+            const maxValue = Math.ceil(Math.max(...values) / binsize) * binsize;  // Round up to nearest bin
+            
+            // Create a complete set of bins with default frequency of 0
+            let freqData = {};
+            for (let binStart = minValue; binStart < maxValue; binStart += binsize) {
+                freqData[binStart] = 0; // Initialize each bin with 0 frequency
+            }
+
+            // Fill frequencies for existing data
+            const actualFreqData = frequencies_default(values, binsize);
+            for (const [binStart, freq] of Object.entries(actualFreqData)) {
+                freqData[binStart] = freq; // Update frequency for populated bins
+            }
+
+            // Prepare histogram data with interval labels
+            const histogramData = Object.entries(freqData)
+                .map(([binStart, freq]) => ({
+                    binStart: parseFloat(binStart),
+                    binEnd: parseFloat(binStart) + binsize,
+                    freq: freq
+                }))
+                .sort((a, b) => a.binStart - b.binStart); // Ensure sorted order
+
+            // Format data for the chart
+            const chartData = histogramData.map(({ binStart, binEnd, freq }) => ({
+                x: `${binStart.toFixed(1)} - ${binEnd.toFixed(1)}`, // Interval label
+                value: freq
+            }));
+
+            const chart = anychart.column();
+            const histogram = chart.column(chartData);
+
+            histogram.name("Frequency");
+            histogram.fill(col);
+            histogram.stroke("#511d69"); 
+
+            // Customize chart
+            chart.title(title);
+            chart.xAxis().title("Entertainment Score (Binned)");
+            chart.yAxis().title("Frequency");
+            chart.barGroupsPadding(0);
+            chart.container(element);
+            chart.draw();
+        } catch (error) {
+            console.error("Error initializing the chart:", error);
+        }
+    });
+}
+
+drawhisto_enj_chartbasic('football1/data/ldndata.csv', "containerldnenjhisto", '#A9DBFF', "Histogram of entertainment scores for London-teams");
+drawhisto_enj_chartbasic('football1/data/stkdata.csv', "containerstkenjhisto", '#FFC7D0', "Histogram of entertainment scores for Stoke City FC");
+
+  </script>
+  </section>
+  <section>
+    <div class="container reveal">
+      <p> I also visualised the average entertainment of matches across months, producing the following line chart. This follows similar monthly trends to average points per game. </p>
+
+      <div id="container_enj_stk_ldn" style="width: 100%; height: 500px;">
+      </div>
+    </div>
+    <script>
+
+      function drawlinechart (file){
+        anychart.onDocumentReady(async function () {
+                try {
+                    const data = await arraymaker(file);
+                    if (!data || data.length === 0) {
+                        console.error("No data loaded from CSV.");
+                        return;
+                    }
+                    const dataSet = anychart.data.set(data);
+                    const LDNData = dataSet.mapAs({ x: 3, value: 1 });
+                    const STKData = dataSet.mapAs({ x: 3, value: 2 });
+                    const chart = anychart.line();
+                    const LDN = chart.line(LDNData);
+                    LDN.name("London Club Enjoyment per game");
+                    LDN.stroke("#A9DBFF");
+                    const STK = chart.line(STKData);
+                    STK.name("Stoke City FC Enjoyment per game");
+                    STK.stroke("#FFC7D0");
+                    chart.legend().enabled(true);
+                    chart.title("Seasonal change in enjoyment per game averaged across months");
+                    chart.title().fontSize(25); 
+                    chart.container("container_enj_stk_ldn");
+                    chart.background().fill("#000000"); // Black background
+                    chart.palette(anychart.palettes.pastel);
+                    chart.dataArea().background().fill("#000000"); // Black background for data area
+
+                    // Configure grid lines
+                    chart.xGrid().enabled(true).stroke("#FFFFFF"); // White vertical grid lines
+                    chart.yGrid().enabled(true).stroke("#FFFFFF"); // White horizontal grid lines
+                    chart.draw();
+                } catch (error) {
+                    console.error("Error initializing the chart:", error);
+                }
+            });
+        }
+      drawlinechart('football1/data/enjoyment_stk_ldn.csv')
+    </script>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class="text-container">
+      <h1>Regression </h1>
+      </div>
+      <p> The associations between weather and match entertainment value can be visualised via linear regression. Here are a few examples: </p>
+
+      <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+        <div>
+          <h3>London Clubs ~ air frost and entertainment</h3>
+          <div id="containerregldn1" style="width: 500px; height: 500px;"></div>
+        </div>
+        <div>
+          <h3>Stoke City FC ~ air frost and entertainment</h3>
+          <div id="containerregstk1" style="width: 500px; height: 500px;"></div>
+        </div>
+      </div>
+      <p>There is a weak negative association for air frost and entertainment value for Stoke, however, no significant correlations emerge, r(93) = -0.069, p=0.509 </p>
+      <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+        <div>
+          <h3>London Clubs ~ rainfall and entertainment</h3>
+          <div id="containerregldn2" style="width: 500px; height: 500px;"></div>
+        </div>
+        <div>
+          <h3>Stoke City FC ~ rainfall and entertainment</h3>
+          <div id="containerregstk2" style="width: 500px; height: 500px;"></div>
+        </div>
+      </div>
+      <p>There is a weak positive association for rainfall and entertainment value for Stoke, however, no significant correlations emerge, r(93) = 0.098, p=0.347 </p>
+      <p> Overall, increases in entertainment are associated with cold, darker conditions in Stoke. However, due to my limited sample size, I am unable to obtain significant correlations.</p>
+    </div>
+    <script>
+function drawregchartbasic(file, xIndex, yIndex, element, xlab, col) {
+    anychart.onDocumentReady(async function () {
+        try {
+            // Fetch the CSV data using arraymaker
+            const data = await arraymaker(file);
+
+            // Validate and prepare data
+            if (!data || data.length === 0) {
+                console.error("No data loaded from the CSV.");
+                return;
+            }
+
+            // Extract x and y variables from the CSV
+            const numericData = data
+                .map(row => {
+                    const x = parseFloat(row[xIndex]); // Extract x-value (e.g., column index xIndex)
+                    const y = parseFloat(row[yIndex]); // Extract y-value (e.g., column index yIndex)
+                    return { x, y };
+                })
+                .filter(point => !isNaN(point.x) && !isNaN(point.y)); // Filter out invalid points
+
+            // Prepare AnyChart data
+            const chartData = numericData.map(point => [point.x, point.y]);
+
+            // Calculate the regression line coefficients (slope and intercept)
+            const xValues = numericData.map(point => point.x);
+            const yValues = numericData.map(point => point.y);
+
+            const n = xValues.length;
+            const sumX = xValues.reduce((sum, val) => sum + val, 0);
+            const sumY = yValues.reduce((sum, val) => sum + val, 0);
+            const sumXY = numericData.reduce((sum, point) => sum + point.x * point.y, 0);
+            const sumX2 = xValues.reduce((sum, val) => sum + val * val, 0);
+
+            const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+
+            // Generate points for the trend line
+            const minX = Math.min(...xValues);
+            const maxX = Math.max(...xValues);
+            const trendLineData = [
+                [minX, slope * minX + intercept],
+                [maxX, slope * maxX + intercept]
+            ];
+
+            // Create the scatter plot
+            const chart = anychart.scatter();
+            chart.xGrid().enabled(true).stroke("#EAE7E7");
+            chart.yGrid().enabled(true).stroke("#EAE7E7"); 
+            // Add data to the scatter plot
+            const series = chart.marker(chartData);
+            series.name("Data Points");
+            series.stroke("#6fa8dc");
+            series.fill(col);
+
+            // Add the manually calculated trend line
+            const trendSeries = chart.line(trendLineData);
+            trendSeries.name("Line of Best Fit").stroke("#ff5722");
+
+            // Customize chart
+            chart.title("Regression plot for "+ xlab + " and entertainment");
+            chart.xAxis().title(xlab);
+            chart.yAxis().title("Entertainment");
+            
+            // Render the chart
+            chart.container(element);
+            chart.draw();
+        } catch (error) {
+            console.error("Error drawing the regression chart:", error);
+        }
+    });
+}
+
+drawregchartbasic('football1/data/ldndata.csv', 4, 7, "containerregldn1", "Air Frost","#A9DBFF");
+drawregchartbasic('football1/data/stkdata.csv', 4, 7, "containerregstk1", "Air Frost", "#FFC7D0");
+
+drawregchartbasic('football1/data/ldndata.csv', 5, 7, "containerregldn2", "Rainfall","#A9DBFF");
+drawregchartbasic('football1/data/stkdata.csv', 5, 7, "containerregstk2", "Rainfall", "#FFC7D0");
+    </script>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> The Sad Truth</h1>
+      <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+        
+        <div>
+          <h3>London weather 2010-15</h3>
+          <div id="containerldnwet" style="width: 500px; height: 500px;"></div>
+        </div>
+        <div>
+          <h3>Stoke weather 2010-15</h3>
+          <div id="containerstkwet" style="width: 500px; height: 500px;"></div>
+        </div>
+      </div>
+      <p> Temperatures have climbed in recent years in both Stoke and London. Stoke were finally relegated from the top tier of English football in 2018 and have yet to return to the top flight. </p>
+      <p> Playing a brand of football producing peak entertainment in the harshest of conditions, Stoke City may have to adapt to ever return to the premier league.</p>
+
+
+    </div>
+    </div>
+    <script>
+      function drawlinechart (file, cont, col){
+        anychart.onDocumentReady(async function () {
+                try {
+                    const data = await arraymaker(file);
+                    if (!data || data.length === 0) {
+                        console.error("No data loaded from CSV.");
+                        return;
+                    }
+                    const dataSet = anychart.data.set(data);
+                    
+                    const chart = anychart.line();
+                    const MaxTempData = dataSet.mapAs({ x: 0, value: 3 });
+                    const MaxTemp = chart.line(MaxTempData);
+                    MaxTemp.name("Max Temperature");
+                    MaxTemp.stroke(col);
+                    const MinTempData = dataSet.mapAs({ x: 0, value: 4 });
+                    const MinTemp = chart.line(MinTempData);
+                    MinTemp.name("Min Temperature");
+                    MinTemp.stroke(col);
+                    const AvgTempData = dataSet.mapAs({ x: 0, value: 8 });
+                    const AvgTemp = chart.line(AvgTempData);
+                    AvgTemp.name("Avg Temperature");
+                    AvgTemp.stroke(col);
+                    chart.legend().enabled(true);
+                    chart.title("Annual change in monthly weather metrics 2010-15");
+                    chart.title().fontSize(25); 
+                    chart.container(cont);
+                    chart.background().fill("#000000"); // Black background
+                    chart.palette(anychart.palettes.pastel);
+                    chart.dataArea().background().fill("#000000"); // Black background for data area
+
+                    // Configure grid lines
+                    chart.xGrid().enabled(true).stroke("#FFFFFF"); // White vertical grid lines
+                    chart.yGrid().enabled(true).stroke("#FFFFFF"); // White horizontal grid lines
+                    chart.draw();
+                } catch (error) {
+                    console.error("Error initializing the chart:", error);
+                }
+            });
+        }
+      drawlinechart('football1/data/ldn_wet.csv', containerldnwet,"#A9DBFF" )
+      drawlinechart('football1/data/stk_wet.csv', containerstkwet,"#FFC7D0" )
+    </script>
+  </section>
+  <section>
+    
+    <div class="container reveal">
+      <h1> Conclusion </h1>
+      <div class="text-container">
+      <img src="{% static 'football1/stklogo.jpg' %}" alt="stokelogo" class="mini-logo">
+      <ul>
+        <li> The myth of a cold night in Stoke is not totally unfounded. It seems that there is correlational evidence that Stoke City produce their best, most exciting football in the most adverse weather. </li>
+        <li> However, the sample size is far too small to draw meaningfull associations away. Furthermore, football is predicated on a number of far more significant external factors which dictate match outcomes - such as form, opposition strength and team stability.</li>
+        <li> For a more meaningful analysis on cold nights in Stoke, I would have to conduct deeper analysis into the aforementioned factors and determine whether Stoke outperformed expectations at home. </li>
+        <li> Additionally, I would need access to a larger weather dataset which contained daily or even hourly data - instead of monthly data - for the region since weather conditions can be extremely variable over large timespans.</li>
+      </ul>
+    </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1>How I made this: </h1>
+      <h3> Football results data - range from 2010-2015</h3>
+      <ul>
+        <li>Sourced from github England football.csv</li>
+        <li>Data range originally from wider football.db dataset</li>
+      </ul>
+      <h3>UK Weather data - range from 2010-2015</h3>
+      <ul>
+        <li>Sourced from uk-historical-weather repository on github.</li>
+        <li>Data range originally from the wider Met Office dataset</li>
+        <li>I used weather data collected from Heathrow to represent the London area.</li>
+        <li>I used data collected from Shawbury to represent the Stoke area.</li>
+      </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class="text-container">
+        <div>
+        <h3 class="DataSampleLabel">Weather Data Sample</h3>
+          <form action="https://github.com/alanjones2/uk-historical-weather/tree/main">
+          <button type="submit">Click here to access the full weather dataset on github</button>
+          </form>
+      
+        </div>
+      </div>
+      <div class="table-container">
+        <table id="ogwetTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+   
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class="text-container">
+        <div>
+        <h3 class="DataSampleLabel">Scores Data Sample</h3>
+          <form action="https://github.com/footballcsv/england">
+          <button type="submit">Click here to access the full football dataset on github</button>
+          </form>
+      
+        </div>
+      </div>
+      <div class="table-container">
+        <table id="ogscoresTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+   
+  </section>
+
+  <section>
+    <div class="container reveal">
+        <div class = "midaligned_section">
+          <h1> Transforming the dataset</h1>
+          <h3> The scores need to be filtered... </h3>
+          <p> To view the difference between fixtures played in London compared to Stoke, I needed to filter the scores for when the home team was London-based compared to Stoke. I also needed to parse the different date formats to ensure month and year were extracted from the fixture. Here is an example for London-based teams.</p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+                london_teams = ['Chelsea FC', 'Arsenal FC', 'Tottenham Hospur FC', 'Crystal Palace FC', 'West Ham United FC', 'Fulham FC', 'Queens Park Rangers FC', 'Reading FC']
+                months = {'Jan': 1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
+                # allres = Data frame of all scores across the 5 year period.
+                londonres = []
+                for index, row in allres.iterrows():
+                    Datelist = row['Date'].split(" ")
+                    Month = months[Datelist[1]]
+                    Year = Datelist[3]
+                    row['month'] = Month
+                    row['year'] = Year
+                    if row['Team 1'] in london_teams:
+                        londonres.append(row)
+                londonresults = pd.DataFrame(londonres)
+              </code>
+            </pre>
+      
+          </div>
+        </div>
+    </div>
+  
+  </section>
+  <section>
+    <div class="container reveal">
+        <div class = "midaligned_section">
+          <h3> ... and the monthly weather data needs to be merged with the scores </h3>
+          <p> I comprehended the weather data as a list of dictionaries and then found the appropriate dictionary via the python next() function. This allowed me to create combined datasets for both London and Stoke</p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+                ldn_tot_ls = []
+                for index, row in londonresults.iterrows():
+                    match = next((w for w in wetdictlsldn if (w['Year'] == row['year'] and w['Month'] == row['month'])), None)
+                    row['Max_Temp'] = match['Tmax']
+                    row['Min_Temp'] = match['Tmin']
+                    row['Air_Frost'] = match['AF']
+                    row['Total_Rainfall'] = match['Rain']
+                    row['Sunshine_Duration'] = match['Sun']
+                    row['Avg_Temp'] = match['Tmean']
+                    ldn_tot_ls.append(row)
+                ldn_df = pd.DataFrame(ldn_tot_ls)
+              </code>
+            </pre>
+      
+          </div>
+        </div>
+    </div>
+  
+  </section>
+
+  <script>
+
+    
+    function frequencies_default(values, binsize) {
+        var mapped = values.map(function(val) { 
+          return Math.ceil(val / binsize) -1; 
+        });
+        return mapped.reduce(function (freqs, val, i) {
+          var bin = (binsize * val);
+          freqs[bin] = freqs[bin] ? freqs[bin] + 1 : 1;
+          return freqs;
+        }, {});
+    }
+    
+
+    function arraymaker(fileloc) {
+            return new Promise((resolve, reject) => {
+                // Construct the static URL dynamically if needed for Django
+                const staticFilePath = `/static/${fileloc}`;
+
+                // Fetch the CSV file
+                fetch(staticFilePath)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(csvData => {
+                        // Parse the CSV data using PapaParse
+                        Papa.parse(csvData, {
+                            header: false, // Set to true if the CSV has headers
+                            skipEmptyLines: true, // Ignore empty lines
+                            complete: function(results) {
+                                resolve(results.data);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(`Error loading the CSV file from ${fileloc}:`, error);
+                        reject(error);
+                    });
+            });
+        }
+    function tablepop(table, fileloc) {
+        // Construct the static URL dynamically if needed for Django
+        const staticFilePath = `/static/${fileloc}`;
+
+        // Fetch the CSV file
+        fetch(staticFilePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(csvData => {
+                // Parse the CSV data using PapaParse
+                Papa.parse(csvData, {
+                    header: false, // Set to true if the CSV has headers
+                    skipEmptyLines: true, // Ignore empty lines
+                    complete: function(results) {
+                        populateTable(table, results.data);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error(`Error loading the CSV file from ${fileloc}:`, error);
+            });
+    }
+
+// Helper function to populate the table
+    function populateTable(table, data) {
+        // Clear the existing rows, if any
+        table.innerHTML = '';
+
+        // Populate the table with rows and columns
+        data.forEach(row => {
+            let tr = document.createElement("tr");
+            row.forEach(col => {
+                let td = document.createElement("td");
+                td.textContent = col;
+                tr.appendChild(td);
+            });
+            table.appendChild(tr);
+        });
+    }
+    function reveal() {
+                var reveals = document.querySelectorAll(".reveal");
+                for (var i = 0; i < reveals.length; i++) {
+                    var windowHeight = window.innerHeight;
+                    var elementTop = reveals[i].getBoundingClientRect().top;
+                    var elementVisible = 50;
+                    if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                    } else {
+                    reveals[i].classList.remove("active");
+                    }
+                }
+                }
+// Get references to the table bodies
+
+    const ogWetTableBody = document.getElementById("ogwetTable").querySelector("tbody");
+    const ogScoresTableBody = document.getElementById("ogscoresTable").querySelector("tbody");
+    // Call the tablepop function with appropriate file locations
+    tablepop(ogWetTableBody, 'football1/data/wetsample.csv');
+    tablepop(ogScoresTableBody, 'football1/data/scoresample.csv');
+
+// Reveal elements
+
+
+    window.addEventListener("scroll", reveal, {passive: true});
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const slideElements = document.querySelectorAll(".slide-in");
+
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("slide-in-visible");
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            },
+            { threshold: 0.9 } // Trigger when 1% of element is visible
+        );
+
+        slideElements.forEach(el => observer.observe(el));
+    });
+
+
+</script>
+</body>
+{% endblock %}

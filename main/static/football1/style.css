@@ -1,0 +1,165 @@
+
+.centered {
+    position: relative;
+    text-align: center;
+  }
+  .create-button{
+    display: inline-block;
+  }
+
+  .responsive-image {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .mini-logo {
+    width: 20%;
+    height: 20%;
+    max-width: 20%;
+    display: block;
+  }
+
+
+code{
+  background-color:rgb(255, 255, 255);
+}
+  body{background-color: #003949;
+    color: white;
+  }
+  p{
+    font-size: x-large;
+  }
+  li{
+    font-size: x-large;
+  }
+  /* Scrollable table */
+  .table-container {
+    max-height: 300px; /* Approximate height for 10 rows */
+    overflow-y: auto; /* Enables vertical scrolling */
+    border: 1px solid #cccccc;
+  }
+  
+  .table-container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table-container th, .table-container td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .table-container tr:nth-child(even) {
+    background-color: #4067b5;
+  }
+  h1{
+    color:rgb(239, 114, 114);
+    font-weight: bold;
+  }
+  h3{
+    color:rgb(235, 148, 148);
+  }
+  .main_header{
+    text-align: center;
+    font-size: 120px;
+    font-weight: bold;
+    margin-top: 30px;
+    vertical-align: middle;
+  color:rgb(239, 114, 114)};
+    
+    h4 {
+      text-align: center
+    }
+    .bodytextinfo{
+      position: relative;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 35px;
+      color: #fb4646;
+    }
+ 
+    /* Slide-in animation for text */
+    .slide-in {
+      opacity: 0;
+      transform: translateY(20px); /* Slight downward offset */
+      transition: all 3s ease-out; /* Smooth transition for opacity and position */
+    }
+    
+    .slide-in-visible {
+      opacity: 1;
+      transform: translateY(0); /* Reset position */
+    }
+    
+    .reveal{
+      position: relative;
+      transform: translateY(150px);
+      opacity: 0;
+      transition: 2s all ease;
+    }
+    .reveal.active{
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Asap&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Asap", sans-serif;
+    }
+  
+    section{
+      min-height: 63vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    
+    section .container{
+      margin: 10px;
+    }
+    section h1{
+      font-size: 3rem;
+      margin: 20px;
+    }
+    section h2{
+      font-size: 30px;
+      text-align: center;
+    }
+    section .text-container{
+       display: flex;
+    }
+    section .text-container .text-box{
+      margin: 20px;
+      padding: 20px;
+      background: #00c2cb;
+    }
+    section .text-container .text-box h3{
+      font-size: 30px;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    
+    @media (max-width: 900px){
+      section h1{
+        font-size: 2rem;
+        text-align: center;
+      }
+      section .text-container{
+        flex-direction: column;
+      }
+    }
+  
+
+  
+  .midaligned_section {
+    width: 100%;
+    overflow: hidden;
+  }
+  
