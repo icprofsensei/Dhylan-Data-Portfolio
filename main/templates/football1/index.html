@@ -16,7 +16,7 @@
   <p class = "main_header">Could you do it on a cold night in Stoke...?</p>
   <section>
     <div class="container reveal">
-      <img src="{% static 'football1/stoke.jpg' %}" alt="stoke" class="responsive-image">
+      <img src="{% static 'football1/Stoke.jpg' %}" alt="stoke" class="responsive-image">
     </div>
   </section>
   <section>
@@ -374,13 +374,13 @@ drawhisto_enj_chartbasic('football1/data/stkdata.csv', "containerstkenjhisto", '
                     const STKData = dataSet.mapAs({ x: 3, value: 2 });
                     const chart = anychart.line();
                     const LDN = chart.line(LDNData);
-                    LDN.name("London Club Enjoyment per game");
+                    LDN.name("London Club Entertainment per game");
                     LDN.stroke("#A9DBFF");
                     const STK = chart.line(STKData);
-                    STK.name("Stoke City FC Enjoyment per game");
+                    STK.name("Stoke City FC Entertainment per game");
                     STK.stroke("#FFC7D0");
                     chart.legend().enabled(true);
-                    chart.title("Seasonal change in enjoyment per game averaged across months");
+                    chart.title("Seasonal change in entertainment per game averaged across months");
                     chart.title().fontSize(25); 
                     chart.container("container_enj_stk_ldn");
                     chart.background().fill("#000000"); // Black background
