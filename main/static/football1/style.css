@@ -20,7 +20,9 @@
     max-width: 20%;
     display: block;
   }
-
+#double_chart{
+  flex-wrap: wrap;
+}
 
 code{
   background-color:rgb(255, 255, 255);

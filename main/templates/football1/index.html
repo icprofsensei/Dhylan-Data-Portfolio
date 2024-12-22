@@ -42,7 +42,7 @@
     <h3> Results-wise, Stoke City are indistinguishable from London clubs between 2010-15</h3>
     <p> The smaller sample size of Stoke fixtures must be considered however: only 95 stoke games compared to 456 London games. Interestingly, Stoke average a 3.7% better record of avoiding defeat at home compared to London clubs. These distributions are not overall statistically different, X<sup>2</sup>(2, N= 551)=1.43, p>0.05 </p>
 
-    <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+    <div id ='double_chart' style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
       <div>
         <h3>London Clubs</h3>
         <div id="containerlondonpie" style="width: 500px; height: 500px;"></div>
@@ -272,7 +272,7 @@
       <h1> Stoke Entertainment </h1>
       <p> The below displays the distribution of entertainment across matches in 2010-15. Similar bimodal distributions are produced because a truly neutral score of 0 can only be obtained infrequently by a 0-0 draw.</p>
 
-      <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+      <div id="double_chart" style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
         <div>
           <h3>London Clubs Entertainment Distribution</h3>
           <div id="containerldnenjhisto" style="width: 500px; height: 500px;"></div>
@@ -406,7 +406,7 @@ drawhisto_enj_chartbasic('football1/data/stkdata.csv', "containerstkenjhisto", '
       </div>
       <p> The associations between weather and match entertainment value can be visualised via linear regression. Here are a few examples: </p>
 
-      <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+      <div id="double_chart" style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
         <div>
           <h3>London Clubs ~ air frost and entertainment</h3>
           <div id="containerregldn1" style="width: 500px; height: 500px;"></div>
@@ -417,7 +417,7 @@ drawhisto_enj_chartbasic('football1/data/stkdata.csv', "containerstkenjhisto", '
         </div>
       </div>
       <p>There is a weak negative association for air frost and entertainment value for Stoke, however, no significant correlations emerge, r(93) = -0.069, p=0.509 </p>
-      <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+      <div id="double_chart" style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
         <div>
           <h3>London Clubs ~ rainfall and entertainment</h3>
           <div id="containerregldn2" style="width: 500px; height: 500px;"></div>
@@ -514,7 +514,7 @@ drawregchartbasic('football1/data/stkdata.csv', 5, 7, "containerregstk2", "Rainf
   <section>
     <div class="container reveal">
       <h1> The Sad Truth</h1>
-      <div style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
+      <div id="double_chart" style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px;">
         
         <div>
           <h3>London weather 2010-15</h3>
