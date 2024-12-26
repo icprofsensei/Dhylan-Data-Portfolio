@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [  # Directories to search for static files
-    BASE_DIR / "static",  # Project-wide static directory
+    BASE_DIR / "static" ,  # Project-wide static directory
 ]
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure--sx7i0-@!n220-uuv*gf-p^y=x8=$lh^!9!c%d++8=3e-p6tk_'

@@ -1,0 +1,331 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<head>
+{% load static %}
+<link href="{% static 'dtree/style.css' %}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-python.min.js">
+
+</head>
+<body>
+  <p class = "main_header">Christmas, Climate and Crops</p>
+  <section>
+    
+    <div class="container reveal">
+      <h1 class = "centered"> How British farming will change...</h1>
+      <img src="{% static 'dtree/wheat.jpg' %}" alt = "farm" class="responsive-image">
+     
+</section>
+<section>
+    
+  <div class="container reveal">
+    <h1> Christmas Price Cuts</h1>
+    <ul>
+      <li> Christmas this year has heralded (as usual) massive markdowns in vegetable prices.</li>
+      <li> Yahoo!News reports that Aldi are selling numerous items including broccoli, carrots, brussles sprouts, parsnips, white potatoes and cabbage at 8p (0.08 GBP) per pack.</li>
+      <li> This seasonal promotion occurs every year and is followed by all major supermarkets in the UK: they continue to profit whilst christmas dinner becomes more affordable. Win win.</li>
+      <li> However, this begs the question - how can farms cope with these increased levels of production? </li>
+      <li> In this data story, I examine the influence of shifting climate patterns and question how British farming will adapt.</li>
+    </ul>
+   
+</section>
+<section>
+  
+  <div class = "container reveal">
+    <h1> Yorkshire is the perfect case study</h1>
+    <ul>
+      <li>Yorkshire is the county in the UK with the most agricultural land at 2.9 million acres (<a href = "https://agrolearner.com/biggest-farming-counties-uk/">agrolearner.com</a>, 24/12/24)</li>
+      <li>With 12000 farms and an agricultural output of £1.5 billion, Yorkshire is an ideal case study for British farming. </li>
+      <li> I used weather data from neighbouring Bradford as a proxy for understanding the shifting weather patterns in Yorkshire over the last century.</li>
+      <li> Navigate through the gallery below to understand trends in temperature, sunshine and rainfall.</li>
+
+    </ul>
+    <div class = "gallery">
+      <div class="mySlides">
+        <div id="maxtemp" style="width: 100%; height: 500px;">
+        </div>
+         <div class="desc">Max Temperature</div>
+       </div>
+       
+       <div class="mySlides">
+        <div id="sun" style="width: 100%; height: 500px;">
+        </div>
+         <div class="desc">Sunshine</div>
+       </div>
+       
+       <div class="mySlides">
+        <div id="rain" style="width: 100%; height: 500px;">
+        </div>
+       <div class="desc">Rain</div>
+       </div>
+ 
+     
+     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+     <a class="next" onclick="plusSlides(1)">&#10095;</a>
+   </div>
+  </div>
+</section>
+<section>
+  <div class = "container reveal">
+    <h1> Climate change, crop change</h1>
+    <h3> Evidently, Yorkshire's climate is changing</h3>
+    <ul>
+      <li>The temperatures are warming and monthly sunshine and rainfall are rising.</li>
+      <li>1911: Average maximum daily temperature = 11.5 &#176;C, average monthly sunshine = 99.1 hrs, average monthly rainfall  = 71.8mm</li>
+      <li>Assuming linear trend projections, we can estimate conditions in 2030.</li>
+      <li>2030: Average maximum daily temperature = 13.3 &#176;C, average monthly sunshine = 109.4 hrs, average monthly rainfall  = 72.1mm</li>
+      <li>These changes to weather patterns may influence what crops grow optimally throughout the year.</li>
+    </ul>
+  </div>
+</section>
+<section>
+  <div class = "container reveal">
+    <h3> What conditions do other crops grow under?</h3>
+    <ul>
+      <li>To investigate how forecast changes in Yorkshire may affect crop growth, I used a crop dataset from India</li>
+      <li>This contained information on various crop types, soil conditions and the environmental conditions.</li>
+      
+    </ul>
+    <div class = "gallery">
+          <div class="mySlides2">
+            <div id="tempboxplt" style="width: 70%; height: 500px;"></div>
+            <div class="desc2">Temperature</div>
+          </div>
+          
+          <div class="mySlides2">
+            <div id="humboxplt" style="width: 70%; height: 500px;"></div>
+            <div class="desc2">Humidity</div>
+          </div>
+          
+          <div class="mySlides2">
+            <div id="rainboxplt" style="width: 70%; height: 500px;"></div>
+          <div class="desc2">Rain</div>
+          </div>
+    
+        
+          <a class="prev" onclick="plusSlides2(-1)">&#10094;</a>
+          <a class="next2" onclick="plusSlides2(1)">&#10095;</a>
+    </div>
+    <p> <br> <br> <br> </p>
+    <ul>
+      <li>Interquartile range in the dataset varied between:
+        <ul>
+          <li>22.8 - 28.6 &#176;C temperatures</li>
+          <li>60.3 - 89.9 % relative humidity <ul>
+            <li class = "extrainfo"> (Relative humidity compares the air's water vapour saturation to its potential saturation level for a given temperature.)  </li>
+          </ul></li>
+          <li>64.6 - 124.3 mm of monthly rain</li>
+        </ul>
+    </ul>
+  </div>
+</section>
+<section>
+  <div class="container reveal">
+    <div>
+      <h3>How similar are these conditions?</h3>
+      <ul>
+        <li>To investigate how these climatic changes might effect crop yield, I examined a crop dataset containing information on different crops.</li>
+        <li>These factors included varying soil conditions (pH, Nitrogen, Phosphorus, and Potassium) as well as environmental factors such as temperature, humidity and rainfall.</li>
+        <li> Changes to soil conditions can be controlled via NPK fertilisers, which provide nitrogen, phosphorus and potassium. </li>
+      </ul>
+      <div id="pca" style="width: 100%; height: 800px;"></div>
+      <h3> Certain crops cluster...</h3>
+      <ul>
+        <li>Fruits such as apples and grapes form a separate cluster to the other crops.</li>
+        <li>Towards the bottom of the main cluster there are distinct clusters for legumes: kidney beans, lentils, chickpeas and mothbeans.</li>
+        <li> Other crops in the dataset seem to have similar environmental conditions for growth by comparison.</li>
+        <li> This still begs the question: </li>
+      </ul>
+      <h3> How do we decide what crops to plant?</h3>
+    </div>
+
+  </div>
+</section>
+<section>
+  <div class = "container reveal">
+    <h1> Decision Trees!</h1>
+    <ul>
+      <li> Deciding which crops to plant is a human decision made by farmers. They factor in soil composition and weather conditions.</li>
+      <li> These pre-determined outcomes can be used to create a crop-classifying decision tree.</li>
+      <li> Decision trees are the ideal choice for this type of challenge. They provide transparency behind choices, are quick to produce and require less fine tuning than neural networks.</li>
+      <li> My decision tree had a maximum depth of 8 nodes (to prevent the tree overfitting). It achieved an accuracy of 98% on the test data.</li>
+    </ul>
+        <h3> Crop Decision Tree ~ 98% Accuracy</h3>
+        <p> Click on a node below to expand it and understand the decision making process.</p>
+        <p> Left branches = True; Right branches = False</p>
+        <div class="tree-container" id="tree"></div>
+        <h3> Decision Tree Results example </h3>
+    <ul>
+      <li> I used the soil conditions for mango growth: Nitrogen: 39, Phosphorus: 37,Potassium: 25, pH : 7</li>
+      <li> With small changes to environmental conditions, I can obtain different crop recommendations: <ul>
+        <li>2 &#176;C, 60% humidity, 64mm monthly rainfall = Mothbeans</li>
+        <li>2 &#176;C, 60% humidity, 80mm monthly rainfall = Mango</li>
+        <li>31 &#176;C temperature, 100% humidity, 80mm monthly rainfall = Mungbean</li>
+        <li>31 &#176;C temperature, 100% humidity, 130mm monthly rainfall = Coconut</li>
+      </ul></li>
+      </ul>
+  </section>
+  <section>
+    <div class="container reveal">
+        <h3> Make predictions with the decision tree: <br></h3>
+        <a href="{% url 'dtree:newpred' %}">
+          <button type="button">Create</button>
+        </a>
+        <h3> Conclusion</h3>
+      <ul>
+      <li> These results demonstrate the potential crops which can be planted via the decision tree.
+      </li>
+      <li> The decision tree does not provide advice for gardening/farming - only the potential influence of climate on growth potential.
+      </li>
+    </ul>
+        
+    </div>
+  </section>
+<section>
+  <div class="container reveal">
+    <h1>How this was produced:</h1>
+    <h3> Crop Dataset</h3>
+      <ul>
+        <li>Sourced from kaggle</li>
+        <li>Data originally sourced from rainfall, climate and fertiliser usage in India - all credit to the <a href= 'https://github.com/Gladiator07/Harvestify/tree/master?tab=readme-ov-file'>Harvestify</a> project on github.</li>
+      </ul>
+      <h3>Bradford Weather data - range from 1908-2023</h3>
+      <ul>
+        <li>Sourced from uk-historical-weather repository on github.</li>
+        <li>Data range originally from the wider Met Office dataset</li>
+        <li>I used weather data collected from Bradford to represent the Yorkshire county.</li>
+      </ul>
+</div>
+</section>
+<section>
+  <div class="container reveal">
+    <div>
+        <h3>Sample of first 12 lines</h3>
+        <form action="https://www.kaggle.com/datasets/atharvaingle/crop-recommendation-dataset/data">
+        <button type="submit">Click here to access the full crop dataset on Kaggle</button>
+        </form>
+    </div>
+    <div class="table-container">
+        <table id="cropTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container reveal">
+    <div>
+        <h3>Sample of first 12 lines</h3>
+        <form action="https://github.com/alanjones2/uk-historical-weather/tree/main?">
+        <button type="submit">Click here to access the full weather dataset on github</button>
+        </form>
+    </div>
+    <div class="table-container">
+        <table id="wetTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+    </div>
+  </div>
+</section>
+<section>
+  <div class = "container reveal">
+    <h3> Code fragment for decision tree:</h3>
+    <div class = "box">
+      <pre>
+        <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+          from sklearn.tree import DecisionTreeClassifier
+          from sklearn.model_selection import train_test_split
+          from sklearn.preprocessing import StandardScaler
+          from sklearn.metrics import accuracy_score
+          # unproc is the raw crop data with columns: Nitrogen, Phosphorus, Potassium, Temperature, Humidity, pH_Value, Rainfall, Crop
+          X = unproc[['Nitrogen','Phosphorus','Potassium','Temperature','Humidity','pH_Value','Rainfall']]
+          y = unproc.Crop
+          X_train, X_test, y_train, y_test = train_test_split(X, y, random_state = 42, test_size = 0.20)
+          clf = DecisionTreeClassifier(criterion = 'entropy', max_depth = 8)
+          clf.fit(X_train, y_train)
+          y_pred =  clf.predict(X_test)
+          print('Accuracy Score on train data: ', accuracy_score(y_true=y_train, y_pred=clf.predict(X_train)))
+          print('Accuracy Score on test data: ', accuracy_score(y_true=y_test, y_pred=y_pred))
+        </code>
+      </pre>
+
+    </div>
+  </div>
+</section>
+<script>
+    let slideIndex = 1;
+showSlides(slideIndex, "mySlides");
+showSlides(slideIndex, "mySlides2");
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n, "mySlides");
+}
+function plusSlides2(n) {
+  showSlides(slideIndex += n, "mySlides2");
+}
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n, "mySlides");
+}
+function currentSlide2(n) {
+  showSlides(slideIndex = n, "mySlides2");
+}
+function showSlides(n, classname) {
+  let i;
+  let slides = document.getElementsByClassName(classname);
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slides[slideIndex-1].style.display = "block";
+}
+
+function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 50;
+            if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add("active");
+            } else {
+            reveals[i].classList.remove("active");
+            }
+        }
+        }
+    window.addEventListener("scroll", reveal, {passive: true});
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        const slideElements = document.querySelectorAll(".slide-in");
+
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("slide-in-visible");
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            },
+            { threshold: 0.01 } // Trigger when 1% of element is visible
+        );
+
+        slideElements.forEach(el => observer.observe(el));
+    });
+</script>
+<script src="{% static 'dtree/main.js' %}"></script>
+<script src="{% static 'dtree/graph.js' %}"></script>
+<script src="{% static 'dtree/table.js' %}"></script>
+<script src="{% static 'dtree/boxplt.js' %}"></script>
+</body>
+{% endblock %}

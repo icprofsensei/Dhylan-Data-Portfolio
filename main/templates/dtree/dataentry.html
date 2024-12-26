@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}Input data{% endblock %}
+
+{% block content %}
+<head>
+    {% load static %}
+    <link href="{% static 'dtree/dataentry.css' %}" rel="stylesheet">
+</head>
+<body>
+{% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
+<h1>Create a New Model Prediction</h1>
+<p class = "cent"> 2030 forecast: Average maximum daily temperature = 13.3 degrees, average monthly rainfall  = 72.1cm</p>
+<p class = "cent"> The IQR (interquartile range) of the dataset is provided to contextualise the predictions</p>
+<p class = "cent"> NPK fertiliser proportions may vary and are adapted by the farmer to achieve maximum crop yield. Experiment with different values! Units are ratios (presumably weight/volume)- not percentages.</p>
+<form method="post" class="form-container">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <div class="form-field">
+            <label for="{{ form.Nitrogen.id_for_label }}">
+              {{ form.Nitrogen.label }} (IQR = 21 - 84)
+            </label>
+            {{ form.Nitrogen }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.Phosphorus.id_for_label }}">
+                {{ form.Phosphorus.label }} (IQR = 28 - 68)
+            </label>
+            {{ form.Phosphorus }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.Potassium.id_for_label }}">
+                {{ form.Potassium.label }} (IQR = 20 - 49)
+            </label>
+            {{ form.Potassium }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.pH_Value.id_for_label }}">
+                {{ form.pH_Value.label }}   (pH must range between 0 and 14.)
+            </label>
+            {{ form.pH_Value }}
+        </div>
+
+        
+        <div class="form-field">
+            <label for="{{ form.Temperature.id_for_label }}">
+                {{ form.Temperature.label }} /&#176;C (IQR = 22.8 - 28.6)
+            </label>
+            {{ form.Temperature }}
+        </div>
+
+        <div class="form-field">
+            <label for="{{ form.Humidity.id_for_label }}">
+                {{ form.Humidity.label }} %  (IQR = 60.3 - 89.9)
+            </label>
+            {{ form.Humidity }}
+        </div>
+        
+
+        <div class="form-field">
+            <label for="{{ form.Rainfall.id_for_label }}">
+                {{ form.Rainfall.label }} /mm per month (IQR = 64.6 - 124.3)
+            </label>
+            {{ form.Rainfall }}
+        </div>
+    </fieldset>
+    <button class="btn-submit" type="submit">Submit</button>
+</form>
+</body>
+{% endblock %}

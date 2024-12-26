@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% extends 'base.html' %}
+{% block title %}Confirmation{% endblock %}
+{% block content %}
+<h1>Output from the ML model</h1>
+<p> Nitrogen: {{ result.Nitrogen }}</p>
+<p>Phosphorus: {{ result.Phosphorus }}</p>
+<p> Potassium: {{ result.Potassium }}</p>
+<p>Temperature: {{ result.Temperature }}</p>
+<p>Humidity: {{ result.Humidity }}</p>
+<p>pH: {{ result.pH_Value }}</p>
+<p>Rainfall {{ result.Rainfall }}</p>
+
+<p>The recommended crop type is {{ result.Prediction }}</p>
+<a href="{% url 'dtree:landingpage' %}">Back to Home</a>
+<a href="{% url 'dtree:newpred' %}">Make another prediction</a>
+</head>
+<body style="background-color: white; color: blue;">
+</body>
+{% endblock %}

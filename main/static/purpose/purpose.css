@@ -68,6 +68,26 @@ section:nth-child(4){
   color: #42455a;
   background: #e0ffff;
 }
+section:nth-child(5){
+  color: #e0ffff;
+  background: #42455a;
+} 
+section:nth-child(6){
+  color: #42455a;
+  background: #e0ffff;
+} 
+section:nth-child(7){
+  color: #e0ffff;
+  background: #42455a;
+} 
+section:nth-child(8){
+  color: #42455a;
+  background: #e0ffff;
+} 
+section:nth-child(9){
+  color: #e0ffff;
+  background: #42455a;
+} 
 section .container{
   margin: 100px;
 }
