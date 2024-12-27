@@ -38,7 +38,7 @@
   }
 
 /* Collapsable Content */
-.gallery {
+.gallery, .gallery2 {
   position: relative;
   max-width: 90%; /* Matches the image width */
   margin: auto; /* Centers the slideshow container */
@@ -88,7 +88,8 @@
   right: 0px; /* Distance from the right edge */
 }
 .next2 {
-  left: 625px;
+  position: absolute; /* Allow positioning within .gallery2 */
+  right: 10px;
 }
 /* On hover, add a darker background color */
 .prev:hover,
