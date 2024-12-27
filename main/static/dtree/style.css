@@ -185,7 +185,7 @@
       transform: translateY(0);
       opacity: 1;
     }
-    li{
+    .bull{
       font-size: 25px;
     }
     
@@ -251,6 +251,14 @@
       }
       section .container{
         margin: 1px;
+      }
+
+      .bull{
+        font-size: 15px;
+      }
+
+      .gallery2{
+        
       }
     }
     
