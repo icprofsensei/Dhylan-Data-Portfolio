@@ -248,5 +248,8 @@
       section .text-container{
         flex-direction: column;
       }
+      section .container{
+        margin: 1px;
+      }
     }
     
