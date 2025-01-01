@@ -1,0 +1,267 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<head>
+{% load static %}
+<link href="{% static 'tennis/style.css' %}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-heatmap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-python.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/prism.min.js"></script>
+</head>
+<body>
+  <p class = "main_header">What will the tour serve up in 2025...?</p>
+  <section>
+    <div class="container reveal">
+      <img src="{% static 'tennis/myserve.gif' %}" alt="myserve" class="responsive-image">
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1 class = "nonmainbody">The 2025 Tennis Season </h1>
+      <div class="text-container">
+        
+        <img src="{% static 'tennis/logo.jpg' %}" alt="atplogo" class="mini-logo">
+        <ul>
+          <li>No Spoilers - but the man above will not be making a surprise appearance.</li>
+          <li>The 2025 Tennis season will however be one like no other. </li>
+          <li>The transition into the next-gen era will be felt more strongly following the huge retirements of 2024.</li>
+          <li>We are entering a season with never-before-seen levels of scruitiny on doping in the modern game</li>
+          <li>Off-court coaching will become legalised - with the potential to cause massive changes to in-match dynamics.  </li>
+          <li>And yet... the season's serve trends are predictable. This data story will investigate the role of the serve in 2025 and my predictions for how the season will shape up. </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container reveal">
+      <p> Click to expand:</p>
+      <button type="button" class="collapsible coll2"><h1>Players are making more first serves...</h1></button>
+      <div class="collapsecontent coll2">
+        <div id="first_serve_temp" style="width: 100%; height: 500px;"></div>
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>As the trend line plotted by my linear model highlights, the first serve % has increased between 2004-2024.</p>
+      </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>and more first serves means...</h1></button>
+      <div class="collapsecontent coll2">
+        <h1>... more first serve points won!</h1>
+        <div id="first_serve_temp_w" style="width: 100%; height: 500px;"></div>
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>The data from all matches in the period (for both winners and losers) suggests that we are approaching a new era of serve dominance. As players are making more first serves in the court, they are also winning more points from them.</p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>Does surface matter?</h1></button>
+      <div class="collapsecontent coll2">
+        <h1>Yes - but not as much as before!</h1>
+        <div id="first_serve_surface" style="width: 100%; height: 500px;"></div>
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>Tour matches are played on different courts throughout the year corresponding to seasons. Generally, the early months are hard courts before transitioning to clay in Spring, grass in early Summer and then back to hard courts in late Summer/Autumn. There are key differences in these surfaces which result in the effects above: serve dominance is at its highest on grass courts, followed by hard courts then clay. Aside from two notable peaks in 2015 and 2020, the difference between surfaces has been reducing. As surfaces appear to homogenize, the first serve win percentages are becoming more similar.</p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll3"><h1 style="color: white">Why so different?</h1></button>
+      <div class="collapsecontent coll3">
+        <canvas id="canvas" style="width: 100%"></canvas>
+        <button id = "surface-button" onclick="playgrass()">Grass</button>
+        <button id = "surface-button" onclick="playhard()">Hard</button>
+        <button id = "surface-button" onclick="playclay()">Clay</button>
+        
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>Grass courts are widely regarded as the quickest surface - demonstrated by the link found between serve speed and court surface on grass (Vaverka et al; 2018). There is inconsistent information on surface speeds, however, hard courts produce medium speeds whilst clay courts produce slow speeds according to ITF (International Tennis Federation) categories via <a href = "https://www.perfect-tennis.com/tennis-court-surfaces-and-court-speeds/">perfect-tennis</a> (accessed 01/01/2025). </p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>Do serve points lead to more wins?</h1></button>
+      <div class="collapsecontent coll2">
+        <h1>Yes - of course!</h1>
+        <div id="first_second_serve" style="width: 100%; height: 500px;"></div>
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>Unsurprisingly, winning more points on serve also increases the likelihood of winning the tennis match. Interestingly, winning a high % of second serve points is more important than winning a high % of first serve points. Across the tour - regardless of match outcome - players appear to win first serve points. Therefore, the bigger distinction lies in second serve success for predicting win likelihood.</p>
+      </div>
+      
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>But there was one strange finding...</h1></button>
+      <div class="collapsecontent coll2">
+        <h1>... double faults lead to wins?!</h1>
+        <div id="double_faults" style="width: 100%; height: 500px;"></div>
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>Surprising? Not exactly. The data above demonstrates that increasing double fault % can lead to a 9-19% higher likelihood of match wins. Players who take bigger risks with their second serves appear to be reaping the rewards. A possible cause for this effect could be that the types of players who make quicker second serves (which are more likely to double fault) are also better placed to win the resulting point. At the professional level, there may be a case for players employing two 'first serves'! </p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>Conclusion?</h1></button>
+      <div class="collapsecontent coll2">
+        <h1>Go Big!</h1>
+        <ul>
+          <li class = "collapsebullet">The biggest predictors of winning tennis matches are winning a high % of serve points - particularly second serves</li>
+          <li class = "collapsebullet">Although on the surface it seems contradictory, having a higher double fault % also increased the odds ratio of winning matches</li>
+          <li class = "collapsebullet">This may be because players who go big on second serves win a high % of points - and will therefore occassionally hit more double faults</li>
+          <li class = "collapsebullet">For the recreational level the takeaway is simple: winning second serve points increases your win likelihood the most. If you need to go a little bigger, the findings here would support taking that risk...</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1 class = "nonmainbody">How I made this: </h1>
+      <h3 class = "nonmainbody" > References </h3>
+      <ul>
+        <li>Vaverka, F., Nykodym, J., Hendl, J., Zhanel, J. and Zahradnik, D. (2018). Association between serve speed and court surface in tennis. International Journal of Performance Analysis in Sport, 18(2), pp.262–272. doi:https://doi.org/10.1080/24748668.2018.1467995.</li>
+        <li>Jonathan (n.d.). Tennis Court Surfaces and Court Speeds - peRFect Tennis. [online] https://www.perfect-tennis.com/. Available at: https://www.perfect-tennis.com/tennis-court-surfaces-and-court-speeds/.</li>
+      </ul>
+      <h3 class = "nonmainbody" > ATP Tennis Results (2004-2024)</h3>
+        <p>Sourced from github tennis_atp</p>
+        <div>
+          <h3 class = "nonmainbody">Tennis Data Sample</h3>
+            <form action="https://github.com/JeffSackmann/tennis_atp">
+            <button type="submit">Click here to access the full tennis dataset on github</button>
+            </form>
+        
+          </div>
+        <div class="table-container">
+          <table id="ogtennisTable" border="1">
+            <tbody>
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container reveal">
+          <h1 class = "nonmainbody"> Transforming the dataset</h1>
+          <h3 class = "nonmainbody"> I found calculated values first... </h3>
+          <p> As demonstrated in the original dataset, the raw data is numerical so it required preprocessing. I found % values by taking proportions of each raw count out of the total number of points played on serve. Here is a code snippet which I used:</p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+                for index, row in wn_match.iterrows():
+                    winner = {}
+                    winner_serve_points = row['w_svpt']
+                    if winner_serve_points != 0:
+                        w_first_serve_win_perc = (row['w_1stWon'] / winner_serve_points) * 100
+                        w_first_serve_in = (row['w_1stIn'] / winner_serve_points) * 100
+                        w_second_serve_win_perc = (row['w_2ndWon'] / winner_serve_points) * 100
+                        if row['w_bpFaced'] == 0:
+                            w_break_resistance_perc = 100
+                        else:
+                            w_break_resistance_perc = (row['w_bpSaved'] / row['w_bpFaced']) * 100
+                        if row['w_df'] == 0:
+                            w_double_fault_perc = 0
+                        else:
+                            w_double_fault_perc = (row['w_df'] / winner_serve_points) * 100
+              </code>
+            </pre>
+      
+          </div>
+    </div>
+  
+  </section>
+  <section>
+    <div class="container reveal">
+          <h3 class = "nonmainbody"> ... and I performed logistic regression afterwards</h3>
+          <p> The code above allowed me to create a dataframe (performancedf_) for both winners and losers for each match. I then performed logistic regression to calculate the x variable coefficients (log odds coefficients). By taking the exponent on the coefficients, I could calculate the odds ratio for each variable as shown below. </p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+                for i in range(2004,2025,1):
+    
+                    perf_year = performancedf_[performancedf_['year'] == str(i)]
+                    features = ['fs_w_perc', 'fs_in_perc', 'ss_w_perc', 'bp_res_perc', 'df_perc']
+                    X1 = perf_year[features].values
+                    y1 = perf_year.result.values.reshape(-1,1)
+                    X1_train, X1_test, y1_train, y1_test = train_test_split(X1, y1, test_size=0.25, random_state=16)
+                    logreg = LogisticRegression(random_state=16)
+                    logreg.fit(X1_train, y1_train)
+                    coefs = logreg.coef_[0]
+                    featuredict = {}
+                    for index, i in enumerate(features):
+                        featuredict[i] = math.exp(float(coefs[index]))
+                    featuredict['intercept'] = float(logreg.intercept_[0])
+                    overall_feat_ls.append(featuredict)
+                featuresdf = pd.DataFrame(overall_feat_ls)
+              </code>
+            </pre>
+      
+          </div>
+    </div>
+  
+  </section>
+
+  <script>
+    function reveal() {
+                var reveals = document.querySelectorAll(".reveal");
+                for (var i = 0; i < reveals.length; i++) {
+                    var windowHeight = window.innerHeight;
+                    var elementTop = reveals[i].getBoundingClientRect().top;
+                    var elementVisible = 50;
+                    if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                    } else {
+                    reveals[i].classList.remove("active");
+                    }
+                }
+                }
+// Get references to the table bodies
+// Reveal elements
+
+
+    window.addEventListener("scroll", reveal, {passive: true});
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const slideElements = document.querySelectorAll(".slide-in");
+
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("slide-in-visible");
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            },
+            { threshold: 0.9 } // Trigger when 1% of element is visible
+        );
+
+        slideElements.forEach(el => observer.observe(el));
+    });
+
+
+</script>
+<script src="{% static 'tennis/graph.js' %}"></script>
+<script src="{% static 'tennis/main.js' %}"></script>
+<script src="{% static 'tennis/animate.js' %}"></script>
+</body>
+{% endblock %}
