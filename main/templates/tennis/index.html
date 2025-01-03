@@ -26,12 +26,12 @@
         
         <img src="{% static 'tennis/logo.jpg' %}" alt="atplogo" class="mini-logo">
         <ul>
-          <li>No Spoilers - but the man above will not be making a surprise appearance.</li>
-          <li>The 2025 Tennis season will however be one like no other. </li>
-          <li>The transition into the next-gen era will be felt more strongly following the huge retirements of 2024.</li>
-          <li>We are entering a season with never-before-seen levels of scruitiny on doping in the modern game</li>
-          <li>Off-court coaching will become legalised - with the potential to cause massive changes to in-match dynamics.  </li>
-          <li>And yet... the season's serve trends are predictable. This data story will investigate the role of the serve in 2025 and my predictions for how the season will shape up. </li>
+          <li class="mainlist">No Spoilers - but the man above will not be making a surprise appearance.</li>
+          <li class="mainlist">The 2025 Tennis season will however be one like no other. </li>
+          <li class="mainlist">The transition into the next-gen era will be felt more strongly following the huge retirements of 2024.</li>
+          <li class="mainlist">We are entering a season with never-before-seen levels of scruitiny on doping in the modern game</li>
+          <li class="mainlist">Off-court coaching will become legalised - with the potential to cause massive changes to in-match dynamics.  </li>
+          <li class="mainlist">And yet... the season's serve trends are predictable. This data story will investigate the role of the serve in 2025 and my predictions for how the season will shape up. </li>
         </ul>
       </div>
     </div>
@@ -79,7 +79,7 @@
     <div class="container reveal">
       <button type="button" class="collapsible coll3"><h1 style="color: white">Why so different?</h1></button>
       <div class="collapsecontent coll3">
-        <canvas id="canvas" style="width: 100%"></canvas>
+        <canvas id="canvas" style="width: 100%; height: 500px"></canvas>
         <button id = "surface-button" onclick="playgrass()">Grass</button>
         <button id = "surface-button" onclick="playhard()">Hard</button>
         <button id = "surface-button" onclick="playclay()">Clay</button>
@@ -124,10 +124,10 @@
       <div class="collapsecontent coll2">
         <h1>Go Big!</h1>
         <ul>
-          <li class = "collapsebullet">The biggest predictors of winning tennis matches are winning a high % of serve points - particularly second serves</li>
-          <li class = "collapsebullet">Although on the surface it seems contradictory, having a higher double fault % also increased the odds ratio of winning matches</li>
-          <li class = "collapsebullet">This may be because players who go big on second serves win a high % of points - and will therefore occassionally hit more double faults</li>
-          <li class = "collapsebullet">For the recreational level the takeaway is simple: winning second serve points increases your win likelihood the most. If you need to go a little bigger, the findings here would support taking that risk...</li>
+          <li class = "mainlist">The biggest predictors of winning tennis matches are winning a high % of serve points - particularly second serves</li>
+          <li class = "mainlist">Although on the surface it seems contradictory, having a higher double fault % also increased the odds ratio of winning matches</li>
+          <li class = "mainlist">This may be because players who go big on second serves win a high % of points - and will therefore occassionally hit more double faults</li>
+          <li class = "mainlist">For the recreational level the takeaway is simple: winning second serve points increases your win likelihood the most. If you need to go a little bigger, the findings here would support taking that risk...</li>
         </ul>
       </div>
     </div>
@@ -164,7 +164,7 @@
           <h1 class = "nonmainbody"> Transforming the dataset</h1>
           <h3 class = "nonmainbody"> I found calculated values first... </h3>
           <p> As demonstrated in the original dataset, the raw data is numerical so it required preprocessing. I found % values by taking proportions of each raw count out of the total number of points played on serve. Here is a code snippet which I used:</p>
-          <div class = "box">
+          <div class = "box" style="width: 100%;">
             <pre>
               <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
                 for index, row in wn_match.iterrows():

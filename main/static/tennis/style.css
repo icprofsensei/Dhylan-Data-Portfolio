@@ -68,9 +68,6 @@
   text-align: center;
   color:rgb(239, 114, 114);
 }
-.collapsebullet{
-  text-align: left;
-}
 .nonmainbody{
   color: rgb(98, 46, 201);
 }
@@ -89,8 +86,9 @@ code{
   p{
     font-size: x-large;
   }
-  li{
+  li .mainlist{
     font-size: x-large;
+    text-align: left;
   }
   /* Scrollable table */
   .table-container {
@@ -212,12 +210,44 @@ code{
       section .text-container{
         flex-direction: column;
       }
+    
+    .midaligned_section {
+      width: 100%;
+      overflow: hidden;
+    }
+    .main_header{
+      text-align: center;
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-top: 30px;
+      vertical-align: middle;
+      color:rgb(98, 46, 201);
+    }
+    section .container{
+      margin: 0px;
+    }
+    p{
+      font-size: 0.9em;
+    }
+    section{
+      min-height: 35vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    code {
+      margin: 0; /* Removes any margin */
+      padding: 0; /* Removes any padding */
+      text-align: left; /* Ensures text starts at the left */
+      display: block; /* Ensures block-level formatting */
+      white-space: pre-wrap; /* Prevents overflow and keeps formatting */
     }
   
-
+    pre {
+      margin: 0; /* Removes any margin */
+      padding: 0; /* Removes any padding */
+      overflow-x: auto; /* Allows horizontal scroll if necessary */
+      background: none; /* Optional: Set to match your design */
+    }
   
-  .midaligned_section {
-    width: 100%;
-    overflow: hidden;
   }
-  
