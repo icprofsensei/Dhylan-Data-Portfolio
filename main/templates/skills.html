@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Skills{% endblock %}
+{% block content %}
+<head>
+    {% load static %}
+    <link href="{% static 'skills/skills.css' %}" rel="stylesheet">
+    <script src="//d3js.org/d3.v3.min.js"></script>
+
+</head>
+<body style=height:1500px>
+    <h1 style="text-align: center">Skills Tree (in progress)</h1>
+    <div class="center-container">
+        <button onclick="drawtree('skills/skilltree.json', '#tree', 'vert', 'translate(0, 40)', secwid - 40, sechei )" style="font-size: 2em" >Reveal Tree</button>
+    </div>
+    <section>
+    <div class="tree-container" id="tree"></div>
+</section>
+<div>
+    <h1 style="text-align: center">Project Types</h1>
+    <ul>
+        <li class="project"><a id = "bullettitle" href="/iris">Iris </a> ~ Trial to implement neural network in python backend. Widely-used machine learning dataset. </li>
+        <li class="project"><a id = "bullettitle" href="/startup_success">Start up Success </a> ~ Long term project 1. Goals: Characterise factors effecting start up success with a neural network; Make the neural network user accessible; Data Visualisation </li>
+
+        <li class="project"><a id = "bullettitle" href="/football1">Could you do it on a cold night in Stoke? </a> ~ Mini Project 1. Goals: Investigate the myth/reality of whether football teams struggle to play against Stoke City away. </li>
+
+        <li class="project"><a id = "bullettitle" href="/dtree">Christmas, Climate and Crops </a> ~ Long term project 2. Goals: Investigate whether decision trees could be used to determine which weather conditions determine which crops should be planted. </li>
+
+        <li class="project"><a id = "bullettitle" href="/iris">What will 2025 serve up? </a> ~ Mini Project 2. Goals: Investigate the changing importance of the serve and determine whether double faults are associated with favourable match results. </li>
+
+    </ul>
+</div>
+<script src="{% static 'generaluse/tree.js' %}"></script>
+    <script>
+        
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+                } else {
+                reveals[i].classList.remove("active");
+                }
+            }
+            }
+        window.addEventListener("scroll", reveal, {passive: true});
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const slideElements = document.querySelectorAll(".slide-in");
+
+            const observer = new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("slide-in-visible");
+                            observer.unobserve(entry.target); // Stop observing once visible
+                        }
+                    });
+                },
+                { threshold: 0.01 } // Trigger when 1% of element is visible
+            );
+
+            slideElements.forEach(el => observer.observe(el));
+        });
+    </script>
+    
+</body>
+{% endblock %}

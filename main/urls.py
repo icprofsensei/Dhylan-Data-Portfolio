@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", homeviews.home, name = "home"),
     path("purpose/", homeviews.purpose, name = "purpose"),
+    path("skills/", homeviews.skills, name="skills"),
     path("iris/", include("iris.urls")),
     path("startup1/", include("startup_success.urls")),
     path("football1/", include("football1.urls")),
