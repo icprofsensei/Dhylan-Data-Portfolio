@@ -23,6 +23,7 @@ urlpatterns = [
     path("", homeviews.home, name = "home"),
     path("purpose/", homeviews.purpose, name = "purpose"),
     path("skills/", homeviews.skills, name="skills"),
+    path("datacomms/", homeviews.datacomms, name = "datacomms"),
     path("iris/", include("iris.urls")),
     path("startup1/", include("startup_success.urls")),
     path("football1/", include("football1.urls")),
