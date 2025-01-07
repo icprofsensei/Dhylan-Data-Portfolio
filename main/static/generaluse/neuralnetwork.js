@@ -12,8 +12,10 @@ window.addEventListener('resize', () => {
 function setCanvasSize() {
     const dpr = window.devicePixelRatio || 1; // Account for high-DPI screens
     const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = `${rect.width}px`;
+    canvas.style.height = `${rect.height}px`;
     ctx.scale(dpr, dpr); // Scale the context to ensure sharp rendering
     ctx.fillStyle = '#d6ecec';
     ctx.fillRect(0,0,canvas.width, canvas.height);
