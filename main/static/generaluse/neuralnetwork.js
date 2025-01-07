@@ -228,7 +228,7 @@ function lightupanimation(col1, col2, col3, networkdimensions, coords, split){
 
 // General Function
 
-function drawnetwork(networkdimensions, split, col1, col2, col3){
+function animatenetwork(networkdimensions, split, col1, col2, col3){
     setCanvasSize();
     setDataBar();
     loading(split);
@@ -236,4 +236,11 @@ function drawnetwork(networkdimensions, split, col1, col2, col3){
     allconnections(coords);
     lightupanimation(col1,col2, col3, networkdimensions, coords, split);
     
+}
+
+function drawnetwork(networkdimensions, split, col1, col2, col3){
+    setCanvasSize();
+    var coords = drawneurons(networkdimensions);
+    allconnections(coords);
+    drawneurons(networkdimensions);
 }
