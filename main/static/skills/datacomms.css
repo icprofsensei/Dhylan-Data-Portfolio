@@ -68,4 +68,10 @@ canvas {
         width: 90%;
         padding: 4px;
     }
+    canvas {
+        display: block;
+        width: 890px;
+        margin: 1px auto;
+        height: auto; /* Ensures aspect ratio is maintained */
+    }
 }
