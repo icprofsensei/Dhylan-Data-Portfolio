@@ -39,8 +39,8 @@ function drawcircleseries (x, neuronlayer, dim){
     var column = []
     for (var i = 0; i < neuronlayer; i++){
         h += height;
-        markercircle(x, h, dimensions.width/125, "green");
-        uniquepos = {'x': x, 'y': h}
+        markercircle(x, h, dimensions.width/80, "green");
+        uniquepos = {'x': x, 'y': h, 'r': dimensions.width / 80}
         column.push(uniquepos)
     }
     return column
@@ -97,7 +97,8 @@ function randomconnection(coordarray){
 
 function randommatch(arrlist, col){
     for (var i =0; i<arrlist.length; i++){
-        markercircle(arrlist[i].x, arrlist[i].y, 10, col);
+        const {x, y, r} = arrlist[i];
+        markercircle(arrlist[i].x, arrlist[i].y, r, col);
     }
 }
 
@@ -170,14 +171,14 @@ function pred(col3, networkdimensions, coords) {
         if (count2 < final.length - 1) {
             const { x: x1, y: y1 } = final[count2];
             const { x: x2, y: y2 } = final[count2 + 1];
-            markercircle(x1, y1, dimensions.width/125,col3);
+            markercircle(x1, y1, dimensions.width/80, col3);
             drawLightning(x1, y1, x2, y2);
             count2++;
             setTimeout(nextStep, 1500);
             if (count2 == final.length -1){
                 document.getElementById("status").textContent="Prediction!";
             }
-            markercircle(x2, y2, dimensions.width/125,col3);
+            markercircle(x2, y2, dimensions.width/80, col3);
         }
     }
 
