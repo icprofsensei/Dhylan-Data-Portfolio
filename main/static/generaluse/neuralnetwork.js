@@ -3,32 +3,37 @@ const data = document.getElementById('canvas2');
 const ctx = canvas.getContext('2d');
 const databar = data.getContext('2d');
 
-
-
+window.addEventListener('resize', () => {
+    setCanvasSize();   // Recalculate canvas size and scale context
+    setDataBar();      // Recalculate data bar size
+});
 // Neural Network
 
 function setCanvasSize() {
     const dpr = window.devicePixelRatio || 1; // Account for high-DPI screens
     const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    canvas.width = rect.width;
+    canvas.height = rect.height;
     ctx.scale(dpr, dpr); // Scale the context to ensure sharp rendering
     ctx.fillStyle = '#d6ecec';
     ctx.fillRect(0,0,canvas.width, canvas.height);
-    dimensions = {'width': canvas.width, 'height':canvas.height}
+    dimensions = {'width': canvas.width, 'height':canvas.height, 'dpr': dpr}
+    console.log(canvas.width, canvas.height);
     return dimensions;
 }
 
+
 function drawconnection(x1,y1, x2,y2){
+    ctx.lineWidth = 0.9 / dimensions.dpr;
     ctx.beginPath();
-    ctx.moveTo(x1,y1);
-    ctx.lineTo(x2,y2);
+    ctx.moveTo(x1 / dimensions.dpr,y1 / dimensions.dpr);
+    ctx.lineTo(x2/ dimensions.dpr,y2/ dimensions.dpr);
     ctx.stroke();
 }
 function markercircle(x, y, r, col) {
     // Draw the ball
     ctx.beginPath();
-    ctx.arc(x, y, r, 0, 2 * Math.PI);
+    ctx.arc(x/ dimensions.dpr, y/ dimensions.dpr, r/ dimensions.dpr, 0, 2 * Math.PI);
     ctx.fillStyle = col;
     ctx.fill();
 }
@@ -109,8 +114,8 @@ function randommatch(arrlist, col){
 function setDataBar(){
     const dpr2 = window.devicePixelRatio || 1;
     const rect2 = data.getBoundingClientRect();
-    data.width = rect2.width * dpr2;
-    data.height = rect2.height * dpr2;
+    data.width = rect2.width;
+    data.height = rect2.height;
     databar.scale(dpr2, dpr2); // Scale the context to ensure sharp rendering
     databar.fillStyle = '#d6ecec';
     databar.fillRect(0,0,data.width, data.height);
@@ -120,7 +125,7 @@ function setDataBar(){
 
 function drawbar(x, y, width, height, col){
     databar.fillStyle = col;
-    databar.fillRect(x, y, width, height);
+    databar.fillRect(x/dimensions.dpr, y/dimensions.dpr, width/dimensions.dpr, height/dimensions.dpr);
 }
 
 function loading(training){
@@ -153,10 +158,10 @@ function pred(col3, networkdimensions, coords) {
                 const currentY = y1 + (y2 - y1) * progress;
 
                 ctx.strokeStyle = col3; 
-                ctx.lineWidth = 5; 
+                ctx.lineWidth = 1.5/dimensions.dpr; 
                 ctx.beginPath();
-                ctx.moveTo(x1, y1);
-                ctx.lineTo(currentX, currentY);
+                ctx.moveTo(x1/dimensions.dpr, y1/dimensions.dpr);
+                ctx.lineTo(currentX/dimensions.dpr, currentY/dimensions.dpr);
                 ctx.stroke();
 
                 currentStep++;
