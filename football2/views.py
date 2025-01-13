@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import generic
@@ -11,5 +12,5 @@ from sklearn.preprocessing import StandardScaler
 
 # Create your views here.
 def lander(request):
-    return render(request, 'football1/index.html')
+    return render(request, 'football2/index.html')
 

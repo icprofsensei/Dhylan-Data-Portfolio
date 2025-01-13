@@ -28,5 +28,6 @@ urlpatterns = [
     path("startup1/", include("startup_success.urls")),
     path("football1/", include("football1.urls")),
     path("dtree/", include("dtree.urls")),
-    path("tennis/", include("tennis.urls"),)
+    path("tennis/", include("tennis.urls")),
+    path("football2/", include("football2.urls")),
 ]

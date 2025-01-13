@@ -1,0 +1,475 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<head>
+{% load static %}
+<link href="{% static 'football2/style.css' %}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-python.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/prism.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.13.0/js/anychart-annotations.min.js"></script>
+</head>
+<body>
+  <p class = "main_header">How English football became less entertaining</p>
+  <section>
+    <div class="container reveal">
+      <img src="{% static 'football2/football2.jpg' %}" alt="stoke" class="responsive-image">
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1>The Problem... </h1>
+      <div class="text-container">
+        
+        <img src="{% static 'football2/tv.jpg' %}" alt="stokelogo" class="mini-logo">
+        <ul>
+          <li class="mainbody">For my early childhood, Manchester City FC delighted me with their hilarious footballing failures.</li>
+          <li class="mainbody">However, this has begun changing since 2011 and most recently they have become the dominant force in English football. </li>
+          <li class="mainbody">In this data story, I investigate how Manchester City destroyed the competitive balance of the premier league and rendering the English Premier league as the most boring to watch across Europe.</li>
+        </ul>
+      </div>
+    </div>
+  </section>s 
+  <section>
+    
+    <div class = "container reveal">
+      <h1> The most unbalanced league in Europe is...</h1>
+      <div id="linechartpossessiondiff" style="width: 100%; height: 500px"></div>
+      <button type="button" class="collapsible coll2"><h3>The Premier League!</h3></button>
+          <div class="collapsecontent coll2">
+            <p> Since 2016, the premier league has had a much higher average difference in possession between the two teams per match. This ultimately makes the matches more predictable and arguably less exciting. </p>
+                      <div>
+                        <p>Select Bin Size: </p>
+                        <button onclick="drawfive()" style="font-size: 1.3em">Bin size = 5</button>
+                        <button onclick="drawten()" style="font-size: 1.3em">Bin size = 10</button>
+                        <p>Drag Slider to select year:</p>
+                      </div>
+                      <div class="slidecontainer">
+                        <input type="range" min="2014" max="2021" value="2014" step="1" class="slider" id="myRange" style="width: 100%;">
+                      </div>
+                     
+                    <p id="year" style="text-align: center;"></p>
+                      <div id = "movinghistoprem" style="width: 100%; height: 300px"></div>
+                    <p> Right skewness decreases in the distribution after 2016. This corresponds to the jump in average possession difference per match in the premier league.</p>
+    </div>
+  </section>
+  <section>
+    <div class = "container reveal">
+          <h1> What - or who - is to blame?</h1>
+          <p> In the time period of interest between 2014 and 2022, Manchester City won 5 out of a possible 9 league titles. Since then they also proceeded to win in 2023 and 2024. The graph below demonstrates the changing win % over the time period. (C) indicates they won the championship in that season. </p>
+          <div id="citywins" style="width: 100%; height: 500px"></div>
+          <p> The comparison below observes the average possession per football match for Manchester City compared to the 5 other big clubs in England. Observe how the sharp rise in average possession in 2016 coincides with the rise in win percentage.<p>
+          <div id="cityvsrest" style="width: 100%; height: 500px"></div>
+          <p> Evidently, Manchester City average a far higher average possession per football match than their competition: Manchester United, Chelsea, Tottenham, Arsenal and Liverpool. </p>
+          <button type="button" class="collapsible coll2"><h3>Breaking down the possession:</h3></button>
+          <div class="collapsecontent coll2">
+            <p> We can also visualise the shift in possession difference above through skewness in Manchester City matches. </p>
+                      <div>
+                        <p>Select Bin Size: (recommended bin size = 10)</p>
+                        <button onclick="drawfive2()" style="font-size: 1.3em">Bin size = 5</button>
+                        <button onclick="drawten2()" style="font-size: 1.3em">Bin size = 10</button>
+                        <p>Drag Slider to select year:</p>
+                      </div>
+                      <div class="slidecontainer">
+                        <input type="range" min="2014" max="2021" value="2014" step="1" class="slider2" id="myRange2" style="width: 100%;">
+                      </div>
+                     
+                    <p id="year2" style="text-align: center;"></p>
+                      <div id = "movinghistocity" style="width: 100%; height: 300px"></div>
+                    <p> Right skewness decreases in the distribution after 2016. This corresponds to the median seeming to shift from 20-30 to 30-40. This indicates that Manchester City are involved in more 30-40% possession difference games.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container reveal">
+      <h1>Why these matches are boring...</h1>
+    <p> As Manchester City and the premier league have demonstrated, there has been a shift towards high possession difference matches. These sorts of matches have vastly different characteristics compared to more balanced matches.</p>
+    <p> To demonstrate this, I have qualified these 'Attack vs Defence Drills' as matches with over 25% possession differences.</p>
+    <p style="font-size:1.2em"> For matches where possession is exactly 50:50, the home side is considered 'attacking'.</p>
+    <div id='double_chart' style="display: flex; justify-content: space-around; align-items: flex-start; gap: 0;">
+      <div style="width: 50%;">
+        <h3>'Attack Vs Defence Drill' type matches</h3>
+        <div class="gallery">
+          <div class="mySlides">
+            <div id="goalsboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Goals</h3>
+          </div>
+          <div class="mySlides">
+            <div id="shotsboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Shots</h3>
+          </div>
+          <div class="mySlides">
+            <div id="otboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Shots On Target</h3>
+          </div>
+          <div class="mySlides">
+            <div id="foulboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Fouls</h3>
+          </div>
+          <div class="mySlides">
+            <div id="offsideboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Offsides</h3>
+          </div>
+        </div>
+      </div>
+      <div style="width: 50%;">
+        <h3>'Balanced' type matches</h3>
+        <div class="gallery">
+          <div class="mySlides2">
+            <div id="balgoalsboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Goals</h3>
+          </div>
+          <div class="mySlides2">
+            <div id="balshotsboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Shots</h3>
+          </div>
+          <div class="mySlides2">
+            <div id="balotboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Shots On Target</h3>
+          </div>
+          <div class="mySlides2">
+            <div id="balfoulboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Fouls</h3>
+          </div>
+          <div class="mySlides2">
+            <div id="baloffsideboxplt" style="width: 95%; height: 500px;"></div>
+            <h3 class="desc">Offsides</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    <p> As the box plots above demonstrate, the largest disparity is observed in the difference between goals, shots and shots on target for the the 'defending' team (with less possession) in unbalanced matches. The averages are listed below:</p>
+    <div class="table-container">
+      <table>
+        <tr>
+          <th></th>
+          <th>Attack vs Defence Drill</th>
+          <th>Balanced</th>
+        </tr>
+        <tr>
+          <td class = "rowheader">Attacking side goals</td>
+          <td>1.7476</td>
+          <td>1.4116</td>
+        </tr>
+        <tr>
+          <td class = "rowheader">Defending side goals</td>
+          <td>1.0633</td>
+          <td>1.2821</td>
+        </tr>
+        <tr>
+          <td class = "rowheader">Attacking side shots</td>
+          <td>17.3382</td>
+          <td>13.8406</td>
+        </tr>
+        <tr>
+          <td class = "rowheader">Defending side shots</td>
+          <td>8.2550</td>
+          <td>11.2256</td>
+        </tr>
+        <tr>
+          <td class = "rowheader">Attacking side shots on target</td>
+          <td>5.7736</td>
+          <td>4.6473</td>
+        </tr>
+        <tr>
+          <td class = "rowheader">Attacking side shots on target</td>
+          <td>2.9757</td>
+          <td>3.8671</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> Haven't there always been teams which dominate matches?</h1>
+      <p> Simply answered: yes. English football has always seen dominant sides which have better players who can keep the ball better than other teams. However, the graph below shows the frequency of these matches in recent years...</p>
+      <div id="AVD" style="width: 100%; height: 500px"></div>
+      <p> ...Evidently, we now have a league with increasingly one-sided matches. As a spectacle, this makes the football predictable.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> What does this mean? </h1>
+      <p> Essentially, the football rich-poor gap increases with this new reliance on possession. </p>
+      <div id="scatter2018" style="width: 100%; height: 500px;">
+      </div>
+      <p> For 2021:</p>
+      <div id="scatter2021" style="width: 100%; height: 500px;">
+
+  </section>
+<section>
+
+</section>
+  <section>
+    <div class="container reveal">
+        <div class = "midaligned_section">
+          <h1>Quantifying Entertainment</h1>
+    <p> I sought to quantify these high scoring matches which characterise cold nights in Stoke. Therefore, I created a new calculated metric of entertainment via the code below. </p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python prism-highlight-keywords" data-prismjs-copy="Copy the code!">
+                #Fan entertainment Score Metric
+                import numpy as np
+                import math 
+                entertainment_ldn = []
+                for index, row in simple_ldn.iterrows():
+                    
+                    margin = abs(row['GF'] - row['GA'])
+                    if row['Points'] == 3:
+                        score = 3 + (row['Goals per game'] * margin)
+                    elif row['Points'] == 0:
+                        score = 0 - margin - (1 /row['Goals per game'])
+                    else:
+                        score = (1 * row['Goals per game'])
+                    row['Entertainment'] = (np.arctan(score/5))
+                    row['Raw'] = score
+                    entertainment_ldn.append(row)
+                final_ldn = pd.DataFrame(entertainment_ldn)
+                final_ldn
+              </code>
+            </pre>
+      
+          </div>
+        <p> To represent entertainment, my new metric would increase with wins and decrease with losses. However, the number of goals per game and margin of victory/defeat was also used to factor in the match entertainment value. </p>
+        <p> I used arctan() to reduce the effect of extreme results on the assocations. </p>
+      </div>
+    </div>
+  </section>
+  <section>
+    
+    <div class="container reveal">
+      <h1> Conclusion </h1>
+      <div class="text-container">
+      <img src="{% static 'football2/football2.jpg' %}" alt="stokelogo" class="mini-logo">
+      <ul>
+        <li class="mainbody"> The myth of a cold night in Stoke is not totally unfounded. It seems that there is correlational evidence that Stoke City produce their best, most exciting football in the most adverse weather. </li>
+        <li class="mainbody"> However, the sample size is far too small to draw meaningfull associations away. Furthermore, football is predicated on a number of far more significant external factors which dictate match outcomes - such as form, opposition strength and team stability.</li>
+        <li class="mainbody"> For a more meaningful analysis on cold nights in Stoke, I would have to conduct deeper analysis into the aforementioned factors and determine whether Stoke outperformed expectations at home. </li>
+        <li class="mainbody"> Additionally, I would need access to a larger weather dataset which contained daily or even hourly data - instead of monthly data - for the region since weather conditions can be extremely variable over large timespans.</li>
+      </ul>
+    </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1>How I made this: </h1>
+      <h3> Football results data - range from 2010-2015</h3>
+      <ul>
+        <li class="mainbody">Sourced from github England football.csv</li>
+        <li class="mainbody">Data range originally from wider football.db dataset</li>
+      </ul>
+      <h3>UK Weather data - range from 2010-2015</h3>
+      <ul>
+        <li class="mainbody">Sourced from uk-historical-weather repository on github.</li>
+        <li class="mainbody">Data range originally from the wider Met Office dataset</li>
+        <li class="mainbody">I used weather data collected from Heathrow to represent the London area.</li>
+        <li class="mainbody">I used data collected from Shawbury to represent the Stoke area.</li>
+      </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class="text-container">
+        <div>
+        <h3 class="DataSampleLabel">Weather Data Sample</h3>
+          <form action="https://github.com/alanjones2/uk-historical-weather/tree/main">
+          <button type="submit">Click here to access the full weather dataset on github</button>
+          </form>
+      
+        </div>
+      </div>
+      <div class="table-container">
+        <table id="ogwetTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+   
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class="text-container">
+        <div>
+        <h3 class="DataSampleLabel">Scores Data Sample</h3>
+          <form action="https://github.com/footballcsv/england">
+          <button type="submit">Click here to access the full football dataset on github</button>
+          </form>
+      
+        </div>
+      </div>
+      <div class="table-container">
+        <table id="ogscoresTable" border="1">
+          <tbody>
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+   
+  </section>
+
+  <section>
+    <div class="container reveal">
+        <div class = "midaligned_section">
+          <h1> Transforming the dataset</h1>
+          <h3> The scores need to be filtered... </h3>
+          <p> To view the difference between fixtures played in London compared to Stoke, I needed to filter the scores for when the home team was London-based compared to Stoke. I also needed to parse the different date formats to ensure month and year were extracted from the fixture. Here is an example for London-based teams.</p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+                london_teams = ['Chelsea FC', 'Arsenal FC', 'Tottenham Hospur FC', 'Crystal Palace FC', 'West Ham United FC', 'Fulham FC', 'Queens Park Rangers FC', 'Reading FC']
+                months = {'Jan': 1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
+                # allres = Data frame of all scores across the 5 year period.
+                londonres = []
+                for index, row in allres.iterrows():
+                    Datelist = row['Date'].split(" ")
+                    Month = months[Datelist[1]]
+                    Year = Datelist[3]
+                    row['month'] = Month
+                    row['year'] = Year
+                    if row['Team 1'] in london_teams:
+                        londonres.append(row)
+                londonresults = pd.DataFrame(londonres)
+              </code>
+            </pre>
+      
+          </div>
+        </div>
+    </div>
+  
+  </section>
+  <section>
+    <div class="container reveal">
+        <div class = "midaligned_section">
+          <h3> ... and the monthly weather data needs to be merged with the scores </h3>
+          <p> I comprehended the weather data as a list of dictionaries and then found the appropriate dictionary via the python next() function. This allowed me to create combined datasets for both London and Stoke</p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+                ldn_tot_ls = []
+                for index, row in londonresults.iterrows():
+                    match = next((w for w in wetdictlsldn if (w['Year'] == row['year'] and w['Month'] == row['month'])), None)
+                    row['Max_Temp'] = match['Tmax']
+                    row['Min_Temp'] = match['Tmin']
+                    row['Air_Frost'] = match['AF']
+                    row['Total_Rainfall'] = match['Rain']
+                    row['Sunshine_Duration'] = match['Sun']
+                    row['Avg_Temp'] = match['Tmean']
+                    ldn_tot_ls.append(row)
+                ldn_df = pd.DataFrame(ldn_tot_ls)
+              </code>
+            </pre>
+      
+          </div>
+        </div>
+    </div>
+  
+  </section>
+
+  <script>
+
+
+    function arraymaker(fileloc) {
+            return new Promise((resolve, reject) => {
+                // Construct the static URL dynamically if needed for Django
+                const staticFilePath = `/static/${fileloc}`;
+
+                // Fetch the CSV file
+                fetch(staticFilePath)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(csvData => {
+                        // Parse the CSV data using PapaParse
+                        Papa.parse(csvData, {
+                            header: false, // Set to true if the CSV has headers
+                            skipEmptyLines: true, // Ignore empty lines
+                            complete: function(results) {
+                                resolve(results.data);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(`Error loading the CSV file from ${fileloc}:`, error);
+                        reject(error);
+                    });
+            });
+        }
+    function tablepop(table, fileloc) {
+        // Construct the static URL dynamically if needed for Django
+        const staticFilePath = `/static/${fileloc}`;
+
+        // Fetch the CSV file
+        fetch(staticFilePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(csvData => {
+                // Parse the CSV data using PapaParse
+                Papa.parse(csvData, {
+                    header: false, // Set to true if the CSV has headers
+                    skipEmptyLines: true, // Ignore empty lines
+                    complete: function(results) {
+                        populateTable(table, results.data);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error(`Error loading the CSV file from ${fileloc}:`, error);
+            });
+    }
+
+// Helper function to populate the table
+    function populateTable(table, data) {
+        // Clear the existing rows, if any
+        table.innerHTML = '';
+
+        // Populate the table with rows and columns
+        data.forEach(row => {
+            let tr = document.createElement("tr");
+            row.forEach(col => {
+                let td = document.createElement("td");
+                td.textContent = col;
+                tr.appendChild(td);
+            });
+            table.appendChild(tr);
+        });
+    }
+
+// Get references to the table bodies
+
+    const ogWetTableBody = document.getElementById("ogwetTable").querySelector("tbody");
+    const ogScoresTableBody = document.getElementById("ogscoresTable").querySelector("tbody");
+    // Call the tablepop function with appropriate file locations
+    tablepop(ogWetTableBody, 'football1/data/wetsample.csv');
+    tablepop(ogScoresTableBody, 'football1/data/scoresample.csv');
+
+
+
+
+  
+</script>
+<script src="{% static 'football2/histo.js' %}"></script>
+<script src="{% static 'football2/multilinechart.js' %}"></script>
+<script src="{% static 'football2/boxplt.js' %}"></script>
+<script src="{% static 'generaluse/reveal.js' %}"></script>
+<script src="{% static 'generaluse/collapse.js' %}"></script>
+<script src="{% static 'football2/scatter.js' %}"></script>
+
+
+</body>
+{% endblock %}
