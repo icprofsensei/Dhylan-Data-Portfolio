@@ -53,6 +53,19 @@ function drawboxplt(data, container, col, val){
     chart.container(container);
     chart.background().fill('#e6e6e6');
     chart.dataArea().background().fill('#e6e6e6');
+    if (window.innerWidth <= 900) {
+        chart.xAxis().labels()
+            .fontSize(12)          // Decrease font size
+            .width(100)           // Enable text wrapping (width in pixels)
+            .wordWrap("normal")
+            .width(80) // Wrap words properly
+            .padding(0, 0, 20, 0); // Add more space below x-axis labels
+    } else {
+        chart.xAxis().labels()
+            .fontSize(25)          // Default font size
+            .width(null)           // Disable wrapping
+            .padding(0, 0, 10, 0); // Default padding
+    }
     chart.yScale().maximum(val);
     chart.draw();
 }

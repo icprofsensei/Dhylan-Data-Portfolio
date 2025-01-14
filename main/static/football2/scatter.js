@@ -51,37 +51,59 @@ var data_2021 = [
 ];
 
 
+function setResponsiveFontSizes(chart) {
+    var mediaQuery = window.matchMedia("(max-width: 900px)");
+
+    function applyFontSizes(e) {
+        if (e.matches) { // Screen width <= 900px
+            chart.title().fontSize(18);
+            chart.xAxis().labels().fontSize(14);
+            chart.xAxis().title().fontSize(14);
+            chart.yAxis().labels().fontSize(14);
+            chart.yAxis().title().fontSize(14);
+            chart.legend().fontSize(14);
+            chart.getSeriesAt(0).labels().fontSize(7);
+        } else { // Screen width > 900px
+            chart.title().fontSize(25);
+            chart.xAxis().labels().fontSize(25);
+            chart.xAxis().title().fontSize(20);
+            chart.yAxis().labels().fontSize(25);
+            chart.yAxis().title().fontSize(20);
+            chart.legend().fontSize(20);
+        }
+    }
+
+    mediaQuery.addListener(applyFontSizes); // Attach listener
+    applyFontSizes(mediaQuery); // Initial check
+}
+
+
 function reg(data, x1, y1, x2, y2, year, element, col) {
-// create a chart
-var chart = anychart.scatter();
+                // create a chart
+                var chart = anychart.scatter();
 
-// create a marker series and set the data
-var series1 = chart.marker(data);
-series1.fill(col);
-series1.name('Club').stroke({color: col, thickness: 3});
-// configure series labels
-series1.labels().enabled(true).format("{%name}");
+                // create a marker series and set the data
+                var series1 = chart.marker(data);
+                series1.fill(col);
+                series1.name('Club').stroke({color: col, thickness: 3});
+                // configure series labels
+                series1.labels().enabled(true).format("{%name}");
 
-// configure tooltips
-series1.tooltip().format("Club: {%name}\nPossession: {%x}%\nPoints per game: {%y}");
+                // configure tooltips
+                series1.tooltip().format("Club: {%name}\nPossession: {%x}%\nPoints per game: {%y}");
 
-var series2= chart.line([{'x': x1, 'y': y1}, {'x': x2, 'y':y2}])
+                var series2= chart.line([{'x': x1, 'y': y1}, {'x': x2, 'y':y2}])
 
-// set the container id
-chart.container(element);
-chart.background().fill('#e6e6e6');
-chart.dataArea().background().fill('#e6e6e6');
-// add axis titles
-chart.title('Scatter plot of possession per game and points per game in ' + year);
-chart.title().fontSize(25);
-chart.xAxis().title("Possession per Game (%)");
-chart.xAxis().labels().fontSize(15);
-chart.xAxis().title().fontSize(20);
-chart.yAxis().title("Points per Game");
-chart.yAxis().title().fontSize(20);
-chart.yAxis().labels().fontSize(15);
-// initiate drawing the chart
-chart.draw();
+                // set the container id
+                chart.container(element);
+                chart.background().fill('#e6e6e6');
+                chart.dataArea().background().fill('#e6e6e6');
+                // add axis titles
+                chart.title('Scatter plot of possession per game and points per game in ' + year);
+                chart.xAxis().title("Possession per Game (%)");
+                chart.yAxis().title("Points per Game");
+                setResponsiveFontSizes(chart);
+                chart.draw();
 }
 
 reg(data_2018, 32, 0.429, 74, 2.659, '2018', "scatter2018", '#af47ff')

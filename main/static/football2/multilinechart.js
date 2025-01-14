@@ -8,94 +8,101 @@ var bigsix = [56.22105263157895, 57.54210526315789, 57.86728307254623, 58.896951
 var citywins = [['2014 (C)', 71.05263157894737], ['2015', 57.89473684210526], ['2016',52.63157894736842], ['2017',75.0], ['2018 (C)',75.67567567567568], ['2019 (C)',78.94736842105263], ['2020',62.5], ['2021 (C)',81.3953488372093], ['2022 (C)',72.22222222222223]]
 var AVD = [['2014', 111], ['2015', 108], ['2016',107], ['2017',154], ['2018',143], ['2019',147], ['2020',137], ['2021',162]]
 
-function drawmultilinechart(element){
-        function parsedata(arrayitem, startyear, col, name){
-            data = []
-            for (var i = startyear; i < 2023; i++) {
-                obj = [String(i), arrayitem[i-2014]];
-                data.push(obj);
-                            }
-                var series = chart.line(data)
-                series.name(name).stroke({color: col, thickness: 3})
-                        }
-        var chart = anychart.line();
-        chart.background().fill('#e6e6e6');
-        chart.dataArea().background().fill('#e6e6e6');
-        chart.title("Possession Difference across Europe's Top 5 Leagues");
-        chart.title().fontSize(25);
-        chart.xAxis().title("Year");
-        chart.xAxis().labels().fontSize(25);
-        chart.xAxis().title().fontSize(20);
-        chart.yAxis().title("Average Possession Difference");
-        chart.yAxis().title().fontSize(20);
-        chart.yAxis().labels().fontSize(25);
-        parsedata(prem, 2014,'#4797ff', 'Premier League');
-        parsedata(laliga, 2014,'#ff93c2', 'La Liga' );
-        parsedata(bundesliga, 2014, '#eb1a1a', 'Bundesliga');
-        parsedata(seriea, 2015, '#10e511', 'Serie A');
-        parsedata(ligue1, 2015, '#7454a0', 'Ligue 1' );
-        chart.container(element);
-        chart.legend().enabled(true);
-        chart.legend().fontSize(20);
-        chart.barGroupsPadding(0);
-        chart.draw();
+function setResponsiveFontSizes(chart) {
+    var mediaQuery = window.matchMedia("(max-width: 900px)");
+
+    function applyFontSizes(e) {
+        if (e.matches) { // Screen width <= 900px
+            chart.title().fontSize(18);
+            chart.xAxis().labels().fontSize(14);
+            chart.xAxis().title().fontSize(14);
+            chart.yAxis().labels().fontSize(14);
+            chart.yAxis().title().fontSize(14);
+            chart.legend().fontSize(14);
+        } else { // Screen width > 900px
+            chart.title().fontSize(25);
+            chart.xAxis().labels().fontSize(25);
+            chart.xAxis().title().fontSize(20);
+            chart.yAxis().labels().fontSize(25);
+            chart.yAxis().title().fontSize(20);
+            chart.legend().fontSize(20);
+        }
+    }
+
+    mediaQuery.addListener(applyFontSizes); // Attach listener
+    applyFontSizes(mediaQuery); // Initial check
 }
 
+function drawmultilinechart(element) {
+    function parsedata(arrayitem, startyear, col, name) {
+        data = [];
+        for (var i = startyear; i < 2023; i++) {
+            obj = [String(i), arrayitem[i - 2014]];
+            data.push(obj);
+        }
+        var series = chart.line(data);
+        series.name(name).stroke({ color: col, thickness: 3 });
+    }
 
-function drawsinglelinechart(element, data, name, col, title, yaxis){
-    
-    
     var chart = anychart.line();
-    var series = chart.line(data)
-    series.name(name).stroke({color: col, thickness: 3})
     chart.background().fill('#e6e6e6');
     chart.dataArea().background().fill('#e6e6e6');
-    chart.title(title);
-    chart.title().fontSize(25);
+    chart.title("Possession Difference across Europe's Top 5 Leagues");
     chart.xAxis().title("Year");
-    chart.xAxis().labels().fontSize(25);
-    chart.xAxis().title().fontSize(20);
-    chart.yAxis().title(yaxis);
-    chart.yAxis().title().fontSize(20);
-    chart.yAxis().labels().fontSize(25);
-    
+    chart.yAxis().title("Average Possession Difference");
+    parsedata(prem, 2014, '#4797ff', 'Premier League');
+    parsedata(laliga, 2014, '#ff93c2', 'La Liga');
+    parsedata(bundesliga, 2014, '#eb1a1a', 'Bundesliga');
+    parsedata(seriea, 2015, '#10e511', 'Serie A');
+    parsedata(ligue1, 2015, '#7454a0', 'Ligue 1');
     chart.container(element);
     chart.legend().enabled(true);
-    chart.legend().fontSize(25);
-    chart.barGroupsPadding(0);
+    setResponsiveFontSizes(chart);
     chart.draw();
 }
 
-function drawcompchart(element){
-    function parsedata(arrayitem, startyear, col, name){
-        data = []
+// Similar updates apply to drawsinglelinechart and drawcompchart
+function drawsinglelinechart(element, data, name, col, title, yaxis) {
+    var chart = anychart.line();
+    var series = chart.line(data);
+    series.name(name).stroke({ color: col, thickness: 3 });
+    chart.background().fill('#e6e6e6');
+    chart.dataArea().background().fill('#e6e6e6');
+    chart.title(title);
+    chart.xAxis().title("Year");
+    chart.yAxis().title(yaxis);
+    chart.container(element);
+    chart.legend().enabled(true);
+    setResponsiveFontSizes(chart);
+    chart.draw();
+}
+
+function drawcompchart(element) {
+    function parsedata(arrayitem, startyear, col, name) {
+        data = [];
         for (var i = startyear; i < 2023; i++) {
-            obj = [String(i), arrayitem[i-2014]];
+            obj = [String(i), arrayitem[i - 2014]];
             data.push(obj);
-                        }
-            var series = chart.line(data)
-            series.name(name).stroke({color: col, thickness: 3})
-                    }
+        }
+        var series = chart.line(data);
+        series.name(name).stroke({ color: col, thickness: 3 });
+    }
+
     var chart = anychart.line();
     chart.background().fill('#e6e6e6');
     chart.dataArea().background().fill('#e6e6e6');
     chart.title("Average possession per match");
-    chart.title().fontSize(25);
     chart.xAxis().title("Year");
-    chart.xAxis().labels().fontSize(25);
-    chart.xAxis().title().fontSize(20);
     chart.yAxis().title("Average Possession");
-    chart.yAxis().title().fontSize(20);
-    chart.yAxis().labels().fontSize(25);
-    parsedata(manchestercity, 2014,'#0ac4f2', 'Manchester City');
-    parsedata(bigsix, 2014,'#eb1a1a', 'The Big Six');
+    parsedata(manchestercity, 2014, '#0ac4f2', 'Manchester City');
+    parsedata(bigsix, 2014, '#eb1a1a', 'The Big Six');
     chart.container(element);
     chart.legend().enabled(true);
-    chart.legend().fontSize(25);
-    chart.barGroupsPadding(0);
+    setResponsiveFontSizes(chart);
     chart.draw();
 }
+
 drawmultilinechart('linechartpossessiondiff');
 drawcompchart('cityvsrest');
-drawsinglelinechart('citywins',citywins,'Manchester City','#0ac4f2',"Average win % per season","Average win percentage" );
-drawsinglelinechart('AVD',AVD,'Attack vs Defence Drill Matches','#af47ff', "Total number of 'Attack vs Defence Drill' type matches per year","Number of matches");
+drawsinglelinechart('citywins', citywins, 'Manchester City', '#0ac4f2', "Average win % per season", "Average win percentage");
+drawsinglelinechart('AVD', AVD, 'Attack vs Defence Drill Matches', '#af47ff', "Total number of 'Attack vs Defence Drill' type matches per year", "Number of matches");
