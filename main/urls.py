@@ -30,4 +30,6 @@ urlpatterns = [
     path("dtree/", include("dtree.urls")),
     path("tennis/", include("tennis.urls")),
     path("football2/", include("football2.urls")),
+    path("london/", include("London.urls")),
+
 ]
