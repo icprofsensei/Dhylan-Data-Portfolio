@@ -31,7 +31,7 @@ async function drawlinechart (file, element){
                 const data = await arraymaker(file);
                 const seriesData = data.map(row => {
                     const x = new Date(row[4]); 
-                    const y = parseFloat(row[6]);
+                    const y = parseFloat(row[5]);
                     if (isNaN(y)) {
                         console.warn(`Invalid number in row: ${row}`);
                         return null;
