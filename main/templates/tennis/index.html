@@ -167,21 +167,21 @@
           <div class = "box" style="width: 100%;">
             <pre>
               <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
-                for index, row in wn_match.iterrows():
-                    winner = {}
-                    winner_serve_points = row['w_svpt']
-                    if winner_serve_points != 0:
-                        w_first_serve_win_perc = (row['w_1stWon'] / winner_serve_points) * 100
-                        w_first_serve_in = (row['w_1stIn'] / winner_serve_points) * 100
-                        w_second_serve_win_perc = (row['w_2ndWon'] / winner_serve_points) * 100
-                        if row['w_bpFaced'] == 0:
-                            w_break_resistance_perc = 100
-                        else:
-                            w_break_resistance_perc = (row['w_bpSaved'] / row['w_bpFaced']) * 100
-                        if row['w_df'] == 0:
-                            w_double_fault_perc = 0
-                        else:
-                            w_double_fault_perc = (row['w_df'] / winner_serve_points) * 100
+for index, row in wn_match.iterrows():
+    winner = {}
+    winner_serve_points = row['w_svpt']
+    if winner_serve_points != 0:
+        w_first_serve_win_perc = (row['w_1stWon'] / winner_serve_points) * 100
+        w_first_serve_in = (row['w_1stIn'] / winner_serve_points) * 100
+        w_second_serve_win_perc = (row['w_2ndWon'] / winner_serve_points) * 100
+        if row['w_bpFaced'] == 0:
+            w_break_resistance_perc = 100
+        else:
+            w_break_resistance_perc = (row['w_bpSaved'] / row['w_bpFaced']) * 100
+        if row['w_df'] == 0:
+            w_double_fault_perc = 0
+        else:
+            w_double_fault_perc = (row['w_df'] / winner_serve_points) * 100
               </code>
             </pre>
       
@@ -196,22 +196,22 @@
           <div class = "box">
             <pre>
               <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
-                for i in range(2004,2025,1):
-    
-                    perf_year = performancedf_[performancedf_['year'] == str(i)]
-                    features = ['fs_w_perc', 'fs_in_perc', 'ss_w_perc', 'bp_res_perc', 'df_perc']
-                    X1 = perf_year[features].values
-                    y1 = perf_year.result.values.reshape(-1,1)
-                    X1_train, X1_test, y1_train, y1_test = train_test_split(X1, y1, test_size=0.25, random_state=16)
-                    logreg = LogisticRegression(random_state=16)
-                    logreg.fit(X1_train, y1_train)
-                    coefs = logreg.coef_[0]
-                    featuredict = {}
-                    for index, i in enumerate(features):
-                        featuredict[i] = math.exp(float(coefs[index]))
-                    featuredict['intercept'] = float(logreg.intercept_[0])
-                    overall_feat_ls.append(featuredict)
-                featuresdf = pd.DataFrame(overall_feat_ls)
+for i in range(2004,2025,1):
+
+    perf_year = performancedf_[performancedf_['year'] == str(i)]
+    features = ['fs_w_perc', 'fs_in_perc', 'ss_w_perc', 'bp_res_perc', 'df_perc']
+    X1 = perf_year[features].values
+    y1 = perf_year.result.values.reshape(-1,1)
+    X1_train, X1_test, y1_train, y1_test = train_test_split(X1, y1, test_size=0.25, random_state=16)
+    logreg = LogisticRegression(random_state=16)
+    logreg.fit(X1_train, y1_train)
+    coefs = logreg.coef_[0]
+    featuredict = {}
+    for index, i in enumerate(features):
+        featuredict[i] = math.exp(float(coefs[index]))
+    featuredict['intercept'] = float(logreg.intercept_[0])
+    overall_feat_ls.append(featuredict)
+featuresdf = pd.DataFrame(overall_feat_ls)
               </code>
             </pre>
       

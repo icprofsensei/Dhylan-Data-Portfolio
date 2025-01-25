@@ -1,0 +1,156 @@
+section{
+    min-height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+section .container{
+    margin: 10px;
+  }
+
+section .text-container{
+    display: flex;
+ }
+
+/* Slide-in animation for text */
+.slide-in {
+        opacity: 0;
+        transform: translateY(20px); /* Slight downward offset */
+        transition: all 3s ease-out; /* Smooth transition for opacity and position */
+      }
+      
+.slide-in-visible {
+        opacity: 1;
+        transform: translateY(0); /* Reset position */
+      }
+      
+.reveal{
+        position: relative;
+        transform: translateY(150px);
+        opacity: 0;
+        transition: 2s all ease;
+      }
+.reveal.active{
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+
+/* Collapse Content */
+.collapsecontent {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    color:rgb(0, 0, 0);
+  }
+  
+  
+/*Images*/
+
+.titleimg{
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+}
+.sideimg{
+    width: 300px;
+    height: auto;
+    max-width: 50%;
+    display: block;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+/* Fonts */
+.main_header{
+    font-size: 70px;
+    text-align: center;
+    color: #161084;
+}
+
+.subheader{
+    font-size: 40px;
+    text-align: center;
+    color: #161084;
+}
+
+/*Graphs*/
+.plotly-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+}
+
+.plotlyvis{
+    width: 100%;
+    height: 500px; /* Default height */
+}
+
+.plotly-container .cb {
+    max-width: 2%; /* Adjust the max-width relative to the container */
+    width: auto; /* Allow proportional resizing */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+
+
+
+/* Main */
+body{
+    background-color: #748fba;
+    font-family: Verdana, sans-serif;
+}
+h1{
+    font-family: Georgia, serif;
+}
+
+.headlinebullets{
+    font-size: 1.5em;
+}
+
+
+
+
+/*Mobile Screens*/
+
+@media (max-width: 900px){
+    section .container{
+        margin: 0px;
+      }
+      body{
+        font-size: 0.8em;
+        font-family: Verdana, sans-serif;
+    }
+      .main_header{
+        font-size: 30px;
+        text-align: center;
+        color: #161084;
+    }
+    .subheader{
+        font-size: 20px;
+        text-align: center;
+        color: #161084;
+    }
+    .plotly-container {
+        max-width: 900px; /* Limit the maximum width to 900px */
+        width: 100%; /* Make the container responsive */
+        margin: 0 auto; /* Center the container horizontally */
+      }
+      
+      .plotlyvis {
+        width: 100%; /* Ensure the plot fills the container */
+        height: auto; /* Maintain aspect ratio automatically */
+      }
+
+      .headlinebullets{
+        font-size: 1.1em;
+    }
+
+
+  }
+
+
+
+

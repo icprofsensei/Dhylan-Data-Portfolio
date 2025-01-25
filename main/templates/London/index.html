@@ -4,120 +4,212 @@
 {% block content %}
 <head>
 {% load static %}
-<link href="{% static 'London/style.css' %}" rel="stylesheet">
+<link href="{% static 'London/styleindex.css' %}" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-python.min.js">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/prism.min.js"></script>
-<script src="https://cdn.anychart.com/releases/8.13.0/js/anychart-annotations.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/series-label.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
 <body>
-  <p class = "main_header">London Bus Data Visualisation Comparison</p>
+  <p class = "main_header">What's wrong with Westminister?</p>
   <section>
     <div class="container reveal">
       <img src="{% static 'London/skyline.JPG' %}" alt="LDN" class="titleimg">
+      <h1> Uncovering the truth behind the headlines...</h1>
     </div>
+    
   </section>
   <section>
     <div class="container reveal">
-      <div class = "text-container">
-        
-        <img src="{% static 'London/plotly.JPG' %}" alt="plotly" class="sideimg">
-        
-      </div>
+      <h1> Total Crime over the last 2 years</h1>
+      <button type="button" class="collapsible"><h3>Data</h3></button>
+        <div class="collapsecontent">
+            <ul>
+              <li> This measures all types of crimes over the last 2 years.</li>
+              <li> This was calculated by the total of all incidents across boroughs.</li>
+            </ul>
+        </div>
         
         <div class = "plotly-container">
-          <div class="plotlyvis">
-              {{ plot_div|safe }}
-          </div>
+            <div class="plotlyvis">
+                {{ plot_div1|safe }}
+            </div>
         </div>
+        <ul>
+          <li class = "headlinebullets">Evidently, crimes fluctuate throughout the year - with lower rates in the Winter months and higher rates in the Summer.</li>
+          <li class = "headlinebullets">Generally, there are around 78000 crimes reported per month in London.</li>
+        </ul>
     </div>
   </section>
   <section>
     <div class="container reveal">
-        <div class = "text-container">
-          <img src="{% static 'London/anychart.JPG' %}" alt="anychart" class="sideimg">
-        </div>
-        <div class = "anychartjs-container">
-          <div id="anychartvis">
-          </div>
-        </div>
-    </div>
-    <script>
-      function arraymaker(fileloc) {
-            return new Promise((resolve, reject) => {
-                // Construct the static URL dynamically if needed for Django
-                const staticFilePath = `/static/${fileloc}`;
+      <h1> Total Crime Across the London Boroughs</h1>
 
-                // Fetch the CSV file
-                fetch(staticFilePath)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.text();
-                    })
-                    .then(csvData => {
-                        // Parse the CSV data using PapaParse
-                        Papa.parse(csvData, {
-                            header: false, // Set to true if the CSV has headers
-                            skipEmptyLines: true, // Ignore empty lines
-                            complete: function(results) {
-                                resolve(results.data);
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        console.error(`Error loading the CSV file from ${fileloc}:`, error);
-                        reject(error);
-                    });
-            });
-        }
-        function drawlinechart (file, element){
-        anychart.onDocumentReady(async function () {
-                try {
-                    const data = await arraymaker(file);
-                    if (!data || data.length === 0) {
-                        console.error("No data loaded from CSV.");
-                        return;
-                    }
-                    
-                    const dataSet = anychart.data.set(data);
-                    const modelData = dataSet.mapAs({ x: 4, value: 5 });
-                    const chart = anychart.line();
-                    const model = chart.line(modelData);
-                    model.name("Bus Journeys /million");
-                    chart.legend().enabled(true);
-                    chart.title("Bus Journeys 2010-2024");
-                    chart.container(element);
-                    chart.draw();
-                } catch (error) {
-                    console.error("Error initializing the chart:", error);
-                }
-            });
-        }
-      drawlinechart('London/data/tfl-journeys-type.csv', 'anychartvis')
-    </script>
+      <button type="button" class="collapsible"><h3>Data</h3></button>
+        <div class="collapsecontent">
+          <ul>
+            <li> This does not include data from London City and London Heathrow Airports.</li>
+            <li> There are also 46588 with unknown borough.</li>
+            <li> No data was sourced for the borough of City of London</li>
+          </ul>
+        </div>
+        <div class = "plotly-container">
+          <div class="plotlyvis">
+              {{ plot_div2|safe }}
+          </div>
+        </div>
+        <ul>
+          <li class = "headlinebullets">As the figure above demonstrates, Westminster sees over twice as many criminal acts committed in comparison to any other London borough.</li>
+          <li class = "headlinebullets">So, what is making the centre of London so unsafe?</li>
+        </ul>
+    </div>
   </section>
   <section>
     <div class="container reveal">
-      <div class = "text-container">
-          <img src="{% static 'London/highchart.JPG' %}" alt="highchart" class="sideimg">
-      </div>
-        <div id="highchartscontainer"></div>
+      <h1> Types of crime in Westminster</h1>
+
+      <button type="button" class="collapsible"><h3>Data</h3></button>
+        <div class="collapsecontent">
+          <ul>
+            <li> This is an aggregation of all crime types between 2023-25 in Westminster.</li>
+          </ul>
+        </div>
+        <div class = "plotly-container">
+          <div class="plotlyvis">
+              {{ plot_div3|safe }}
+          </div>
+        </div>
+        <ul>
+          <li class = "headlinebullets">Evidently, the majority of crimes committed in Westminster are theft related.</li>
+          <li class = "headlinebullets">So, how does theft in Westminster compare to the rest of London?</li>
+        </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> Total Theft Related Crime Across the London Boroughs</h1>
+      <button type="button" class="collapsible"><h3>Data</h3></button>
+        <div class="collapsecontent">
+          <ul>
+            <li> To explain the high number of criminal incidents concentrated around Westminister, I investigated specifically theft crime.</li>
+            <li> I expanded the definition of theft to include: bicycle theft, other theft, theft from a vehicle, theft from a person and shoplifting. </li>
+          </ul>
+        </div>
+      
+        <div class = "plotly-container">
+          <div class="plotlyvis">
+              {{ plot_div4|safe }}
+          </div>
+        </div>
+        <ul>
+          <li class = "headlinebullets">The chart above highlights the much higher rate of theft related crime in Westminster in comparison to other boroughs..</li>
+          <li class = "headlinebullets">Camden, which is second highest, has less than half the number of theft related incidents.</li>
+        </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> Total Violent Crime Across the London Boroughs</h1>
+      <button type="button" class="collapsible"><h3>Data</h3></button>
+        <div class="collapsecontent">
+          <ul>
+            <li> To explain the high number of criminal incidents concentrated around Westminister, I also investigated specifically violent crime. This was the second highest category from the crime distribution above.</li>
+            <li> Violent Crime can be considered in this study as: Possession of weapons, violent disorder, homicide, violence with injury and violence without injury.</li>
+          </ul>
+        </div>
+      
+        <div class = "plotly-container">
+          <div class="plotlyvis">
+              {{ plot_div5|safe }}
+          </div>
+        </div>
+        <ul>
+          <li class = "headlinebullets">The above chart highlights the difference in violent crime across London. Here, Westminster ranks second highest - behind Croydon.</li>
+          <li class = "headlinebullets">Even when discounting theft, Westminster features as one of London's least safe areas.</li>
+        </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> Population Density Across the London Boroughs</h1>
+      <button type="button" class="collapsible"><h3>Data</h3></button>
+        <div class="collapsecontent">
+          <ul>
+            <li> Population Density information was sourced <a href = "https://en.wikipedia.org/wiki/List_of_English_districts_by_population_density">here:</a></li>
+          </ul>
+        </div>
+      
+        <div class = "plotly-container">
+          <div class="plotlyvis">
+              {{ plot_div6|safe }}
+          </div>
+        </div>
+        <ul>
+          <li class = "headlinebullets">To explain the high number of criminal incidents concentrated around Westminister, I postulated that this could be caused by a greater population density.</li>
+          <li class = "headlinebullets">More people living closer together may lead to a rise in crime.</li>
+          <li class = "headlinebullets">However, as shown above, the most population dense areas are not necessarily the areas with the highest crime rate.</li>
+          <li class = "headlinebullets">Generally, the inner boroughs have higher population densities. However, this does not indicate why Westminster has such higher crime rates in comparison.</li>
+        </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> Findings</h1>
+        <ul>
+          <li class = "headlinebullets">This study reveals some concerning patterns emerging around crime around the Westminster area.</li>
+          <li class = "headlinebullets">On top of its exceptionally high rates of theft related crimes, it also scores highly in other more serious categories such as violent crime.</li>
+          <li class = "headlinebullets">Generally, the safest areas of London are in the South-West of the city in boroughs such as Richmond upon Thames and Kingston upon Thames.</li>
+        </ul>
+        <img src="{% static 'London/police.jpg' %}" alt="POL" class="titleimg">
+        <h1> Next Steps and Caveats</h1>
+        <ul>
+          <li class = "headlinebullets">It must also be acknowledged that Westminster may experience such high rates of theft-related crime because it sees increased tourist footfall: Westminster houses some of London's most iconic landmarks.</li>
+          
+          <li class = "headlinebullets">An intriguing next step may be to plot the daily footfall across boroughs, to potentially investigate whether the increased levels of crime are associated with how many visitors Westminster sees.</li>
+
+          <li class = "headlinebullets">My initial measurement of population density may not be as reliable since this includes residents but not overall footfall in the area. </li>
+
+          <li class = "headlinebullets">However, regardless of potential causes for the crime hotspot, one thing remains clear: Westminster is the least safe borough in London.</li>
+
+          <li class = "headlinebullets">Despite pledged and overall increases in London police force strength, it remains abundantly clear that Westminster requires additional police resources.</li>
+        </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1> How this was produced</h1>
+        <ul>
+          <li class = "headlinebullets">All source data, apart from borough population density (which is linked above), can be sourced <a href = "https://data.london.gov.uk/dataset/">here</a>.</li>
+          <li class = "headlinebullets">The plotly maps were produced via the following methodology:</li>
+          <li class = "headlinebullets">1. Download the borough boundary files from the London datastore as a .gpkg file. Convert to a GEOJSON file using EPSG:4326.</li>
+          <li class = "headlinebullets">2. Plot a choropleth map and overlay the borough level data from the London datastore. A code snippet is shown below.</li>
+        </ul>
+        <div class = "box" style="width: 100%;">
+            <pre>
+                  <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+totalcrimes = pd.read_csv(totalcrimescsv_path)
+fig2 = px.choropleth(
+        totalcrimes,
+        locations="Borough",
+        geojson=ldnboroughs,
+        color="Criminal Offences 2023-25",
+        hover_name="Borough",
+        hover_data=["Criminal Offences 2023-25"],
+        title="Total Crime 2023-25",
+    )
+fig2.update_geos(fitbounds="locations", visible=False)
+fig2.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+plot_div2 = fig2.to_html(full_html=False, include_plotlyjs=False)
+                  </code>
+            </pre>
+        </div>
     </div>
   </section>
 <script src="{% static 'generaluse/reveal.js' %}"></script>
 <script src="{% static 'generaluse/collapse.js' %}"></script>
-<script src="{% static 'London/highcharts.js' %}"></script>
 
 </body>
 {% endblock %}

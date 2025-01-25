@@ -1,0 +1,123 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<head>
+{% load static %}
+<link href="{% static 'London/style.css' %}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-python.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/prism.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.13.0/js/anychart-annotations.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</head>
+<body>
+  <p class = "main_header">London Bus Data Visualisation Comparison</p>
+  <section>
+    <div class="container reveal">
+      <img src="{% static 'London/skyline.JPG' %}" alt="LDN" class="titleimg">
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class = "text-container">
+        
+        <img src="{% static 'London/plotly.JPG' %}" alt="plotly" class="sideimg">
+        
+      </div>
+        
+        <div class = "plotly-container">
+          <div class="plotlyvis">
+              {{ plot_div|safe }}
+          </div>
+        </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+        <div class = "text-container">
+          <img src="{% static 'London/anychart.JPG' %}" alt="anychart" class="sideimg">
+        </div>
+        <div class = "anychartjs-container">
+          <div id="anychartvis">
+          </div>
+        </div>
+    </div>
+    <script>
+      function arraymaker(fileloc) {
+            return new Promise((resolve, reject) => {
+                // Construct the static URL dynamically if needed for Django
+                const staticFilePath = `/static/${fileloc}`;
+
+                // Fetch the CSV file
+                fetch(staticFilePath)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(csvData => {
+                        // Parse the CSV data using PapaParse
+                        Papa.parse(csvData, {
+                            header: false, // Set to true if the CSV has headers
+                            skipEmptyLines: true, // Ignore empty lines
+                            complete: function(results) {
+                                resolve(results.data);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(`Error loading the CSV file from ${fileloc}:`, error);
+                        reject(error);
+                    });
+            });
+        }
+        function drawlinechart (file, element){
+        anychart.onDocumentReady(async function () {
+                try {
+                    const data = await arraymaker(file);
+                    if (!data || data.length === 0) {
+                        console.error("No data loaded from CSV.");
+                        return;
+                    }
+                    
+                    const dataSet = anychart.data.set(data);
+                    const modelData = dataSet.mapAs({ x: 4, value: 5 });
+                    const chart = anychart.line();
+                    const model = chart.line(modelData);
+                    model.name("Bus Journeys /million");
+                    chart.legend().enabled(true);
+                    chart.title("Bus Journeys 2010-2024");
+                    chart.container(element);
+                    chart.draw();
+                } catch (error) {
+                    console.error("Error initializing the chart:", error);
+                }
+            });
+        }
+      drawlinechart('London/data/tfl-journeys-type.csv', 'anychartvis')
+    </script>
+  </section>
+  <section>
+    <div class="container reveal">
+      <div class = "text-container">
+          <img src="{% static 'London/highchart.JPG' %}" alt="highchart" class="sideimg">
+      </div>
+        <div id="highchartscontainer"></div>
+    </div>
+  </section>
+<script src="{% static 'generaluse/reveal.js' %}"></script>
+<script src="{% static 'generaluse/collapse.js' %}"></script>
+<script src="{% static 'London/highcharts.js' %}"></script>
+
+</body>
+{% endblock %}
