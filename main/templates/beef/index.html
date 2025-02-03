@@ -1,0 +1,202 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+<head>
+{% load static %}
+<link href="{% static 'beef/style.css' %}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-heatmap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-python.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/prism.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+</head>
+<body>
+  <p class = "main_header">How the beef with beef is slowly ending</p>
+  <section>
+    <div class="container reveal">
+      <img src="{% static 'beef/cow.jpg' %}" alt="cow" class="responsive-image">
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1 class = "nonmainbody">Beef and the climate </h1>
+      <div class="text-container">
+        
+        <img src="{% static 'beef/beef.jpg' %}" alt="atplogo" class="mini-logo">
+        <ul>
+          <li class="mainlist">Greenhouse gases are responsible for re-emitting infrared radiation in the earth's atmosphere - this is contributing to the ongoing global warming effect. </li>
+          <li class="mainlist">The five main greenhouse gases are carbon dioxide, methane, water vapour, nitrous oxide and fluorinated gases.</li>
+          <li class="mainlist">Although methane has a shorter lifetime than carbon dioxide, it reflects about 100x more heat than carbon dioxide - making it the second most imporant greenhouse gas.</li>
+          <li class = "mainlist">40% of methane emissions are from <a href = "https://letstalkscience.ca/educational-resources/stem-in-context/cows-methane-and-climate-change">agriculture</a></li>
+          <li class="mainlist">Cattle are widely known as some of the largest methane emitters. In this story, I investigate why beef is causing such a problem...</li>
+
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>The UK has a larger population of dairy cows than beef cows </h1></button>
+      <div class="collapsecontent coll2">
+        <div id="cattle" class = "highchartscontainer" ></div>
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>Dairy cows produce milk, farmers select for the maximum amount of milk produced. Conversely, beef cows are raised for their meat and therefore farmers prioritise size and musculature.</p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <p> Click to expand:</p>
+      <button type="button" class="collapsible coll2"><h1>However, beef cattle produce a disproportionate amount of methane emissions</h1></button>
+      <div class="collapsecontent coll2">
+        <div id="livestock" class = "highchartscontainer" style = "height: 500px"></div>
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>One potential cause for this phenomonon, could be the greater musculature of beef cows requiring more feed.</p>
+        <p>Methane is produced due to cows (like other ruminants) having a four-chambered stomach. Microbial fermentation in the rumen chamber creates volatile fatty acids and methane: the later is released into the cow's environment. </p>
+        <p>Therefore, larger animals which require more food will also produce greater amounts of methane.</p>
+        <p> To caveat this, there is ongoing <a href = "https://clear.ucdavis.edu/explainers/why-do-cattle-produce-methane-and-what-can-we-do-about-it">work</a> to modify the amounts of methane produced by cattle - including dietary modifications, genetic selection and methane capture.</p>
+        <p class = "mini">Note that this data is only for cows (not the full herd population including calves).</p>
+        <p class="mini">Term Explanation: Broiler chickens - meat production, Layers chicken - egg production. Source data can be found <a href = "https://www.fao.org/faostat/en/#data/GLE">here</a>  </p>
+
+      </div>
+  </section>
+  
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>Meanwhile, net value of cattle production is rising</h1></button>
+      <div class="collapsecontent coll2">
+        <div id="cattleval" class = "highchartscontainer" ></div>
+        <h1>Whilst production mass fluctuates...</h1>
+        <div id="cattlemass" class = "highchartscontainer" ></div>
+        <h1>The price of beef skyrockets:</h1>
+        <div id="cattlevalmass" class = "highchartscontainer" ></div>
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>The value of British cattle has increased dramatically over the last 50 years, however, the mass is roughly constant. For consumers, this creates an issue: beef is worth more than ever before.</p>
+        <p>This rise in the value beef has as simple cause. Supply cannot keep up with demand - therefore producer stock from farmers is worth more now than ever.</p>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>So, household consumption patterns are changing...</h1></button>
+      <div class="collapsecontent coll2">
+        <h1> We are actually eating less beef!</h1>
+      <div  style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+        <div id="liqcattlecons" class = "highchartscontainer"></div>
+        <div id="solcattlecons" class = "highchartscontainer" ></div>
+      </div>
+    </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>The British public are responding to the rise in price of beef by actually reducing their consumption!</p>
+        <p> There is a distinct rise in cheese consumption, however, as discussed earlier - the use of dairy cows is far less problematic for methane emissions than beef consumption.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>How can we reach net zero methane emissions?</h1></button>
+      <div class="collapsecontent coll2">
+        <div id="currenttraj" class = "highchartscontainer" ></div>
+      </div>
+      <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
+      <div class="collapsecontent coll2">
+        <p>I used SARIMAX prediction which runs on the Autiregressive Integrated Moving Average with Exogenous Variables.</p>
+        <p> Essentially, I forecast the future levels of five important predictors (exogenous variables): the population of beef cows, the population of dairy cows, the household consumption of beef and veal /g, the household consumption of wholemilk/ml, and the value per unit mass of cattle</p>
+        <p> I then used the predictors as exogenous variables to inform how methane emissions would change in the lead up to 2030.</p>
+        <p> 2030 is the UK government's target year to achieve its climate goals: including halving global emissions. </p>
+      </div>
+      
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <button type="button" class="collapsible coll2"><h1>Conclusion?</h1></button>
+      <div class="collapsecontent coll2">
+        <h1>Improvement - but not enough!</h1>
+        <ul>
+          <li class = "mainlist">It seems that people are consuming less beef - perhaps because the price of beef has risen significantly in recent decades.</li>
+          <li class = "mainlist">The rearing of cattle for meat purposes is far more environmentally damaging that rearing cattle for dairy.</li>
+          <li class = "mainlist">Overall, emissions are reducing in the UK. This is good. However, following current trends, the rate of decrease will level off.</li>
+          <li class = "mainlist">However, there is reason for optimism. With ongoing scientific research, we may be able to better manage cattle methane production. Further to this, amidst recent calls for a <a href = "https://theconversation.com/a-meat-tax-is-probably-inevitable-heres-how-it-could-work-188023">meat tax</a>, there may be a general movement towards a lower methane UK.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <div class="container reveal">
+          <h1 class = "nonmainbody"> How I made this:</h1>
+          <h3 class = "nonmainbody"> I found ARIMA predictions for each variable until 2030... </h3>
+          <div class = "box" style="width: 100%;">
+            <pre>
+              <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+beef.index = beef.Year
+sarimax_model = SARIMAX(beef['Beef Cows'], order=(1, 1, 1))
+results = sarimax_model.fit()
+forecastBEEF = results.get_forecast(steps=8)
+predicted_BEEF = forecastBEEF.predicted_mean
+row = list(predicted_BEEF)
+print(row)
+              </code>
+            </pre>
+      
+          </div>
+    </div>
+  
+  </section>
+  <section>
+    <div class="container reveal">
+          <h3 class = "nonmainbody"> ... and I performed exogenous SARIMAX predictions afterwards </h3>
+          <p> The code above allowed me to view the significance (p values) of each exogenous variables for explaining trends in methane emissions. </p>
+          <div class = "box">
+            <pre>
+              <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
+endog = prediction_df['Total Cattle Emissions']
+exog = prediction_df[['Beef Cows', 'Dairy Cows', 'Beef and veal/g', 'Liquid wholemilk, including school and welfare/ml',
+                        'Value per unit mass / £ million per thousand tonne ']]
+
+sarimax_model = SARIMAX(endog, exog=exog, order=(1, 1, 1))
+results = sarimax_model.fit()
+print(results.summary())
+              </code>
+            </pre>
+      
+          </div>
+    </div>
+  
+  </section>
+
+<script src="{% static 'generaluse/collapse.js' %}"></script>
+<script src = "{% static 'generaluse/reveal.js' %}"></script>
+<script src="{% static 'beef/highcharts.js' %}"></script>
+<script>
+    drawlinechart('beef/data/cleaned_livestock.csv', 'livestock', 'CH4 Emissions / kt for UK livestock', 'NO');
+    drawlinechart('beef/data/cattle.csv', 'cattle', 'Cow Population / thousand heads', 'NO');
+    drawlinechart('beef/data/cattleval.csv', 'cattleval', 'Value of cattle production / £ million', 'YES');
+    drawlinechart('beef/data/cattlemass.csv', 'cattlemass', 'Mass of cattle production / thousand tonnes');
+    drawlinechart('beef/data/cattlevalmass.csv', 'cattlevalmass', 'Value per unit mass / £ million per thousand tonnes', 'YES');
+    drawlinechart('beef/data/liq.csv', 'liqcattlecons', 'UK household consumption quantity for liquid cattle products', 'YES');
+    drawlinechart('beef/data/sol.csv', 'solcattlecons', 'UK household consumption quantity for solid cattle products', 'YES');
+    drawlinechart('beef/data/standard.csv', 'currenttraj', 'Forecast cattle emissions by current trajectory', 'NO');
+
+</script>
+</body>
+{% endblock %}

@@ -660,19 +660,19 @@ drawregchartbasic('football1/data/stkdata.csv', 5, 7, "containerregstk2", "Rainf
           <div class = "box">
             <pre>
               <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
-                london_teams = ['Chelsea FC', 'Arsenal FC', 'Tottenham Hospur FC', 'Crystal Palace FC', 'West Ham United FC', 'Fulham FC', 'Queens Park Rangers FC', 'Reading FC']
-                months = {'Jan': 1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
-                # allres = Data frame of all scores across the 5 year period.
-                londonres = []
-                for index, row in allres.iterrows():
-                    Datelist = row['Date'].split(" ")
-                    Month = months[Datelist[1]]
-                    Year = Datelist[3]
-                    row['month'] = Month
-                    row['year'] = Year
-                    if row['Team 1'] in london_teams:
-                        londonres.append(row)
-                londonresults = pd.DataFrame(londonres)
+london_teams = ['Chelsea FC', 'Arsenal FC', 'Tottenham Hospur FC', 'Crystal Palace FC', 'West Ham United FC', 'Fulham FC', 'Queens Park Rangers FC', 'Reading FC']
+months = {'Jan': 1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
+# allres = Data frame of all scores across the 5 year period.
+londonres = []
+for index, row in allres.iterrows():
+    Datelist = row['Date'].split(" ")
+    Month = months[Datelist[1]]
+    Year = Datelist[3]
+    row['month'] = Month
+    row['year'] = Year
+    if row['Team 1'] in london_teams:
+        londonres.append(row)
+londonresults = pd.DataFrame(londonres)
               </code>
             </pre>
       
@@ -689,17 +689,17 @@ drawregchartbasic('football1/data/stkdata.csv', 5, 7, "containerregstk2", "Rainf
           <div class = "box">
             <pre>
               <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
-                ldn_tot_ls = []
-                for index, row in londonresults.iterrows():
-                    match = next((w for w in wetdictlsldn if (w['Year'] == row['year'] and w['Month'] == row['month'])), None)
-                    row['Max_Temp'] = match['Tmax']
-                    row['Min_Temp'] = match['Tmin']
-                    row['Air_Frost'] = match['AF']
-                    row['Total_Rainfall'] = match['Rain']
-                    row['Sunshine_Duration'] = match['Sun']
-                    row['Avg_Temp'] = match['Tmean']
-                    ldn_tot_ls.append(row)
-                ldn_df = pd.DataFrame(ldn_tot_ls)
+ldn_tot_ls = []
+for index, row in londonresults.iterrows():
+    match = next((w for w in wetdictlsldn if (w['Year'] == row['year'] and w['Month'] == row['month'])), None)
+    row['Max_Temp'] = match['Tmax']
+    row['Min_Temp'] = match['Tmin']
+    row['Air_Frost'] = match['AF']
+    row['Total_Rainfall'] = match['Rain']
+    row['Sunshine_Duration'] = match['Sun']
+    row['Avg_Temp'] = match['Tmean']
+    ldn_tot_ls.append(row)
+ldn_df = pd.DataFrame(ldn_tot_ls)
               </code>
             </pre>
       

@@ -293,33 +293,33 @@
           <div class = "box">
             <pre>
               <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!">
-                # overall_df is a pre-processed dataframe of results where the scores are processed to determine match winners/losers.
-                df_2021 = overall_df[overall_df['Year'] == 2021]
-                clubs2021 = list(df_2021['Club Home'].unique())
-                itemls = []
-                for c in clubs2021:
-                    ptsls = []
-                    possls = []
-                    for index, row in df_2021.iterrows():
-                        if row['Club Home'] == c:
-                            pts = {'HWIN':3, 'DRAW':1, 'AWIN': 0}
-                            poss = row['Home Possession']
-                            points = pts[row['Result']]
-                            ptsls.append(points)
-                            possls.append(poss)
-                        elif row['Club Away'] == c:
-                            pts = {'AWIN':3, 'DRAW':1, 'HWIN': 0}
-                            poss = row['Away Possession']
-                            points = pts[row['Result']]
-                            ptsls.append(points)
-                            possls.append(poss)
-                        else:
-                            continue
-                    avgpts = sum(ptsls) / len(ptsls)
-                    avgposs = sum(possls)/len(possls)
-                    item = {'Club': c, 'Points per game': avgpts, 'Possession per game': avgposs}
-                    itemls.append(item)
-                scatter2021 = pd.DataFrame(itemls)
+# overall_df is a pre-processed dataframe of results where the scores are processed to determine match winners/losers.
+df_2021 = overall_df[overall_df['Year'] == 2021]
+clubs2021 = list(df_2021['Club Home'].unique())
+itemls = []
+for c in clubs2021:
+    ptsls = []
+    possls = []
+    for index, row in df_2021.iterrows():
+        if row['Club Home'] == c:
+            pts = {'HWIN':3, 'DRAW':1, 'AWIN': 0}
+            poss = row['Home Possession']
+            points = pts[row['Result']]
+            ptsls.append(points)
+            possls.append(poss)
+        elif row['Club Away'] == c:
+            pts = {'AWIN':3, 'DRAW':1, 'HWIN': 0}
+            poss = row['Away Possession']
+            points = pts[row['Result']]
+            ptsls.append(points)
+            possls.append(poss)
+        else:
+            continue
+    avgpts = sum(ptsls) / len(ptsls)
+    avgposs = sum(possls)/len(possls)
+    item = {'Club': c, 'Points per game': avgpts, 'Possession per game': avgposs}
+    itemls.append(item)
+scatter2021 = pd.DataFrame(itemls)
               </code>
             </pre>
       
