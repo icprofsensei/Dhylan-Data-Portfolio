@@ -7,7 +7,6 @@
 <link href="{% static 'beef/style.css' %}" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
-<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-heatmap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-python.min.js">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/prism.min.js"></script>
@@ -20,7 +19,7 @@
 
 </head>
 <body>
-  <p class = "main_header">How the beef with beef is slowly ending</p>
+  <p class = "main_header">The beef with beef</p>
   <section>
     <div class="container reveal">
       <img src="{% static 'beef/cow.jpg' %}" alt="cow" class="responsive-image">
@@ -30,44 +29,61 @@
     <div class="container reveal">
       <h1 class = "nonmainbody">Beef and the climate </h1>
       <div class="text-container">
-        
-        <img src="{% static 'beef/beef.jpg' %}" alt="atplogo" class="mini-logo">
+      
         <ul>
-          <li class="mainlist">Greenhouse gases are responsible for re-emitting infrared radiation in the earth's atmosphere - this is contributing to the ongoing global warming effect. </li>
-          <li class="mainlist">The five main greenhouse gases are carbon dioxide, methane, water vapour, nitrous oxide and fluorinated gases.</li>
-          <li class="mainlist">Although methane has a shorter lifetime than carbon dioxide, it reflects about 100x more heat than carbon dioxide - making it the second most imporant greenhouse gas.</li>
-          <li class = "mainlist">40% of methane emissions are from <a href = "https://letstalkscience.ca/educational-resources/stem-in-context/cows-methane-and-climate-change">agriculture</a></li>
-          <li class="mainlist">Cattle are widely known as some of the largest methane emitters. In this story, I investigate why beef is causing such a problem...</li>
-
+          <li class="mainlistbody">Greenhouse gases re-emit infrared radiation in the earth's atmosphere - this is contributing to the ongoing global warming effect. </li>
+          <li class="mainlistbody">The five main greenhouse gas types are carbon dioxide, methane, water vapour, nitrous oxide and fluorinated gases.</li>
+          <li class="mainlistbody">Although methane has a shorter lifetime than carbon dioxide, it reflects about 100x more heat than carbon dioxide - making it the second most imporant greenhouse gas.</li>
+          <li class="mainlistbody">40% of worldwide methane emissions are from <a href = "https://letstalkscience.ca/educational-resources/stem-in-context/cows-methane-and-climate-change">agriculture</a> according to the <a href = "https://www.nationalgeographic.com/environment/article/methane">national geographic.</a></li>
+          <li class="mainlistbody">Cattle are widely known as some of the largest methane emitters. In this story, I investigate why beef is causing such a problem...</li>
+        </ul>
+        <img src="{% static 'beef/NASA.jpg' %}" alt="cow" class="responsive-image-mini">
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1 class = "nonmainbody">Holding governments accountable... </h1>
+      <div class="text-container">
+        <img src="{% static 'beef/Paris.jpg' %}" alt="cow" class="responsive-image-mini">
+        <ul>
+          <li class="mainlistbody">I want to use forecasting to determine what UK agricultural methane emissions may look like in 2030. </li>
+          <li class="mainlistbody">I selected 2030 as my benchmark due to being only 5 years into the future. This therefore doesn't reduce the reliability of extrapolation as much as more distant predictions.</li>
+          <li class="mainlistbody">According to the UN website on climate change, greenhouse emissions must peak before 2025 and decline by 43% by <a href = "https://unfccc.int/process-and-meetings/the-paris-agreement">2030.</a></li>
+          <li class="mainlistbody">These targets were made in 2016, so I will compare historical methane emissions with forecast methane emissions to determine whether the UK agricultural industry is on-track towards these goals. </li>
         </ul>
       </div>
     </div>
   </section>
   <section>
     <div class="container reveal">
-      <button type="button" class="collapsible coll2"><h1>The UK has a larger population of dairy cows than beef cows </h1></button>
+      <h1 class = "nonmainbody">The UK beef landscape...</h1>
+      <p style = "text-align: center">(Click to expand)</p>
+      
+      <button type="button" class="collapsible coll2"><h2>The UK has a larger population of dairy cows than beef cows </h2></button>
       <div class="collapsecontent coll2">
         <div id="cattle" class = "highchartscontainer" ></div>
       </div>
       <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
       <div class="collapsecontent coll2">
-        <p>Dairy cows produce milk, farmers select for the maximum amount of milk produced. Conversely, beef cows are raised for their meat and therefore farmers prioritise size and musculature.</p>
+        <ul>
+        <li class = "mainlist">Dairy cows are reared to produce milk, conversely, beef cows are raised for their meat and therefore farmers prioritise size and musculature.</li>
+        </ul>
       </div>
     </div>
   </section>
   <section>
     <div class="container reveal">
-      <p> Click to expand:</p>
-      <button type="button" class="collapsible coll2"><h1>However, beef cattle produce a disproportionate amount of methane emissions</h1></button>
+      <button type="button" class="collapsible coll2"><h2>However, beef cattle produce a disproportionate amount of methane emissions</h2></button>
       <div class="collapsecontent coll2">
-        <div id="livestock" class = "highchartscontainer" style = "height: 500px"></div>
+        <div id="livestock" class = "highchartscontainer" style = "height: 550px"></div>
       </div>
       <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
       <div class="collapsecontent coll2">
-        <p>One potential cause for this phenomonon, could be the greater musculature of beef cows requiring more feed.</p>
-        <p>Methane is produced due to cows (like other ruminants) having a four-chambered stomach. Microbial fermentation in the rumen chamber creates volatile fatty acids and methane: the later is released into the cow's environment. </p>
-        <p>Therefore, larger animals which require more food will also produce greater amounts of methane.</p>
-        <p> To caveat this, there is ongoing <a href = "https://clear.ucdavis.edu/explainers/why-do-cattle-produce-methane-and-what-can-we-do-about-it">work</a> to modify the amounts of methane produced by cattle - including dietary modifications, genetic selection and methane capture.</p>
+        <li class = "mainlist">One potential cause for this phenomonon, could be the greater musculature of beef cows requiring more feed.</li>
+        <li class = "mainlist">Methane is produced due to cows (like other ruminants) having a four-chambered stomach. Microbial fermentation in the rumen chamber creates volatile fatty acids and methane: the later is released into the cow's environment. </li>
+        <li class = "mainlist">Therefore, larger animals which require more food will also produce greater amounts of methane.</li>
+        <li class = "mainlist"> To caveat this, there is ongoing <a href = "https://clear.ucdavis.edu/explainers/why-do-cattle-produce-methane-and-what-can-we-do-about-it">work</a> to modify the amounts of methane produced by cattle - including dietary modifications, genetic selection and methane capture.</li>
         <p class = "mini">Note that this data is only for cows (not the full herd population including calves).</p>
         <p class="mini">Term Explanation: Broiler chickens - meat production, Layers chicken - egg production. Source data can be found <a href = "https://www.fao.org/faostat/en/#data/GLE">here</a>  </p>
 
@@ -76,26 +92,28 @@
   
   <section>
     <div class="container reveal">
-      <button type="button" class="collapsible coll2"><h1>Meanwhile, net value of cattle production is rising</h1></button>
+      <button type="button" class="collapsible coll2"><h2>Meanwhile, net value of cattle stock soars</h2></button>
       <div class="collapsecontent coll2">
         <div id="cattleval" class = "highchartscontainer" ></div>
-        <h1>Whilst production mass fluctuates...</h1>
+        <h2>Whilst net production fluctuates...</h2>
         <div id="cattlemass" class = "highchartscontainer" ></div>
-        <h1>The price of beef skyrockets:</h1>
+        <h2>Resulting in the relative value of beef skyrocketing!</h2>
         <div id="cattlevalmass" class = "highchartscontainer" ></div>
       </div>
       <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
       <div class="collapsecontent coll2">
-        <p>The value of British cattle has increased dramatically over the last 50 years, however, the mass is roughly constant. For consumers, this creates an issue: beef is worth more than ever before.</p>
-        <p>This rise in the value beef has as simple cause. Supply cannot keep up with demand - therefore producer stock from farmers is worth more now than ever.</p>
+        <li class = "mainlist">The value of British cattle has increased dramatically over the last 50 years, however, the mass is roughly constant. For consumers, this creates an issue: beef is worth more than ever before.</li>
+        <li class = "mainlist">This rise in the value beef has as simple cause. Supply cannot keep up with demand - therefore a farmers' herd is worth more now than ever.</li>
       </div>
     </div>
   </section>
   <section>
     <div class="container reveal">
-      <button type="button" class="collapsible coll2"><h1>So, household consumption patterns are changing...</h1></button>
+      
+      <button type="button" class="collapsible coll2"><h2>Fortunately, household consumption patterns are changing...</h2></button>
+      
       <div class="collapsecontent coll2">
-        <h1> We are actually eating less beef!</h1>
+        <h2> We are actually eating less beef!</h2>
       <div  style="display: flex; justify-content: space-around; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
         <div id="liqcattlecons" class = "highchartscontainer"></div>
         <div id="solcattlecons" class = "highchartscontainer" ></div>
@@ -103,12 +121,27 @@
     </div>
       <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
       <div class="collapsecontent coll2">
-        <p>The British public are responding to the rise in price of beef by actually reducing their consumption!</p>
-        <p> There is a distinct rise in cheese consumption, however, as discussed earlier - the use of dairy cows is far less problematic for methane emissions than beef consumption.</p>
+        <li class = "mainlist">The British public are responding to the rise in price of beef by actually reducing their consumption!</li>
+        <li class = "mainlist"> There is a distinct rise in cheese consumption, however, as discussed earlier - the use of dairy cows is far less problematic for methane emissions than beef consumption.</li>
+        <p class="mini">Source data can be found <a href = "https://www.gov.uk/government/statistical-data-sets/family-food-datasets">here</a>  </p>
       </div>
     </div>
   </section>
-
+  <section>
+    <div class="container reveal">
+      <h1 class = "nonmainbody">What does this all mean... </h1>
+      <div class="text-container">
+        <img src="{% static 'beef/future.jpeg' %}" alt="cow" class="responsive-image-mini">
+        <ul>
+          <li class="mainlistbody">Ultimately, I want to forecast UK cattle methane emissions in 2030 </li>
+          <li class="mainlistbody">As the above trends have demonstrated, there are multiple interacting exogenous variables.</li>
+          <li class="mainlistbody">I therefore created an ARIMA model including the most important of these variables. </li>
+          <li class="mainlistbody">Predictably, there were significant positive associations between more cows(both dairy and beef) with methane emissions.</li>
+          <li class="mainlistbody">By creating small future forecasts into 2030 for each of the significant exogenous variables, I could use the data to model cattle emissions in 2030 - as shown below.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
   <section>
     <div class="container reveal">
       <button type="button" class="collapsible coll2"><h1>How can we reach net zero methane emissions?</h1></button>
@@ -117,25 +150,31 @@
       </div>
       <button type="button" class="collapsible tab-button" style="width: 100%; height:10%;"><h3>Explanation</h3></button>
       <div class="collapsecontent coll2">
-        <p>I used SARIMAX prediction which runs on the Autiregressive Integrated Moving Average with Exogenous Variables.</p>
-        <p> Essentially, I forecast the future levels of five important predictors (exogenous variables): the population of beef cows, the population of dairy cows, the household consumption of beef and veal /g, the household consumption of wholemilk/ml, and the value per unit mass of cattle</p>
-        <p> I then used the predictors as exogenous variables to inform how methane emissions would change in the lead up to 2030.</p>
-        <p> 2030 is the UK government's target year to achieve its climate goals: including halving global emissions. </p>
+        <li class = "mainlist">I used SARIMAX prediction which runs on the Autoregressive Integrated Moving Average with Exogenous Variables.</li>
+        <li class = "mainlist"> I forecast the future levels of five important predictors (exogenous variables): the population of beef cows, the population of dairy cows, the household consumption of beef and veal /g, the household consumption of wholemilk/ml, and the value per unit mass of cattle</li>
+        <li class = "mainlist"> I then used the predictors to inform how methane emissions would change in the lead up to 2030.</li>
+        <li class = "mainlist" style = "color: rgb(98, 46, 201)"> In 2030, total cattle emissions are currently forecast to be at 732.97 kt, seeing a significant reduction from the 1980s. But is this enough? </li>
       </div>
       
     </div>
   </section>
   <section>
     <div class="container reveal">
-      <button type="button" class="collapsible coll2"><h1>Conclusion?</h1></button>
+      <button type="button" class="collapsible coll2"><h2>Conclusion?</h2></button>
       <div class="collapsecontent coll2">
         <h1>Improvement - but not enough!</h1>
-        <ul>
-          <li class = "mainlist">It seems that people are consuming less beef - perhaps because the price of beef has risen significantly in recent decades.</li>
-          <li class = "mainlist">The rearing of cattle for meat purposes is far more environmentally damaging that rearing cattle for dairy.</li>
-          <li class = "mainlist">Overall, emissions are reducing in the UK. This is good. However, following current trends, the rate of decrease will level off.</li>
-          <li class = "mainlist">However, there is reason for optimism. With ongoing scientific research, we may be able to better manage cattle methane production. Further to this, amidst recent calls for a <a href = "https://theconversation.com/a-meat-tax-is-probably-inevitable-heres-how-it-could-work-188023">meat tax</a>, there may be a general movement towards a lower methane UK.</li>
-        </ul>
+        <div class = "text-container">
+        <img src="{% static 'beef/beef.jpg' %}" alt="atplogo" class="responsive-image-mini">
+        
+          <ul>
+            <li class = "mainlist">It seems that people are consuming less beef - perhaps because the price of beef has risen significantly in recent decades.</li>
+            <li class = "mainlist">The rearing of cattle for meat purposes is far more environmentally damaging that rearing cattle for dairy.</li>
+            <li class = "mainlist">Overall, emissions are reducing in the UK. This is good. However, following current trends, the rate of decrease will level off.</li>
+            <li class = "mainlist" style = "color: rgb(98, 46, 201)">A 46% reduction from 2016 would equate to 417kt of methane emissions by 2030. </li>
+            <li class = "mainlist" style = "color: rgb(98, 46, 201)">On current trajectories, we will be at 732.92kt in 2030. This is still far too high.</li>
+            <li class = "mainlist">However, there is reason for optimism. With ongoing scientific research, we may be able to better manage cattle methane production. Further to this, amidst recent calls for a <a href = "https://theconversation.com/a-meat-tax-is-probably-inevitable-heres-how-it-could-work-188023">meat tax</a>, there may be a general movement towards a lower methane UK.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -195,7 +234,7 @@ print(results.summary())
     drawlinechart('beef/data/cattlevalmass.csv', 'cattlevalmass', 'Value per unit mass / £ million per thousand tonnes', 'YES');
     drawlinechart('beef/data/liq.csv', 'liqcattlecons', 'UK household consumption quantity for liquid cattle products', 'YES');
     drawlinechart('beef/data/sol.csv', 'solcattlecons', 'UK household consumption quantity for solid cattle products', 'YES');
-    drawlinechart('beef/data/standard.csv', 'currenttraj', 'Forecast cattle emissions by current trajectory', 'NO');
+    drawlinechart('beef/data/standard.csv', 'currenttraj', 'Forecast cattle CH4 emissions / kt for UK livestock', 'NO');
 
 </script>
 </body>

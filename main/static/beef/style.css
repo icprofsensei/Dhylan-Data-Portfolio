@@ -3,9 +3,6 @@
     position: relative;
     text-align: center;
   }
-  .create-button{
-    display: inline-block;
-  }
 
   .responsive-image {
     width: 100%;
@@ -13,25 +10,24 @@
     max-width: 100%;
     display: block;
   }
-
-  .mini-logo {
-    width: 20%;
-    height: 20%;
-    max-width: 20%;
+  .responsive-image-mini {
+    width: 50%;
+    height: auto;
+    max-width: 100%;
     display: block;
   }
+  .mini-logo {
+    width: 50%;
+    height: auto;
+    max-width: 80%;
+    display: block;
+  }
+
 #double_chart{
   flex-wrap: wrap;
 }
 
-#surface-button{
-  background-color: black;
-  color: rgb(46, 108, 4);
-  width: 30%;
-  height: 15%;
-  font-size: 2em;
-  border-radius: 22%;
-}
+
 .collapsible {
   
   cursor: pointer;
@@ -50,14 +46,15 @@
   background-color:rgb(158, 146, 107);
 }
 
-.coll3{
-  background-color: #9b8902;
-}
 
 
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .collapsible:hover {
-  background-color: rgb(98, 46, 201);
+  background-color: rgb(119, 112, 89);
+}
+
+.tab-button:hover {
+  background-color: rgb(68, 38, 129);
 }
 
 /* Style the collapsible content. Note: hidden by default */
@@ -68,13 +65,11 @@
   text-align: center;
   color:rgb(42, 32, 2);
 }
-.nonmainbody{
-  color: rgb(98, 46, 201);
-}
+
 
 .tab-button{
   background-color: rgb(98, 46, 201);
-  color: white;
+  color: #b2efcb;
 }
 
 code{
@@ -88,20 +83,22 @@ code{
   }
 
   .mini{
-    font-size: medium;
-  }
-
-  li .mainlist{
-    font-size: x-large;
+    color: rgb(98, 46, 201);
+    font-size: 0.8em;
     text-align: left;
   }
 
-  .highchartscontainer {
-    height: 400px;
-    min-width: 310px;
-}
+ .mainlist{
+    font-size: 0.9em;
+    text-align: left;
+    color: #b2efcb;
+  }
 
-
+  .mainlistbody{
+    font-size: 0.9em;
+    text-align: left;
+    color: rgb(98, 46, 201);
+  }
   .main_header{
     text-align: center;
     font-size: 120px;
@@ -109,17 +106,40 @@ code{
     margin-top: 30px;
     vertical-align: middle;
   color:rgb(98, 46, 201)};
-    
-    h4 {
-      text-align: center
-    }
-    .bodytextinfo{
-      position: relative;
-      text-align: center;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 35px;
-      color: #fb4646;
-    }
+
+.nonmainbody{
+  color: rgb(98, 46, 201);
+}
+.bodytextinfo{
+  position: relative;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 35px;
+  color: #fb4646;
+}
+  .highchartscontainer {
+    height: 400px;
+    min-width: 90%;
+}
+
+section h1{
+  font-size: 3rem;
+  margin: 20px;
+  color: rgb(98, 46, 201);
+}
+section h2{
+  font-size: 1.4em;
+  text-align: center;
+  color: #b2efcb;
+}
+section h3{
+  font-size: 1.1em;
+  text-align: center;
+  color: #b2efcb;
+}
+  
+
+
  
     /* Slide-in animation for text */
     .slide-in {
@@ -163,29 +183,20 @@ code{
     section .container{
       margin: 10px;
     }
-    section h1{
-      font-size: 3rem;
-      margin: 20px;
-    }
-    section h2{
-      font-size: 30px;
-      text-align: center;
-    }
+    
     section .text-container{
        display: flex;
     }
-    section .text-container .text-box{
-      margin: 20px;
-      padding: 20px;
-      background: #00c2cb;
-    }
-    section .text-container .text-box h3{
-      font-size: 30px;
-      text-align: center;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
     
+
+
+
+
+
+
+
+
+
     @media (max-width: 900px){
       section h1{
         font-size: 2rem;
@@ -238,5 +249,10 @@ code{
       overflow-x: auto; /* Allows horizontal scroll if necessary */
       background: none; /* Optional: Set to match your design */
     }
-  
+    .responsive-image {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      display: block;
+    }
   }
