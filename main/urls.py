@@ -32,5 +32,6 @@ urlpatterns = [
     path("football2/", include("football2.urls")),
     path("london/", include("London.urls")),
     path("beef/", include("beef.urls")),
+    path("text/", include("text.urls")),
 
 ]
