@@ -8,6 +8,8 @@ import json
 from django.http import JsonResponse
 import numpy as np
 import scipy.cluster.hierarchy as sch
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from .forms import TextForm
