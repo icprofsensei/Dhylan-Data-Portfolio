@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Input data{% endblock %}
+
+{% block content %}
+<head>
+</head>
+<body>
+{% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
+<h1>Create a New Model Prediction</h1>
+<form method="post" class="form-container">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <div class="form-field">
+            <label for="{{ form.Text.id_for_label }}" style="display:block">
+              {{ form.text_input.label }} 
+            </label>
+            {{ form.text_input }}
+        </div>
+
+        
+    </fieldset>
+    <button class="btn-submit" type="submit">Submit</button>
+</form>
+</body>
+{% endblock %}

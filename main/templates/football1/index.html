@@ -179,6 +179,8 @@
                       }
                       const headers = rawData[0].slice(1); // Skip the first empty element in the first row
                       const rows = rawData.slice(1); // Skip the header row
+                      console.log(headers)
+                      console.log(rows)
                       var customColorScale = anychart.scales.ordinalColor();
                       customColorScale.ranges([
                         {less: -0.75},

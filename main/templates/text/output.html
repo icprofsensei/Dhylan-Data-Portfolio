@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% extends 'base.html' %}
+{% block title %}Confirmation{% endblock %}
+{% block content %}
+<h1>Output from the ML model</h1>
+<p> Text: {{ result.Text }}</p>
+
+<p>The category is {{ result.Prediction }}</p>
+<a href="{% url 'text:landingpage' %}">Back to Home</a>
+<a href="{% url 'text:newpred' %}">Make another prediction</a>
+</head>
+<body style="background-color: white; color: blue;">
+</body>
+{% endblock %}

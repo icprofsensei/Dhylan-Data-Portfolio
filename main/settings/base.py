@@ -60,3 +60,4 @@ WSGI_APPLICATION = 'main.wsgi.application'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+TF_ENABLE_ONEDNN_OPTS = 0

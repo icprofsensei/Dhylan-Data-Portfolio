@@ -81,6 +81,7 @@ section .text-container{
     justify-content: center;
     align-items: center;
     margin: 20px auto;
+    width: 100%;
 }
 
 .plotlyvis{
@@ -99,7 +100,7 @@ section .text-container{
 
 /* Main */
 body{
-    background-color: #748fba;
+    background-color: #eff19e;
     font-family: Verdana, sans-serif;
 }
 h1{
@@ -110,8 +111,9 @@ h1{
     font-size: 1.5em;
 }
 
-
-
+code[class="lang-python"] {
+  font-size: 0.9em !important;
+}
 
 /*Mobile Screens*/
 
@@ -126,12 +128,12 @@ h1{
       .main_header{
         font-size: 30px;
         text-align: center;
-        color: #161084;
+        color: #7d7d00;
     }
     .subheader{
         font-size: 20px;
         text-align: center;
-        color: #161084;
+        color: #7d7d00;
     }
     .plotly-container {
         max-width: 900px; /* Limit the maximum width to 900px */

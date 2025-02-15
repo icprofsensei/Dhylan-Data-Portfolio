@@ -6,24 +6,100 @@
 {% load static %}
 <link href="{% static 'text/style.css' %}" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
 <script src="https://cdn.anychart.com/releases/8.13.0/js/anychart-core.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.13.0/js/anychart-heatmap.min.js"></script>
 <script src="https://cdn.anychart.com/releases/8.13.0/js/anychart-tag-cloud.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<!-- Prism.js Python Language Support -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
   <p class = "main_header">News Semantics</p>
   <section>
     <div class="container reveal">
       <img src="{% static 'text/gnews.jpg' %}" alt="gnews" class="titleimg">
-      <h1> Uncovering the truth behind the headlines...</h1>
+      <h1> What distinguishes the news headlines...?</h1>
+      <p> Google users encounter a highly tailored news feed based predominantly on prior browsing patterns and interests.</p>
+      <p> A user's search behaviour and interactions can therefore determine their media exposure and - by extension - global worldview!</p>
+      <p> I therefore launched this investigation to examine the link between search patterns and news feed composition.</p>
     </div>
     
   </section>
   <section>
+    <div class = "container reveal">
+      <h1>Step 1: Investigate the Google Search Engine</h1>
+      <p>I began my investigation by determining 9 trending news categories: technology, war, climate, business, politics, sport, culture, science and health.</p>
+      <p>Using these categories, I queried the top search results on google as of 9/2/25. By processing the text in each of these search hits, I determined a set of key words (and their frequency) for each theme.</p>
+      <p> The code I used for this is displayed below. I bypassed rate limits by cycling through various API keys associated with my google account.</p>
+      <div class = "box" style = "padding-top:0;">
+        <pre>
+          <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!" style = "font-size: 0.7em; line-height:0.0;">
+import requests
+import json
+from nltk.tokenize import TreebankWordTokenizer
+from collections import Counter
+import pandas as pd
+from nltk.corpus import stopwords
+import nltk
+nltk.download('stopwords')
+url = "https://www.googleapis.com/customsearch/v1"
+API_KEYS = [] # Insert list of API keys for google custom search
+count = 0
+resultls = []
+newscategories = ['Technology', 'War', 'Climate', 'Business', 'Politics', 'Sport', 'Culture', 'Science', 'Health']
+tokenizer = TreebankWordTokenizer()
+stop_words = set(stopwords.words('english'))
+for index, u in enumerate(newscategories):
+    p = index
+    if index > 7:
+        p -= 8 * count
+    params = {
+        'key': API_KEYS[p],
+        'cx': '', # Insert google search engine cx
+        'q': u
+    }
+    if (index+1)%8 == 0 and index!=0:
+        count +=1
+    wordmesh = []
+    for i in range(1, 200, 10):
+            params['start']= i
+            response = requests.get(url, params = params)
+            if response.status_code == 200:
+                data = response.json()
+                for i in data["items"]:
+                    if 'snippet' in i.keys():
+                            snippet = i['snippet']
+                            tokens = tokenizer.tokenize(snippet)
+                            for t in tokens:
+                                    if t.isalpha() and t not in stop_words:     
+                                        wordmesh.append(t.lower())
+                    else:
+                            continue
+    worddict = dict(Counter(wordmesh))
+    worddf = pd.DataFrame([worddict])
+    df = worddf.T[0]
+    df.columns = df.iloc[0]
+    rslt_df = pd.DataFrame(df.sort_values(ascending = False))
+    itemls = []
+    for index, row in rslt_df.iterrows():
+            item = {'word': index, 'Frequency': row[0]}
+            itemls.append(item)
+    freq = pd.DataFrame(itemls)
+    freq.to_csv(f'sentiment/data/{i}.csv')
+          </code>
+        </pre>
+      </div>
+    </div>
+  </section>
+  <section>
     <div class="container reveal">
       <h1> Word Clouds</h1>
-      <p> These are the top words in 8 semantic google search categories as of 9/2/25 via google news via the google custom search engine api.</p>
-
-      <p> I filtered out words with less than 2 mentions (and the main semantic word).</p>
+      <p> An intuitive way to visualise the results of this experiment is via wordclouds.</p>
+      <p>Word clouds highlight the keys words per thematic category and also their frequency (shown by relative font-size).</p>
+      <p> I filtered out the main thematic word as well as words with less than 2 mentions to improve visibility. Click on the different word buttons to view their unique clouds:</p>
       <button type="button" class="collapsible"><h3>Business</h3></button>
         <div class="collapsecontent">
           <div id="business"></div>
@@ -58,7 +134,199 @@
         </div>
     </div>
   </section>
-  
+  <section>
+    <div class = "container reveal">
+      <h1> 2. What links these themes together?</h1>
+      <p> Having produced dictionaries of count data, I could compute the top 30 most frequent words for each theme.</p>
+      <p> A vital factor in understanding news feeds, is the influence of small changes in search behaviour - and how this can shift thematic category.</p>
+      <p> In order to demonstrate this sensitivity, I needed to show the similarity between the 9 example themes in this study.</p>
+      <p> I therefore created similarity matricies between the themes via the following code.</p>
+      <div class = "box" style = "padding-top:0;">
+        <pre>
+          <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!" style = "font-size: 0.7em; line-height:0.0;">
+import matplotlib.pyplot as plt
+def similarityscorer (l1, l2):
+      common = [e for e in l1 if e in l2]
+      total = set(l1).union(set(l2))
+      num = len(total) 
+      perc = (len(common) / num * 100)
+      return perc
+worddict = {}
+themes = ['Technology', 'War', 'Climate', 'Business', 'Politics', 'Sport', 'Culture', 'Science', 'Health']
+for i in themes:
+    freq  = pd.read_csv(f'sentiment/data/{i}.csv')
+    toplexicon = []
+    for index, row in freq.head(30).iterrows():
+                toplexicon.append(row['word'])
+    worddict[i] = toplexicon
+mat = []
+for index, t in enumerate(themes):
+        print(index, t)
+        themes = ['Technology', 'War', 'Climate', 'Business', 'Politics', 'Sport', 'Culture', 'Science', 'Health']
+        t1 = themes[index]
+        themescopy = themes
+        indexls = []
+        for t2 in themescopy:
+            score = similarityscorer(worddict[t1], worddict[t2])
+            if score == 100:
+                  score  = 0
+            indexls.append(score)
+        mat.append(indexls)
+print(mat)
+plt.imshow(mat)
+plt.show()
+          </code>
+        </pre>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class = "container reveal">
+      <h1>Visualising thematic similarities</h1>
+      <p> The heatmap below highlights the most similar categories according to the viridis colour scale - yellow indicates highly similar themes, purple indicates contrasting themes.</p>
+      <div id="heatmapwords" style = "height: 500px"></div>
+      <p>These differences are synthesised into a dendrogram. The illustration below uses hierarchical clustering to show the most similar search themes (by shared vocabulary).</p>
+      <div class = "plotly-container">
+        <div class="plotlyvis">
+          {{ plot_div|safe }}
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class = "container reveal">
+      <h1>3. How does this determine my news feed?</h1>
+      <p> The word level analysis above has brought me a representation of thematic similarities and common key words for each news theme.</p>
+      <p>It has also demonstrated how similar each theme is - and hence how easily different search items can interchange. </p>
+      <p> However, I still need to demonstrate how google uses related words to determine a user's newfeed.</p>
+      <p> To show this, I created a neural network trained on related word news articles. The aim of this was to correctly categorise news articles back into their original theme - thus proving that search terms can map to news themes.  </p>
+      <p> To create this, I worked on a subset of three example categories: War, Climate and Sport...</p>
+    </div>
+  </section>
+  <section>
+    <div class = "container reveal">
+      <h1> Extracting the google news feed</h1>
+      <p> In order to obtain a training dataset of news articles, I used the common words generated previously for my three sample themes.</p>
+      <p> I then queried the google news feed using each keyword to find example headlines for each of my three themes. </p>
+      <div class = "box" style = "padding:top 0">
+        <pre>
+          <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!" style = "font-size:0.7em; line-height: 0.0;">
+import feedparser
+import pandas as pd
+from nltk.corpus import stopwords
+import nltk
+import csv
+nltk.download('stopwords')
+stop_words = set(stopwords.words('english'))
+def intersection(list_one, list_two):
+    temp_list = [value for value in list_one if value in list_two]
+    return temp_list
+themes = ['War', 'Climate', 'Sport']
+words = []
+for i in themes:
+    theme  = pd.read_csv(f'sentiment/data/{i}.csv')
+    allwords = list(theme.head(40)['word'])
+    words.append(allwords)
+dupels = []
+for index, w in enumerate(words):
+    for index2, t in enumerate(themes):
+        if index != index2:
+            dupes = intersection(words[index],words[index2] )
+            for d in dupes:
+                dupels.append(d)
+newdict = {}
+exceptions_list = [] # Fill with exception strings
+for (w,t) in zip(words, themes):
+    newdict[t] = []
+    for wo in w:
+        if wo in dupels:
+            continue
+        elif wo in stop_words:
+            continue
+        elif wo in exceptions_list:
+            continue
+        else:
+            newdict[t].append(wo)
+with open('sentiment/data/records.csv', 'w', encoding="utf-8", newline = '') as csvfile:
+    fieldnames = ['Theme', 'Mini-search-item', 'Header']
+    writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
+    writer.writeheader()
+    for t in themes:
+        lexicon = newdict[t]
+        for l in lexicon:
+            gn_url = "https://news.google.com/rss/search?q=" + l + "&hl=en-GB&gl=GB&ceid=US:en"
+            gn_feed = feedparser.parse(gn_url)
+            headlines = []
+            for entry in gn_feed.entries:
+                news_title = entry.title
+                writer.writerow({'Theme': t, 'Mini-search-item': l, 'Header': str(news_title)})
+          </code>
+        </pre>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class = "container reveal">
+      <h1>Modelling</h1>
+      
+      <p> Now that I had a dataset containing labelled news articles, I trained a RNN (Recurrent Neural Network) to categorise unseen headlines into the correct thematic category.</p>
+      <p> The code for the model itself is displayed below: </p>
+      <div class = "box" style = "padding:top 0">
+        <pre>
+          <code class = "language-python highlight-keywords" data-prismjs-copy="Copy the code!" style = "font-size:0.7em; line-height: 0.0;">
+            # Creating the model
+            model = tf.keras.Sequential([
+              encoder,
+              tf.keras.layers.Embedding(
+                len(encoder.get_vocabulary()), 64, mask_zero=True),
+              tf.keras.layers.Bidirectional(
+                tf.keras.layers.LSTM(64, return_sequences=True)),
+              tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(32)),
+              tf.keras.layers.Dense(64, activation='relu'),
+              tf.keras.layers.Dense(3, activation ='softmax')
+            ])
+            
+            # Compile the model
+            model.compile(
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
+              optimizer=tf.keras.optimizers.Adam(),
+              metrics=['accuracy']
+            )
+          </code>
+        </pre>
+      </div>
+      <div class = "plotly-container">
+        <div class="plotlyvis">
+          {{ accuracy_div|safe }}
+        </div>
+      </div>
+      <div class = "plotly-container">
+        <div class="plotlyvis">
+          {{ loss_div|safe }}
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1>Final Model and Conclusion</h1>
+      <p> The model for the example categorisation of war, climate and sport achieved an overall accuracy on the test dataset of 94.3%. This indicates a strong performance in categorising unseen headlines into the correct theme.</p>
+      <p> Interestingly, the model was trained on related words - found through an imaginary user's search history.</p>
+      <p> Overall, this explains how google uses a user's search results, determines related keywords and then outputs recommended 'related' articles in their news feed.</p>
+      <p> To experiment with the RNN model I produced, click the button below:</p>
+      <h3> Make predictions with the RNN: <br></h3>
+        <a href="{% url 'text:newpred' %}">
+          <button type="button">Create</button>
+        </a>
+    </div>
+  </section>
+  <section>
+    <div class="container reveal">
+      <h1>Next Steps</h1>
+      <p> To develop this, I could expand the range of themes used to query the google search engine.</p>
+      <p> It could also be interesting to train a model which categorises based on all 9 news themes in the study - although this require a longer training and validation process.</p>
+    </div>
+  </section>
 <script src="{% static 'generaluse/reveal.js' %}"></script>
 <script src="{% static 'generaluse/collapse.js' %}"></script>
 <script src="{% static 'text/wordcloud.js' %}"></script>
