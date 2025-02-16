@@ -7,23 +7,13 @@ from django.conf import settings
 import json
 from django.http import JsonResponse
 import numpy as np
-import scipy.cluster.hierarchy as sch
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from .forms import TextForm
 import pickle
 
-# Disable OneDNN optimizations for compatibility
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-
-# Paths for saved model and vectorizer
-import os
-import pickle
-import numpy as np
-import tensorflow as tf
-from django.conf import settings  # Assuming it's a Django project
 
 # Paths for saved model and vectorizer
 MODEL_PATH = os.path.join(settings.BASE_DIR, "text/models/model.h5")
