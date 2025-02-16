@@ -4,7 +4,6 @@ APScheduler==3.10.4
 asgiref==3.8.1
 astunparse==1.6.3
 attrs==24.3.0
-beautifulsoup4==4.12.3
 blis==1.0.1
 catalogue==2.0.10
 certifi==2024.8.30
@@ -33,7 +32,6 @@ gast==0.6.0
 google-pasta==0.2.0
 grpcio==1.70.0
 gunicorn==23.0.0
-h5py==3.12.1
 idna==3.10
 Jinja2==3.1.4
 joblib==1.4.2
@@ -66,7 +64,6 @@ platformdirs==4.3.6
 plotly==5.24.1
 preshed==3.0.9
 protobuf==5.29.3
-psycopg2==2.9.9
 pydantic==2.9.2
 pydantic_core==2.23.4
 Pygments==2.18.0
@@ -93,7 +90,7 @@ sympy==1.13.1
 tenacity==9.0.0
 tensorboard==2.18.0
 tensorboard-data-server==0.7.2
-tensorflow==2.18.0
+tensorflow-cpu==2.18.0
 tensorflow-io-gcs-filesystem==0.31.0
 tensorflow_intel==2.18.0; sys_platform == "win32"
 termcolor==2.5.0
