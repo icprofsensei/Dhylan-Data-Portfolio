@@ -9,6 +9,9 @@ import numpy as np
 import pickle
 from pathlib import Path
 from .forms import TextForm
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # Suppress TensorFlow logs
+os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"  # Prevent TensorFlow from using too much RAM
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 import tensorflow.lite as tflite
 
 # Paths for TFLite model and vectorizer
