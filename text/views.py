@@ -7,98 +7,91 @@ from django.conf import settings
 import json
 from django.http import JsonResponse
 import numpy as np
+from pathlib import Path
+from .forms import TextForm
+
+# Disable GPU to avoid high memory usage
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 import tensorflow as tf
 from tensorflow.keras.models import load_model
-from .forms import TextForm
 import pickle
 
-
 # Paths for saved model and vectorizer
-MODEL_PATH = os.path.join(settings.BASE_DIR, "text/models/model.h5")
-VECTORISER_PATH = os.path.join(settings.BASE_DIR, "text/models/vectorizer_vocab.pkl")
+MODEL_PATH = Path(settings.BASE_DIR) / "text/models/model.h5"
+VECTORISER_PATH = Path(settings.BASE_DIR) / "text/models/vectorizer_vocab.pkl"
 
-# Load the saved vocabulary
-with open(VECTORISER_PATH, "rb") as f:
-    vocab = pickle.load(f)
+# Lazy load model to avoid keeping it in memory unnecessarily
+def load_text_model():
+    model = load_model(str(MODEL_PATH))
+    with open(VECTORISER_PATH, "rb") as f:
+        vocab = pickle.load(f)
+    
+    for layer in model.layers:
+        if isinstance(layer, tf.keras.layers.TextVectorization):
+            text_vectorizer = layer
+            break
+    text_vectorizer.set_vocabulary(vocab)
+    
+    return model, text_vectorizer
 
-model = tf.keras.models.load_model(MODEL_PATH)
-
-for layer in model.layers:
-    if isinstance(layer, tf.keras.layers.TextVectorization):
-        text_vectorizer = layer
-        break
-text_vectorizer.set_vocabulary(vocab)
-
+@tf.function  # Optimize execution speed
 def predict(text):
     label_map = {1: 'Sport', 2: 'Climate', 0: 'War'}
-    text_tensor = tf.constant([text])  # Convert input to tensor
-    prediction = model.predict(text_tensor)  # Predict class probabilities
-    predicted_index = int(np.argmax(prediction))  # Get class with highest probability
-    predicted_label = label_map[predicted_index]  # Map index to label
-    return predicted_label
-
-
-
+    model, text_vectorizer = load_text_model()
+    text_tensor = tf.constant([text])  
+    prediction = model.predict(text_tensor)
+    del model, text_vectorizer  # Free memory after prediction
+    predicted_index = int(np.argmax(prediction))
+    return label_map[predicted_index]
 
 def lander(request):
-    # Load data for dendrogram
-    matrix_path = os.path.join(settings.BASE_DIR, "static/text/data/matrix.csv")
-    mat = pd.read_csv(matrix_path)
-    titles = list(mat['Unnamed: 0'])
+    # Load data efficiently
+    matrix_path = Path(settings.BASE_DIR) / "static/text/data/matrix.csv"
+    mat = pd.read_csv(matrix_path, dtype=str)  # Use dtype=str to reduce memory usage
 
-    rlshplsog = []
-    for index, row in mat.iterrows():
-        r = [30 if row['Unnamed: 0'] == t else row[t] for t in titles]
-        rlshplsog.append(r)
-    
-    distance_matrix = 30 - np.array(rlshplsog)
-    
+    titles = mat.iloc[:, 0].tolist()
+    distance_matrix = 30 - mat.iloc[:, 1:].astype(float).values  # Convert only needed columns
+
+    # Generate dendrogram
     dendfig = ff.create_dendrogram(distance_matrix, orientation='left', labels=titles)
     dendfig.update_layout(
         title_text='Dendrogram of Semantic Search Theme Similarity',
-        autosize=True,
-        margin={"r": 0, "t": 160, "l": 0, "b": 60},
+        autosize=True, margin={"r": 0, "t": 160, "l": 0, "b": 60},
         height=500
     )
     plot_div = dendfig.to_html(full_html=False, include_plotlyjs=False)
 
+    # Training accuracy plot
     trainingdf = pd.DataFrame([
-        {'Epoch': 0, 'Training Accuracy': 0.854981541633606, 'Validation Accuracy': 0.9336283206939697},
-        {'Epoch': 1, 'Training Accuracy': 0.9889298677444458, 'Validation Accuracy': 0.9292035102844238},
-        {'Epoch': 2, 'Training Accuracy': 0.9911438822746277, 'Validation Accuracy': 0.9395280480384827},
-        {'Epoch': 3, 'Training Accuracy': 0.992250919342041, 'Validation Accuracy': 0.9351032376289368},
-        {'Epoch': 4, 'Training Accuracy': 0.992250919342041, 'Validation Accuracy': 0.9439527988433838}
+        {'Epoch': 0, 'Training Accuracy': 0.855, 'Validation Accuracy': 0.934},
+        {'Epoch': 1, 'Training Accuracy': 0.989, 'Validation Accuracy': 0.929},
+        {'Epoch': 2, 'Training Accuracy': 0.991, 'Validation Accuracy': 0.940},
+        {'Epoch': 3, 'Training Accuracy': 0.992, 'Validation Accuracy': 0.935},
+        {'Epoch': 4, 'Training Accuracy': 0.992, 'Validation Accuracy': 0.944}
     ])
     accuracyfig = px.line(trainingdf, x='Epoch', y=['Training Accuracy', 'Validation Accuracy'], 
                           title='Training Accuracy of RNN Model', markers=True)
     accuracyfig.update_layout(
         autosize=True, margin={"r": 0, "t": 160, "l": 0, "b": 60}, height=500,
-        legend=dict(
-        orientation="h",  # Horizontal legend
-        yanchor="top", 
-        y=-0.3  # Move it below the axes
-    )
+        legend=dict(orientation="h", yanchor="top", y=-0.3)
     )
     accuracy_div = accuracyfig.to_html(full_html=False, include_plotlyjs=False)
 
+    # Loss plot
     lossdf = pd.DataFrame([
-        {'Epoch': 0, 'Training Loss': 0.36008715629577637, 'Validation Loss': 0.18979710340499878},
-        {'Epoch': 1, 'Training Loss': 0.05138423666357994, 'Validation Loss': 0.20064795017242432},
-        {'Epoch': 2, 'Training Loss': 0.04122254252433777, 'Validation Loss': 0.24116705358028412},
-        {'Epoch': 3, 'Training Loss': 0.031437989324331284, 'Validation Loss': 0.23176957666873932},
-        {'Epoch': 4, 'Training Loss': 0.03485777601599693, 'Validation Loss': 0.23693472146987915}
+        {'Epoch': 0, 'Training Loss': 0.36, 'Validation Loss': 0.19},
+        {'Epoch': 1, 'Training Loss': 0.051, 'Validation Loss': 0.201},
+        {'Epoch': 2, 'Training Loss': 0.041, 'Validation Loss': 0.241},
+        {'Epoch': 3, 'Training Loss': 0.031, 'Validation Loss': 0.232},
+        {'Epoch': 4, 'Training Loss': 0.035, 'Validation Loss': 0.237}
     ])
     lossfig = px.line(lossdf, x='Epoch', y=['Training Loss', 'Validation Loss'], 
                       title='Loss During RNN Training', markers=True)
     lossfig.update_layout(
         autosize=True, margin={"r": 0, "t": 160, "l": 0, "b": 60}, height=500,
-        legend=dict(
-        orientation="h",  # Horizontal legend
-        yanchor="top", 
-        y=-0.3  # Move it below the axes
-    )
+        legend=dict(orientation="h", yanchor="top", y=-0.3)
     )
     loss_div = lossfig.to_html(full_html=False, include_plotlyjs=False)
 
@@ -116,10 +109,9 @@ def add_prediction(request):
             prediction = predict(text)
             return render(request, "text/output.html", {'result': {'Text': text, 'Prediction': prediction}}) 
     else:
-        form = TextForm()  # Empty form for GET requests
+        form = TextForm()
 
     return render(request, 'text/dataentry.html', {'form': form})
 
-# View for displaying prediction output
 def Output(request):
     return render(request, "text/output.html")
