@@ -313,11 +313,6 @@ with open('sentiment/data/records.csv', 'w', encoding="utf-8", newline = '') as 
       <p> The model for the example categorisation of war, climate and sport achieved an overall accuracy on the test dataset of 94.3%. This indicates a strong performance in categorising unseen headlines into the correct theme.</p>
       <p> Interestingly, the model was trained on related words - found through an imaginary user's search history.</p>
       <p> Overall, this explains how google uses a user's search results, determines related keywords and then outputs recommended 'related' articles in their news feed.</p>
-      <p> To experiment with the RNN model I produced, click the button below:</p>
-      <h3> Make predictions with the RNN: <br></h3>
-        <a href="{% url 'text:newpred' %}">
-          <button type="button">Create</button>
-        </a>
     </div>
   </section>
   <section>

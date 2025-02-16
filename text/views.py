@@ -6,49 +6,7 @@ import os
 from django.conf import settings
 import json
 import numpy as np
-import pickle
 from pathlib import Path
-from .forms import TextForm
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # Suppress TensorFlow logs
-os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"  # Prevent TensorFlow from using too much RAM
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-import tensorflow.lite as tflite
-
-# Paths for TFLite model and vectorizer
-MODEL_PATH = Path(settings.BASE_DIR) / "text/models/model.tflite"
-VECTORISER_PATH = Path(settings.BASE_DIR) / "text/models/vectorizer_vocab.pkl"
-
-# Load vectorizer once
-with open(VECTORISER_PATH, "rb") as f:
-    vocab = pickle.load(f)
-
-# Load TFLite model and create an interpreter
-interpreter = tflite.Interpreter(model_path=str(MODEL_PATH))
-interpreter.allocate_tensors()
-
-# Get input and output tensor indices
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
-
-def predict(text):
-    """Perform inference using the TFLite model."""
-    label_map = {1: 'Sport', 2: 'Climate', 0: 'War'}
-
-    # Convert text input to NumPy array
-    text_tensor = np.array([text], dtype=np.object_)
-
-    # Set input tensor
-    interpreter.set_tensor(input_details[0]['index'], text_tensor)
-
-    # Run inference
-    interpreter.invoke()
-
-    # Get prediction
-    prediction = interpreter.get_tensor(output_details[0]['index'])
-
-    # Get class with highest probability
-    predicted_index = int(np.argmax(prediction))
-    return label_map[predicted_index]
 
 def lander(request):
     """Load dataset and render the index page."""
@@ -104,19 +62,3 @@ def lander(request):
         "loss_div": loss_div
     })
 
-def add_prediction(request):
-    """Handle text prediction form submission."""
-    if request.method == 'POST':
-        form = TextForm(request.POST)
-        if form.is_valid():
-            text = form.cleaned_data['text_input']
-            prediction = predict(text)
-            return render(request, "text/output.html", {'result': {'Text': text, 'Prediction': prediction}}) 
-    else:
-        form = TextForm()
-
-    return render(request, 'text/dataentry.html', {'form': form})
-
-def Output(request):
-    """Render the output page."""
-    return render(request, "text/output.html")

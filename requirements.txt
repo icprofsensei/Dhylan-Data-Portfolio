@@ -72,7 +72,6 @@ pyparsing==3.2.0
 pyproj==3.7.0
 python-dateutil==2.9.0.post0
 pytz==2024.2
-pywin32==308; sys_platform == "win32"
 referencing==0.36.1
 regex==2024.9.11
 requests==2.32.3
@@ -88,11 +87,6 @@ sqlparse==0.5.1
 srsly==2.4.8
 sympy==1.13.1
 tenacity==9.0.0
-tensorboard==2.18.0
-tensorboard-data-server==0.7.2
-tensorflow-cpu==2.18.0
-tensorflow-io-gcs-filesystem==0.31.0
-tensorflow_intel==2.18.0; sys_platform == "win32"
 termcolor==2.5.0
 textblob==0.18.0.post0
 thinc==8.3.2
