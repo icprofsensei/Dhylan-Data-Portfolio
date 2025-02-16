@@ -1,69 +1,69 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 import pandas as pd
 import plotly.figure_factory as ff
 import plotly.express as px
 import os
 from django.conf import settings
 import json
-from django.http import JsonResponse
 import numpy as np
+import pickle
 from pathlib import Path
 from .forms import TextForm
+import tensorflow.lite as tflite
 
-# Disable GPU to avoid high memory usage
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-
-import tensorflow as tf
-from tensorflow.keras.models import load_model
-import pickle
-
-# Paths for saved model and vectorizer
-MODEL_PATH = Path(settings.BASE_DIR) / "text/models/model.h5"
+# Paths for TFLite model and vectorizer
+MODEL_PATH = Path(settings.BASE_DIR) / "text/models/model.tflite"
 VECTORISER_PATH = Path(settings.BASE_DIR) / "text/models/vectorizer_vocab.pkl"
 
-# Lazy load model to avoid keeping it in memory unnecessarily
-def load_text_model():
-    model = load_model(str(MODEL_PATH))
-    with open(VECTORISER_PATH, "rb") as f:
-        vocab = pickle.load(f)
-    
-    for layer in model.layers:
-        if isinstance(layer, tf.keras.layers.TextVectorization):
-            text_vectorizer = layer
-            break
-    text_vectorizer.set_vocabulary(vocab)
-    
-    return model, text_vectorizer
+# Load vectorizer once
+with open(VECTORISER_PATH, "rb") as f:
+    vocab = pickle.load(f)
 
-@tf.function  # Optimize execution speed
+# Load TFLite model and create an interpreter
+interpreter = tflite.Interpreter(model_path=str(MODEL_PATH))
+interpreter.allocate_tensors()
+
+# Get input and output tensor indices
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+
 def predict(text):
+    """Perform inference using the TFLite model."""
     label_map = {1: 'Sport', 2: 'Climate', 0: 'War'}
-    model, text_vectorizer = load_text_model()
-    text_tensor = tf.constant([text])  
-    prediction = model.predict(text_tensor)
-    del model, text_vectorizer  # Free memory after prediction
+
+    # Convert text input to NumPy array
+    text_tensor = np.array([text], dtype=np.object_)
+
+    # Set input tensor
+    interpreter.set_tensor(input_details[0]['index'], text_tensor)
+
+    # Run inference
+    interpreter.invoke()
+
+    # Get prediction
+    prediction = interpreter.get_tensor(output_details[0]['index'])
+
+    # Get class with highest probability
     predicted_index = int(np.argmax(prediction))
     return label_map[predicted_index]
 
 def lander(request):
-    # Load data efficiently
+    """Load dataset and render the index page."""
     matrix_path = Path(settings.BASE_DIR) / "static/text/data/matrix.csv"
-    mat = pd.read_csv(matrix_path, dtype=str)  # Use dtype=str to reduce memory usage
+    mat = pd.read_csv(matrix_path, dtype=str)
 
     titles = mat.iloc[:, 0].tolist()
-    distance_matrix = 30 - mat.iloc[:, 1:].astype(float).values  # Convert only needed columns
+    distance_matrix = 30 - mat.iloc[:, 1:].astype(float).values
 
     # Generate dendrogram
     dendfig = ff.create_dendrogram(distance_matrix, orientation='left', labels=titles)
     dendfig.update_layout(
         title_text='Dendrogram of Semantic Search Theme Similarity',
-        autosize=True, margin={"r": 0, "t": 160, "l": 0, "b": 60},
-        height=500
+        autosize=True, margin={"r": 0, "t": 160, "l": 0, "b": 60}, height=500
     )
     plot_div = dendfig.to_html(full_html=False, include_plotlyjs=False)
 
-    # Training accuracy plot
+    # Training Accuracy Plot
     trainingdf = pd.DataFrame([
         {'Epoch': 0, 'Training Accuracy': 0.855, 'Validation Accuracy': 0.934},
         {'Epoch': 1, 'Training Accuracy': 0.989, 'Validation Accuracy': 0.929},
@@ -79,7 +79,7 @@ def lander(request):
     )
     accuracy_div = accuracyfig.to_html(full_html=False, include_plotlyjs=False)
 
-    # Loss plot
+    # Loss Plot
     lossdf = pd.DataFrame([
         {'Epoch': 0, 'Training Loss': 0.36, 'Validation Loss': 0.19},
         {'Epoch': 1, 'Training Loss': 0.051, 'Validation Loss': 0.201},
@@ -102,6 +102,7 @@ def lander(request):
     })
 
 def add_prediction(request):
+    """Handle text prediction form submission."""
     if request.method == 'POST':
         form = TextForm(request.POST)
         if form.is_valid():
@@ -114,4 +115,5 @@ def add_prediction(request):
     return render(request, 'text/dataentry.html', {'form': form})
 
 def Output(request):
+    """Render the output page."""
     return render(request, "text/output.html")
