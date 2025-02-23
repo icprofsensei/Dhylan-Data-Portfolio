@@ -114,7 +114,10 @@ h1{
 code[class="lang-python"] {
   font-size: 0.9em !important;
 }
-
+.prediction-result {
+  margin-top: 20px;
+  font-size: 1.5em;
+}
 /*Mobile Screens*/
 
 @media (max-width: 900px){
