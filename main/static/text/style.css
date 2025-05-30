@@ -65,6 +65,7 @@ section .text-container{
 /* Fonts */
 .main_header{
     font-size: 70px;
+    font-family: Verdana, sans-serif;
     text-align: center;
     color: #161084;
 }
@@ -104,7 +105,7 @@ body{
     font-family: Verdana, sans-serif;
 }
 h1{
-    font-family: Georgia, serif;
+    font-family: Verdana, sans-serif;
 }
 
 .headlinebullets{
@@ -130,6 +131,7 @@ code[class="lang-python"] {
     }
       .main_header{
         font-size: 30px;
+        font-family: Verdana, sans-serif;
         text-align: center;
         color: #7d7d00;
     }

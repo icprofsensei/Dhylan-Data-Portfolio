@@ -22,7 +22,7 @@ def lander(request):
         title_text='Dendrogram of Semantic Search Theme Similarity',
         autosize=True, margin={"r": 0, "t": 160, "l": 0, "b": 60}, height=500
     )
-    plot_div = dendfig.to_html(full_html=False, include_plotlyjs=False)
+    plot_div = dendfig.to_html(full_html=False, include_plotlyjs=True)
 
     # Training Accuracy Plot
     trainingdf = pd.DataFrame([

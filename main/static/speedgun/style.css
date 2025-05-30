@@ -1,0 +1,264 @@
+
+.centered {
+    position: relative;
+    text-align: center;
+  }
+  .create-button{
+    display: inline-block;
+  }
+
+  .responsive-image {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .mini-logo {
+    width: 20%;
+    height: 20%;
+    max-width: 20%;
+    display: block;
+  }
+
+  .mini-logo2 {
+    width: auto;
+    height: 650px;
+    display: block;
+  }
+
+  .mini-logo3 {
+    width: 50%;
+    height: auto;
+    display: block;
+  }
+#double_chart{
+  flex-wrap: wrap;
+}
+
+.collapsible {
+  
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+}
+.coll1{
+  background-color: #ddbdff;
+}
+
+.coll2{
+  background-color:#ddbdff;
+}
+
+.coll3{
+  background-color: #ddbdff;
+}
+
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.collapsible:hover {
+  background-color: #685978;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.collapsecontent {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  text-align: left;
+  color:rgb(17, 144, 0);
+}
+.nonmainbody{
+  color: #51455d;
+}
+
+.tab-button{
+  background-color: #9580ac;
+  color: white;
+}
+
+code{
+  background-color:rgb(255, 255, 255);
+}
+  body{background-color: #c3a6e2;
+    color: rgb(17, 144, 0);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+  p{
+    font-size: x-large;
+  }
+  li .mainlist{
+    font-size: x-large;
+    text-align: left;
+  }
+  /* Scrollable table */
+  .table-container {
+    max-height: 300px; /* Approximate height for 10 rows */
+    overflow-y: auto; /* Enables vertical scrolling */
+    border: 1px solid #cccccc;
+  }
+  
+  .table-container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table-container th, .table-container td {
+    padding: 8px;
+    text-align: left;
+    border: 3px solid rgb(17, 144, 0);
+  }
+  
+  .table-container tr:nth-child(even) {
+    background-color: #836dc8;
+  }
+  h1{
+    color:rgb(17, 144, 0);
+    font-family: 	'Copperplate',fantasy;
+    font-style: italic;
+  }
+  h3{
+    color:rgb(17, 144, 0);
+    font-family: 	'Copperplate',fantasy;
+    font-style: italic;
+  }
+  .main_header{
+    text-align: center;
+    font-family: 	'Copperplate',fantasy;
+    font-size: 120px;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 30px;
+    vertical-align: middle;
+  color:rgb(17, 144, 0);};
+    
+    h4 {
+      text-align: center
+    }
+    .bodytextinfo{
+      position: relative;
+      text-align: center;
+      font-family: Verdana, sans-serif;
+
+      font-size: 35px;
+      color: #fb4646;
+    }
+ 
+    /* Slide-in animation for text */
+    .slide-in {
+      opacity: 0;
+      transform: translateY(20px); /* Slight downward offset */
+      transition: all 3s ease-out; /* Smooth transition for opacity and position */
+    }
+    
+    .slide-in-visible {
+      opacity: 1;
+      transform: translateY(0); /* Reset position */
+    }
+    
+    .reveal{
+      position: relative;
+      transform: translateY(150px);
+      opacity: 0;
+      transition: 2s all ease;
+    }
+    .reveal.active{
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Asap&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Asap", sans-serif;
+    }
+  
+    section{
+      min-height: 63vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    
+    section .container{
+      margin: 10px;
+    }
+    section h1{
+      font-size: 3rem;
+      margin: 20px;
+    }
+    section h2{
+      font-size: 30px;
+      text-align: center;
+    }
+    section .text-container{
+       display: flex;
+    }
+    section .text-container .text-box{
+      margin: 20px;
+      padding: 20px;
+      background: #00c2cb;
+    }
+    section .text-container .text-box h3{
+      font-size: 30px;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    
+    @media (max-width: 900px){
+      section h1{
+        font-size: 2rem;
+        text-align: center;
+      }
+      section .text-container{
+        flex-direction: column;
+      }
+    
+    .midaligned_section {
+      width: 100%;
+      overflow: hidden;
+    }
+    .main_header{
+      text-align: center;
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-top: 30px;
+      vertical-align: middle;
+      color:rgb(89, 144, 0);
+    }
+    section .container{
+      margin: 0px;
+    }
+    p{
+      font-size: 0.9em;
+    }
+    section{
+      min-height: 35vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    code {
+      margin: 0; /* Removes any margin */
+      padding: 0; /* Removes any padding */
+      text-align: left; /* Ensures text starts at the left */
+      display: block; /* Ensures block-level formatting */
+      white-space: pre-wrap; /* Prevents overflow and keeps formatting */
+    }
+  
+    pre {
+      margin: 0; /* Removes any margin */
+      padding: 0; /* Removes any padding */
+      overflow-x: auto; /* Allows horizontal scroll if necessary */
+      background: none; /* Optional: Set to match your design */
+    }
+  
+  }

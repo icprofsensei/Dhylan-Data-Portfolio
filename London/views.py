@@ -7,7 +7,7 @@ import json
 from django.http import JsonResponse
 
 
-def demo(request):
+def demo(request): 
     file_path = os.path.join(settings.BASE_DIR,"static/London/data/tfl-journeys-type.csv")
     data = pd.read_csv(file_path)
     fig = px.line(data, x = 'Period ending', y = 'Bus journeys (m)', title = "Bus Journeys in London")
