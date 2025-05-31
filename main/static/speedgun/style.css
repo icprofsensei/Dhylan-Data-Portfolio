@@ -214,10 +214,6 @@ code{
     }
     
     @media (max-width: 900px){
-      section h1{
-        font-size: 2rem;
-        text-align: center;
-      }
       section .text-container{
         flex-direction: column;
       }
@@ -235,7 +231,7 @@ code{
       color:rgb(89, 144, 0);
     }
     section .container{
-      margin: 0px;
+      margin: 0.5px;
     }
     p{
       font-size: 0.9em;
@@ -246,19 +242,42 @@ code{
       justify-content: center;
       align-items: center;
     }
-    code {
-      margin: 0; /* Removes any margin */
-      padding: 0; /* Removes any padding */
-      text-align: left; /* Ensures text starts at the left */
-      display: block; /* Ensures block-level formatting */
-      white-space: pre-wrap; /* Prevents overflow and keeps formatting */
+    h1{
+      font-size: 1em;
     }
-  
-    pre {
-      margin: 0; /* Removes any margin */
-      padding: 0; /* Removes any padding */
-      overflow-x: auto; /* Allows horizontal scroll if necessary */
-      background: none; /* Optional: Set to match your design */
+    button h1{
+      font-size:0.5em;
     }
-  
+    section h1{
+      font-size: 1.2em;
+    }
+   .mini-logo {
+    width: 0%;
+    height: 0%;
+    max-width: 0%;
+    display: block;
+  }
+  .mini-logo2 {
+    width: 80%;
+    height: auto;
+    max-width: 80%;
+    display: block;
+  }
+
+  .mini-logo3 {
+    width: 90%;
+    height: auto;
+    max-width: 90%;
+    display: block;
+  }
+
+  section ul {
+    font-size: 0.5em;
+    text-align: left;
+  }
+li .mainlist{
+    font-size: x-large;
+    text-align: left;
+  }
+
   }
