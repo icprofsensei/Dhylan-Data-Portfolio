@@ -1,10 +1,7 @@
 <!-- templates/home.html -->
-{% extends 'base.html' %}
-{% block title %}Home Page{% endblock %}
-{% block content %}
+
 <head>
-{% load static %}
-<link href="{% static 'beef/style.css' %}" rel="stylesheet">
+<link href="beef/style.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-base.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
@@ -19,10 +16,13 @@
 
 </head>
 <body>
+  <div id = 'navbar' class="wrapper">
+        
+    </div>
   <p class = "main_header">The beef with beef</p>
   <section>
     <div class="container reveal">
-      <img src="{% static 'beef/Cow.jpg' %}" alt="cow" class="responsive-image">
+      <img src="beef/Cow.jpg" alt="cow" class="responsive-image">
     </div>
   </section>
   <section>
@@ -37,7 +37,7 @@
           <li class="mainlistbody">40% of worldwide methane emissions are from <a href = "https://letstalkscience.ca/educational-resources/stem-in-context/cows-methane-and-climate-change">agriculture</a> according to the <a href = "https://www.nationalgeographic.com/environment/article/methane">national geographic.</a></li>
           <li class="mainlistbody">Cattle are widely known as some of the largest methane emitters. In this story, I investigate why beef is causing such a problem...</li>
         </ul>
-        <img src="{% static 'beef/NASA.jpg' %}" alt="cow" class="responsive-image-mini">
+        <img src="beef/NASA.jpg" alt="cow" class="responsive-image-mini">
       </div>
     </div>
   </section>
@@ -45,7 +45,7 @@
     <div class="container reveal">
       <h1 class = "nonmainbody">Holding governments accountable... </h1>
       <div class="text-container">
-        <img src="{% static 'beef/Paris.jpg' %}" alt="cow" class="responsive-image-mini">
+        <img src="beef/Paris.jpg" alt="cow" class="responsive-image-mini">
         <ul>
           <li class="mainlistbody">I want to use forecasting to determine what UK agricultural methane emissions may look like in 2030. </li>
           <li class="mainlistbody">I selected 2030 as my benchmark due to being only 5 years into the future. This therefore doesn't reduce the reliability of extrapolation as much as more distant predictions.</li>
@@ -131,7 +131,7 @@
     <div class="container reveal">
       <h1 class = "nonmainbody">What does this all mean... </h1>
       <div class="text-container">
-        <img src="{% static 'beef/future.jpeg' %}" alt="cow" class="responsive-image-mini">
+        <img src="beef/future.jpeg" alt="cow" class="responsive-image-mini">
         <ul>
           <li class="mainlistbody">Ultimately, I want to forecast UK cattle methane emissions in 2030 </li>
           <li class="mainlistbody">As the above trends have demonstrated, there are multiple interacting exogenous variables.</li>
@@ -164,7 +164,7 @@
       <div class="collapsecontent coll2">
         <h1>Improvement - but not enough!</h1>
         <div class = "text-container">
-        <img src="{% static 'beef/beef.jpg' %}" alt="atplogo" class="responsive-image-mini">
+        <img src="beef/beef.jpg" alt="atplogo" class="responsive-image-mini">
         
           <ul>
             <li class = "mainlist">It seems that people are consuming less beef - perhaps because the price of beef has risen significantly in recent decades.</li>
@@ -222,10 +222,9 @@ print(results.summary())
     </div>
   
   </section>
-
-<script src="{% static 'generaluse/collapse.js' %}"></script>
-<script src = "{% static 'generaluse/reveal.js' %}"></script>
-<script src="{% static 'beef/highcharts.js' %}"></script>
+<script src="generaluse/collapse.js"></script>
+<script src = "generaluse/reveal.js"></script>
+<script src="beef/highcharts.js"></script>
 <script>
     drawlinechart('beef/data/cleaned_livestock.csv', 'livestock', 'CH4 Emissions / kt for UK livestock', 'NO');
     drawlinechart('beef/data/cattle.csv', 'cattle', 'Cow Population / thousand heads', 'NO');
@@ -237,5 +236,5 @@ print(results.summary())
     drawlinechart('beef/data/standard.csv', 'currenttraj', 'Forecast cattle CH4 emissions / kt for UK cattle', 'NO');
 
 </script>
+<script src = "generaluse/navbar.js"> </script>
 </body>
-{% endblock %}

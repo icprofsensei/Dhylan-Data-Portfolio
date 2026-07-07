@@ -1,15 +1,15 @@
-{% extends 'base.html' %}
-{% block title %}Neural Network Demonstator{% endblock %}
-{% block content %}
-<head>
-    {% load static %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'skills/datacomms.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.js">
 
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="skills/datacomms.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.js">
+    <title>Neural Network Demonstration</title>
 
 </head>
 <body style=height:1500px>
+    <div id = 'navbar' class="wrapper">
+        
+    </div>
     <h1 style="text-align: center">Neural Network Illustrator</h1>
     <p style="text-align: center" > Choose how many hidden layers your network has:</p>
     <form id="network-config-form">
@@ -40,8 +40,8 @@
     <canvas id="canvas" style="width: 100%; height: 100%"></canvas>
     <p id="status"> </p>
 </section>
-<script src="{% static 'skills/formlogic.js' %}"></script>
-<script src="{% static 'generaluse/neuralnetwork.js' %}"></script>
+<script src="skills/formlogic.js"></script>
+<script src="generaluse/neuralnetwork.js"></script>
     <script>
         
         function reveal() {
@@ -77,6 +77,16 @@
             slideElements.forEach(el => observer.observe(el));
         });
     </script>
-    
+    <script>
+        fetch("navbar.html")
+    .then(res => res.text())
+
+    .then(html => {
+      document.getElementById("navbar").innerHTML = html;
+    })
+    </script>
+
+        <script src = "generaluse/navbar.js"> </script>
+  <script src = "generaluse/reveal.js"></script>
+
 </body>
-{% endblock %}
