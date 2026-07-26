@@ -1,199 +1,191 @@
-
-.centered {
-    position: relative;
-    text-align: center;
-  }
-
-  .responsive-image {
-    width: 100%;
-    height: auto;
-    max-width: 100%;
-    display: block;
-  }
-  .responsive-image-mini {
-    width: 50%;
-    height: auto;
-    max-width: 100%;
-    display: block;
-  }
-  .mini-logo {
-    width: 50%;
-    height: auto;
-    max-width: 80%;
-    display: block;
-  }
-
-#double_chart{
-  flex-wrap: wrap;
-}
-
-
-.collapsible {
-  
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: center;
-  outline: none;
-  font-size: 15px;
-}
-.coll1{
-  background-color: #8cf9b2;
-}
-
-.coll2{
-  background-color:rgb(158, 146, 107);
-}
-
-
-
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.collapsible:hover {
-  background-color: rgb(119, 112, 89);
-}
-
-.tab-button:hover {
-  background-color: rgb(68, 38, 129);
-}
-
-/* Style the collapsible content. Note: hidden by default */
-.collapsecontent {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  text-align: center;
-  color:rgb(42, 32, 2);
-}
-
-
-.tab-button{
-  background-color: rgb(98, 46, 201);
-  color: #b2efcb;
-}
-
-code{
-  background-color:rgb(255, 255, 255);
-}
-  body{background-color: #b2efcb;
-    color: rgb(92, 68, 4);
-  }
-  p{
-    font-size: x-large;
-  }
-
-  .mini{
-    color: rgb(98, 46, 201);
-    font-size: 0.8em;
-    text-align: left;
-  }
-
- .mainlist{
-    font-size: 0.9em;
-    text-align: left;
-    color: #b2efcb;
-  }
-
-  .mainlistbody{
-    font-size: 0.9em;
-    text-align: left;
-    color: rgb(98, 46, 201);
-  }
-  .main_header{
-    text-align: center;
-    font-size: 120px;
-    font-weight: bold;
-    margin-top: 30px;
-    vertical-align: middle;
-  color:rgb(98, 46, 201)};
-
-.nonmainbody{
-  color: rgb(98, 46, 201);
-}
-.bodytextinfo{
-  position: relative;
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 35px;
-  color: #fb4646;
-}
-  .highchartscontainer {
-    height: 400px;
-    min-width: 90%;
+section .text-container{
+display: flex;
+font-size: 2rem;
+justify-content: space-between;
+padding: 2rem;
+ align-items: flex-start;
+ flex: 1;
+ max-width: 100%;
 }
 
 section h1{
-  font-size: 3rem;
-  margin: 20px;
-  color: rgb(98, 46, 201);
+font-size: 4rem;
+margin: 20px;
+color: rgb(98, 46, 201);
 }
+
 section h2{
-  font-size: 1.4em;
-  text-align: center;
-  color: #b2efcb;
+font-size: 3rem;
+text-align: center;
+color: #b2efcb;
 }
+
 section h3{
-  font-size: 1.1em;
-  text-align: center;
-  color: #b2efcb;
+font-size: 2rem;
+text-align: center;
+color: #b2efcb;
 }
-  
 
+body{background-color: #b2efcb;
+color: rgb(92, 68, 4);
+}
 
- 
-    /* Slide-in animation for text */
-    .slide-in {
-      opacity: 0;
-      transform: translateY(20px); /* Slight downward offset */
-      transition: all 3s ease-out; /* Smooth transition for opacity and position */
-    }
-    
-    .slide-in-visible {
-      opacity: 1;
-      transform: translateY(0); /* Reset position */
-    }
-    
-    .reveal{
-      position: relative;
-      transform: translateY(150px);
-      opacity: 0;
-      transition: 2s all ease;
-    }
-    .reveal.active{
-      transform: translateY(0);
-      opacity: 1;
-    }
-    
-    @import url('https://fonts.googleapis.com/css2?family=Asap&display=swap');
-    *{
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Asap", sans-serif;
-    }
-  
-    section{
-      min-height: 63vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  
-    
-    section .container{
-      margin: 10px;
-    }
-    
-    section .text-container{
-       display: flex;
-    }
-    
+section{
+margin-bottom: 8rem;
+}
+code{
+background-color:rgb(255, 255, 255);
+}
 
+.centered {
+position: relative;
+text-align: center;
+}
+.container {
+position: relative;
+max-width: 90%; /* Matches the image width */
+margin: auto; /* Centers the slideshow container */
+}
 
+.responsive-image {
+width: 100%;
+height: auto;
+max-width: 100%;
+display: block;
+padding: 2rem;
+}
 
+.responsive-image-mini {
+width: 50%;
+height: auto;
+max-width: 100%;
+display: block;
+}
+.mini-logo {
+width: 50%;
+height: auto;
+max-width: 80%;
+display: block;
+}
 
+#double_chart{
+flex-wrap: wrap;
+}
 
+.collapsible {
 
+cursor: pointer;
+padding: 18px;
+width: 100%;
+border: none;
+text-align: center;
+outline: none;
+font-size: 15px;
+}
+.coll1{
+background-color: #8cf9b2;
+}
+
+.coll2{
+background-color:rgb(158, 146, 107);
+}
+
+.collapsible:hover {
+background-color: rgb(119, 112, 89);
+}
+
+.tab-button:hover {
+background-color: rgb(68, 38, 129);
+}
+
+.collapsecontent {
+padding: 0 18px;
+display: none;
+overflow: hidden;
+text-align: center;
+color:rgb(42, 32, 2);
+font-size: 2rem;
+}
+
+.tab-button{
+background-color: rgb(98, 46, 201);
+color: #b2efcb;
+}
+
+.mini{
+color: rgb(98, 46, 201);
+font-size: 0.8em;
+text-align: left;
+max-width: 80%;
+flex: 1;
+}
+
+.mainlist{
+font-size: 0.9em;
+text-align: left;
+color: #b2efcb;
+}
+
+.mainlistbody{
+font-size: 0.9em;
+text-align: left;
+color: rgb(98, 46, 201);
+}
+
+.main_header{
+text-align: center;
+font-size: 120px;
+font-weight: bold;
+margin-top: 30px;
+vertical-align: middle;
+color:rgb(98, 46, 201)};
+
+.nonmainbody{
+color: rgb(98, 46, 201);
+}
+
+.bodytextinfo{
+position: relative;
+text-align: center;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 35px;
+color: #fb4646;
+}
+
+.highchartscontainer {
+height: 400px;
+min-width: 90%;
+}
+
+.slide-in {
+opacity: 0;
+transform: translateY(20px); /* Slight downward offset */
+transition: all 3s ease-out; /* Smooth transition for opacity and position */
+}
+
+.slide-in-visible {
+opacity: 1;
+transform: translateY(0); /* Reset position */
+}
+
+.reveal{
+position: relative;
+transform: translateY(150px);
+opacity: 0;
+transition: 2s all ease;
+}
+.reveal.active{
+transform: translateY(0);
+opacity: 1;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Asap&display=swap');
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: "Asap", sans-serif;
+}
 
 
 

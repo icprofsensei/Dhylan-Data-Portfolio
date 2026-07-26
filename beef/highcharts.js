@@ -2,7 +2,7 @@ async function drawlinechart(file, element, titletxt, shuffle) {
     // Function to load and parse CSV data
     function arrayMaker(fileLoc) {
         return new Promise((resolve, reject) => {
-            const staticFilePath = `/static/${fileLoc}`;
+            const staticFilePath = `${fileLoc}`;
             fetch(staticFilePath)
                 .then(response => {
                     if (!response.ok) {

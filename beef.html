@@ -201,7 +201,7 @@ print(row)
     </div>
   
   </section>
-  <section>
+<section>
     <div class="container reveal">
           <h3 class = "nonmainbody"> ... and I performed exogenous SARIMAX predictions afterwards </h3>
           <p> The code above allowed me to view the significance (p values) of each exogenous variables for explaining trends in methane emissions. </p>
@@ -221,7 +221,15 @@ print(results.summary())
           </div>
     </div>
   
-  </section>
+</section>
+<script>
+        fetch("navbar.html")
+    .then(res => res.text())
+
+    .then(html => {
+      document.getElementById("navbar").innerHTML = html;
+    })
+</script>
 <script src="generaluse/collapse.js"></script>
 <script src = "generaluse/reveal.js"></script>
 <script src="beef/highcharts.js"></script>
@@ -236,5 +244,6 @@ print(results.summary())
     drawlinechart('beef/data/standard.csv', 'currenttraj', 'Forecast cattle CH4 emissions / kt for UK cattle', 'NO');
 
 </script>
-<script src = "generaluse/navbar.js"> </script>
+<script src = "generaluse/navbar.js">
+</script>
 </body>
